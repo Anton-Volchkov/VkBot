@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VkBot.Bot;
+using VkBot.Bot.Commands;
+using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet;
 using VkNet.Abstractions;
@@ -32,6 +35,9 @@ namespace VkBot
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<TimeTableContext>(options => options.UseNpgsql(connectionString));
+
+            services.AddScoped<CommandExecutor>();
+            services.AddScoped<IBotCommand, Help>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

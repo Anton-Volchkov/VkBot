@@ -95,9 +95,6 @@ namespace VkBot.botlogic
             {
                 text = message.Substring(message.IndexOf("[") + 1, message.IndexOf(']') - message.IndexOf('[') - 1);
 
-                // TODO: 
-                using(var db = new TimeTableContext()) { }
-
                 return "Я запомнил расписание!";
             }
 

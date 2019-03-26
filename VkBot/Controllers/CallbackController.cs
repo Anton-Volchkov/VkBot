@@ -1,8 +1,9 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using VkBot.botlogic;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using VkBot.Bot;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
 using VkNet.Model;
@@ -19,52 +20,49 @@ namespace VkBot.Controllers
         ///     Конфигурация приложения
         /// </summary>
         private readonly IConfiguration _configuration;
-
-        private Random rnd = new Random();
-
         private readonly IVkApi _vkApi;
-        private readonly Bot bot;
+        private readonly CommandExecutor commandExec;
+        //private Random rnd = new Random(); //TODO: почему нигде не используется
 
-        public CallbackController(IVkApi vkApi, IConfiguration configuration)
+        public CallbackController(IVkApi vkApi, IConfiguration configuration, CommandExecutor cmdExec)
         {
             _vkApi = vkApi;
             _configuration = configuration;
-            bot = new Bot(vkApi);
+            commandExec = cmdExec;
         }
 
         [HttpPost]
-        public IActionResult Callback([FromBody] Updates updates)
+        public async Task<IActionResult> Callback([FromBody] Updates updates)
         {
             // Проверяем, что находится в поле "type" 
-            switch(updates.Type)
+            if(updates.Type == "confirmation")
             {
-                // Если это уведомление для подтверждения адреса
-                case "confirmation":
+                // Отправляем строку для подтверждения 
+                return Ok(_configuration["Config:Confirmation"]);
+            }
+            else if(updates.Type == "message_new")
+            {
+                var msg = Message.FromJson(new VkResponse(updates.Object));
+
+                //если сообщение НЕ НАЧИНАЕТСЯ С ЭТОГО, то ничо не делаем
+                if(!msg.Text.ToLower().StartsWith("!бот"))
                 {
-                    // Отправляем строку для подтверждения 
-                    return Ok(_configuration["Config:Confirmation"]);
+                    return Ok("ok");
                 }
-                case "message_new":
+
+                //а если начинается, то вот
+                msg.Text = string.Join(' ', msg.Text.Split(' ').Skip(1)); // убираем !бот
+
+                var text = await commandExec.HandleMessage(msg);
+
+                // Отправим в ответ полученный от пользователя текст
+                _vkApi.Messages.Send(new MessagesSendParams
                 {
-                    // Десериализация
-                    var msg = Message.FromJson(new VkResponse(updates.Object));
-
-                    if(msg.Text.ToUpper().IndexOf("!БОТ") >= 0)
-                    {
-                        var text = bot.SendMsgOrCommand(msg.Text, msg);
-
-                        // Отправим в ответ полученный от пользователя текст
-                        _vkApi.Messages.Send(new MessagesSendParams
-                        {
-                            //TODO: плохой рандом ид
-                            RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
-                            PeerId = msg.PeerId.Value,
-                            Message = text
-                        });
-                    }
-
-                    break;
-                }
+                    //TODO: плохой рандом ид
+                    RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
+                    PeerId = msg.PeerId.Value,
+                    Message = text
+                });
             }
 
             // Возвращаем "ok" серверу Callback API
