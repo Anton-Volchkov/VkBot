@@ -21,12 +21,12 @@ namespace VkBot.Bot.Commands
         {
             return Task.Run(() =>
             {
-                var SendText = _db.TimeTables.FirstOrDefault().ToString();
+                var SendText = _db.TimeTables.FirstOrDefault();
                 if (SendText == null)
                 {
                     return "Расписание пусто!";
                 }
-                return SendText;
+                return SendText.Timetable;
             });
         }
     }
