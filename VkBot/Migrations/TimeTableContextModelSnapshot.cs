@@ -7,7 +7,7 @@ using VkBot.Data.Models;
 
 namespace VkBot.Migrations
 {
-    [DbContext(typeof(TimeTableContext))]
+    [DbContext(typeof(MainContext))]
     partial class TimeTableContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

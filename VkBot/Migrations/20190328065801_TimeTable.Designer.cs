@@ -8,7 +8,7 @@ using VkBot.Data.Models;
 
 namespace VkBot.Migrations
 {
-    [DbContext(typeof(TimeTableContext))]
+    [DbContext(typeof(MainContext))]
     [Migration("20190328065801_TimeTable")]
     partial class TimeTable
     {

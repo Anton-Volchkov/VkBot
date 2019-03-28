@@ -11,14 +11,14 @@ namespace VkBot.botlogic
 {
     public class Bot
     {
-        public readonly TimeTableContext _tm;
+        public readonly MainContext _tm;
         private readonly IVkApi _vkApi;
 
         private readonly Random rnd = new Random();
         private static string text = "Расписание пусто!";
         private static bool hangrFire;
 
-        public Bot(TimeTableContext time, IVkApi vk)
+        public Bot(MainContext time, IVkApi vk)
         {
             _tm = time;
             _vkApi = vk;
