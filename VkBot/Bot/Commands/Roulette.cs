@@ -17,25 +17,22 @@ namespace VkBot.Bot.Commands
             _vkApi = api;
         }
 
-        public Task<string> Execute(Message msg)
+        public async Task<string> Execute(Message msg)
         {
-            return Task.Run(() =>
+            var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
+            var roulette = "";
+
+            //TODO: плохое решение
+            if(new Random().Next(1, 7) == new Random().Next(1, 7))
             {
-                var UserName = _vkApi.Users.Get(new[] { msg.FromId.Value }).FirstOrDefault();
-                var roulette = "";
+                roulette = $"{user.FirstName} {user.LastName} погиб(ла) в рулетке...PRESS F TO PAY RESPECT!";
+            }
+            else
+            {
+                roulette = $"{user.FirstName} {user.LastName} выжил(а) в рулетке! Поздравляем!";
+            }
 
-                if(new Random().Next(1, 7) == new Random().Next(1, 7))
-                {
-                    roulette = UserName.FirstName + " " + UserName.LastName +
-                               " погиб(ла) в рулетке...PRESS F TO PAY RESPECT!";
-                }
-                else
-                {
-                    roulette = UserName.FirstName + " " + UserName.LastName + " выжил(а) в рулетке! Поздравляем!";
-                }
-
-                return roulette;
-            });
+            return roulette;
         }
     }
 }
