@@ -21,12 +21,12 @@ namespace VkBot.Bot.Commands
         {
             return Task.Run(() =>
             {
-                string text = msg.Body;
-               // text = text.Substring(text.IndexOf("[") + 1, text.IndexOf(']') - text.IndexOf('[') - 1);
+                string text = msg.Text;
+               text = text.Substring(text.IndexOf("[") + 1, text.IndexOf(']') - text.IndexOf('[') - 1);
 
                 _db.TimeTables.Add(new TimeTable
                 {
-                    Timetable = "123"
+                    Timetable = text
                 });
                 _db.SaveChanges();
 
