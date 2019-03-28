@@ -21,10 +21,26 @@ namespace VkBot.Bot.Commands
         {
             return Task.Run(() =>
             {
+                string text = "";
                 var ForvaredMessages = msg.ForwardedMessages;
-               
-                string text = ForvaredMessages[1].Text;
-               
+
+                if (ForvaredMessages.Count > 0)
+                {
+                     text = ForvaredMessages[0].Text;
+                }
+                else 
+                {
+                    var ReplyMessages = msg.ReplyMessage;
+                    if (ReplyMessages == null)
+                    {
+                        return "Нет сообщения!";
+                    }
+                    else
+                    {
+                        text = ReplyMessages.Text;
+                    }
+
+                }
 
                 var timeTable = _db.TimeTables.FirstOrDefault();
                 if (timeTable != null)
