@@ -11,5 +11,6 @@ namespace VkBot.Data.Models
             //TODO: это не нужно вообще здесь
             //Database.EnsureCreated();
         }
+
     }
 }
