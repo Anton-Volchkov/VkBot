@@ -31,11 +31,10 @@ namespace VkBot.Bot.Commands
                 }
                 else
                 {
-                    roulette = UserName.FirstName + " " + UserName.LastName + "погиб в рулетке...PRESS F TO PAY RESPECT!";
+                    roulette = UserName.FirstName + " " + UserName.LastName + " погиб в рулетке...PRESS F TO PAY RESPECT!";
                 }
                 return roulette;
             });
         }
     }
-}
 }
