@@ -23,7 +23,10 @@ namespace VkBot.Bot.Commands
             {
                 string text = msg.Body;
                 text = text.Substring(text.IndexOf("[") + 1, text.IndexOf(']') - text.IndexOf('[') - 1);
-                _db.TimeTables.Add(new TimeTable(text));
+                _db.TimeTables.Add(new TimeTable
+                {
+                    Timetable = text
+                });
                 _db.SaveChanges();
                 return "Я запомнил сказанное!";
             });
