@@ -21,7 +21,7 @@ namespace VkBot.Bot.Commands
             const string scheduleEmpty = "Расписание пустое!";
             var sendText = await _db.TimeTables.FirstOrDefaultAsync();
 
-            return sendText?.Timetable ?? scheduleEmpty;
+            return (sendText?.Timetable) ?? scheduleEmpty;
         }
     }
 }
