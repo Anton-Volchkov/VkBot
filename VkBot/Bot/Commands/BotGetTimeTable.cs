@@ -10,7 +10,7 @@ namespace VkBot.Bot.Commands
 {
     public class BotGetTimeTable : IBotCommand
     {
-        public readonly TimeTableContext _db;
+        public  TimeTableContext _db;
         public BotGetTimeTable(TimeTableContext db)
         {
             _db = db;
