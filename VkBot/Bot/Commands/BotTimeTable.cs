@@ -21,7 +21,7 @@ namespace VkBot.Bot.Commands
         {
             return Task.Run(() =>
             {
-                var ForvaredMessages = msg.ForwardedMessages.ToArray();
+                var ForvaredMessages = msg.ForwardedMessages;
                
                 string text = ForvaredMessages[0].Text;
                

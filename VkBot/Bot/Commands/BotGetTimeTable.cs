@@ -24,7 +24,7 @@ namespace VkBot.Bot.Commands
                 var SendText = _db.TimeTables.FirstOrDefault();
                 if (SendText == null)
                 {
-                    return "Расписание пусто!";
+                    return "Расписание пустое!";
                 }
                 return SendText.Timetable;
             });
