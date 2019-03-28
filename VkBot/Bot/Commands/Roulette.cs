@@ -15,7 +15,6 @@ namespace VkBot.Bot.Commands
             _vkApi = api;
         }
         private readonly IVkApi _vkApi;
-        Random rnd = new Random();
         public string[] Alliases { get; set; } = { "рулетка" };
 
         public Task<string> Execute(Message msg)
@@ -24,8 +23,8 @@ namespace VkBot.Bot.Commands
             {
 
                 var UserName = _vkApi.Users.Get(new[] {msg.FromId.Value }).FirstOrDefault();
-                string roulette;
-                if (rnd.Next(1,7)== new Random().Next(1,7))
+                string roulette ="";
+                if (new Random().Next(1,7) == new Random().Next(0,7))
                 {
                     roulette = UserName.FirstName + " " + UserName.LastName + " выжил(а) в рулетке! Поздравляем!";
                 }
