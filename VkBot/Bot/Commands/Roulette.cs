@@ -25,7 +25,7 @@ namespace VkBot.Bot.Commands
 
                 var UserName = _vkApi.Users.Get(new[] {msg.FromId.Value }).FirstOrDefault();
                 string roulette;
-                if (rnd.Next(1,7)== rnd.Next(1,7))
+                if (rnd.Next(1,7)== new Random().Next(1,7))
                 {
                     roulette = UserName.FirstName + " " + UserName.LastName + " выжил(а) в рулетке! Поздравляем!";
                 }
