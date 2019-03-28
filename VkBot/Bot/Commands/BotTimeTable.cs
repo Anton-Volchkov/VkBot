@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet.Model;
@@ -16,45 +16,36 @@ namespace VkBot.Bot.Commands
             _db = db;
         }
 
-        public Task<string> Execute(Message msg)
+        public async Task<string> Execute(Message msg)
         {
-            return Task.Run(() =>
+            var text = "";
+            var forwardMessage = msg.ForwardedMessages.Count == 0 ?
+                                     msg.ReplyMessage :
+                                     msg.ForwardedMessages[0];
+
+            if(forwardMessage == null)
             {
-                var text = "";
-                var ForvaredMessages = msg.ForwardedMessages;
+                return "Нет сообщения!";
+            }
 
-                if(ForvaredMessages.Count > 0)
+            text = forwardMessage.Text;
+
+            var timeTable = await _db.TimeTables.FirstOrDefaultAsync();
+            if(timeTable != null)
+            {
+                timeTable.Timetable = text;
+            }
+            else
+            {
+                await _db.TimeTables.AddAsync(new TimeTable
                 {
-                    text = ForvaredMessages[0].Text;
-                }
-                else
-                {
-                    var ReplyMessages = msg.ReplyMessage;
-                    if(ReplyMessages == null)
-                    {
-                        return "Нет сообщения!";
-                    }
+                    Timetable = text
+                });
+            }
 
-                    text = ReplyMessages.Text;
-                }
+            await _db.SaveChangesAsync();
 
-                var timeTable = _db.TimeTables.FirstOrDefault();
-                if(timeTable != null)
-                {
-                    timeTable.Timetable = text;
-                }
-                else
-                {
-                    _db.TimeTables.Add(new TimeTable
-                    {
-                        Timetable = text
-                    });
-                }
-
-                _db.SaveChanges();
-
-                return "Я запомнил сказанное!";
-            });
+            return "Я запомнил сказанное!";
         }
     }
 }
