@@ -24,10 +24,18 @@ namespace VkBot.Bot.Commands
                 string text = msg.Text;
                text = text.Substring(text.IndexOf("[") + 1, text.IndexOf(']') - text.IndexOf('[') - 1);
 
-                _db.TimeTables.Add(new TimeTable
+                var timeTable = _db.TimeTables.FirstOrDefault();
+                if (timeTable != null)
                 {
-                    Timetable = text
-                });
+                    timeTable.Timetable = text;
+                }
+                else
+                {
+                    _db.TimeTables.Add(new TimeTable {
+                        Timetable = text
+                    });
+                }
+
                 _db.SaveChanges();
 
                 return "Я запомнил сказанное!";
