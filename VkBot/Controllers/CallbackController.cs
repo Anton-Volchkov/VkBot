@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using VkBot.Bot;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
@@ -20,8 +20,11 @@ namespace VkBot.Controllers
         ///     Конфигурация приложения
         /// </summary>
         private readonly IConfiguration _configuration;
+
         private readonly IVkApi _vkApi;
+
         private readonly CommandExecutor commandExec;
+
         //private Random rnd = new Random(); //TODO: почему нигде не используется
 
         public CallbackController(IVkApi vkApi, IConfiguration configuration, CommandExecutor cmdExec)
@@ -40,17 +43,15 @@ namespace VkBot.Controllers
                 // Отправляем строку для подтверждения 
                 return Ok(_configuration["Config:Confirmation"]);
             }
-            else if(updates.Type == "message_new")
+
+            if(updates.Type == "message_new")
             {
                 var msg = Message.FromJson(new VkResponse(updates.Object));
 
                 //если сообщение НЕ НАЧИНАЕТСЯ С ЭТОГО, то ничо не делаем
                 if(!msg.Text.ToLower().StartsWith("!бот"))
                 {
-                    
-
                     return Ok("ok");
-                    
                 }
 
                 //а если начинается, то вот

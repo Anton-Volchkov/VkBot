@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
@@ -8,48 +6,47 @@ using VkNet.Model;
 
 namespace VkBot.Bot.Commands
 {
-    public class BotTimeTable:IBotCommand
+    public class BotTimeTable : IBotCommand
     {
+        public string[] Alliases { get; set; } = { "запомни" };
         public readonly MainContext _db;
+
         public BotTimeTable(MainContext db)
         {
             _db = db;
         }
-        public string[] Alliases { get; set; } = { "запомни" };
 
         public Task<string> Execute(Message msg)
         {
             return Task.Run(() =>
             {
-                string text = "";
+                var text = "";
                 var ForvaredMessages = msg.ForwardedMessages;
 
-                if (ForvaredMessages.Count > 0)
+                if(ForvaredMessages.Count > 0)
                 {
-                     text = ForvaredMessages[0].Text;
+                    text = ForvaredMessages[0].Text;
                 }
-                else 
+                else
                 {
                     var ReplyMessages = msg.ReplyMessage;
-                    if (ReplyMessages == null)
+                    if(ReplyMessages == null)
                     {
                         return "Нет сообщения!";
                     }
-                    else
-                    {
-                        text = ReplyMessages.Text;
-                    }
 
+                    text = ReplyMessages.Text;
                 }
 
                 var timeTable = _db.TimeTables.FirstOrDefault();
-                if (timeTable != null)
+                if(timeTable != null)
                 {
                     timeTable.Timetable = text;
                 }
                 else
                 {
-                    _db.TimeTables.Add(new TimeTable {
+                    _db.TimeTables.Add(new TimeTable
+                    {
                         Timetable = text
                     });
                 }

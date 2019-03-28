@@ -38,6 +38,7 @@ namespace VkBot.Bot
             {
                 result = ErrorMessage;
             }
+
             return result;
         }
     }

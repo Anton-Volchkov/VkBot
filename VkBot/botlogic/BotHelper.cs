@@ -16,6 +16,7 @@ namespace VkBot.botlogic
                 sendText = "Учебный день закончился!";
                 return sendText;
             }
+
             if(currentSpan <= new TimeSpan(8, 45, 0))
             {
                 var ts = new TimeSpan(8, 45, 0);
