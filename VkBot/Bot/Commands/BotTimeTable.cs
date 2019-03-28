@@ -23,7 +23,7 @@ namespace VkBot.Bot.Commands
             {
                 var ForvaredMessages = msg.ForwardedMessages;
                
-                string text = ForvaredMessages[0].Text;
+                string text = ForvaredMessages[1].Text;
                
 
                 var timeTable = _db.TimeTables.FirstOrDefault();
