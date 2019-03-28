@@ -34,7 +34,7 @@ namespace VkBot
             });
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<TimeTableContext>(options => options.UseNpgsql(connectionString));
+            services.AddDbContext<MainContext>(options => options.UseNpgsql(connectionString));
 
             services.AddScoped<CommandExecutor>();
             services.AddScoped<IBotCommand, Help>();
