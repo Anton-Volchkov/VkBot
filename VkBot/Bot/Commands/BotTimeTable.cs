@@ -21,13 +21,15 @@ namespace VkBot.Bot.Commands
         {
             return Task.Run(() =>
             {
-                string text = msg.Text;
-               text = text.Substring(text.IndexOf("[") + 1, text.IndexOf(']') - text.IndexOf('[') - 1);
+                var ForvaredMessages = msg.ForwardedMessages.ToArray();
+               
+                string text = ForvaredMessages[0].Text;
+               
 
                 var timeTable = _db.TimeTables.FirstOrDefault();
                 if (timeTable != null)
                 {
-                    timeTable.Timetable = DateTime.Now.Millisecond.ToString();
+                    timeTable.Timetable = text;
                 }
                 else
                 {
