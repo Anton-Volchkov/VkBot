@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet.Model;
@@ -16,18 +16,12 @@ namespace VkBot.Bot.Commands
             _db = db;
         }
 
-        public Task<string> Execute(Message msg)
+        public async Task<string> Execute(Message msg)
         {
-            return Task.Run(() =>
-            {
-                var SendText = _db.TimeTables.FirstOrDefault();
-                if(SendText == null)
-                {
-                    return "Расписание пустое!";
-                }
+            const string scheduleEmpty = "Расписание пустое!";
+            var sendText = await _db.TimeTables.FirstOrDefaultAsync();
 
-                return SendText.Timetable;
-            });
+            return sendText?.Timetable ?? scheduleEmpty;
         }
     }
 }
