@@ -21,16 +21,16 @@ namespace VkBot.Bot.Commands
         {
             return Task.Run(() =>
             {
-
                 var UserName = _vkApi.Users.Get(new[] {msg.FromId.Value }).FirstOrDefault();
                 string roulette ="";
-                if (new Random().Next(1,7) == new Random().Next(0,7))
+
+                if (new Random().Next(1,7) == new Random().Next(1,7))
                 {
-                    roulette = UserName.FirstName + " " + UserName.LastName + " выжил(а) в рулетке! Поздравляем!";
+                    roulette = UserName.FirstName + " " + UserName.LastName + " погиб(ла) в рулетке...PRESS F TO PAY RESPECT!";
                 }
                 else
                 {
-                    roulette = UserName.FirstName + " " + UserName.LastName + " погиб в рулетке...PRESS F TO PAY RESPECT!";
+                    roulette = UserName.FirstName + " " + UserName.LastName + " выжил(а) в рулетке! Поздравляем!";
                 }
                 return roulette;
             });
