@@ -27,7 +27,7 @@ namespace VkBot.Bot.Commands
                 var timeTable = _db.TimeTables.FirstOrDefault();
                 if (timeTable != null)
                 {
-                    timeTable.Timetable = text;
+                    timeTable.Timetable = DateTime.Now.Millisecond.ToString()
                 }
                 else
                 {
