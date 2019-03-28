@@ -47,7 +47,10 @@ namespace VkBot.Controllers
                 //если сообщение НЕ НАЧИНАЕТСЯ С ЭТОГО, то ничо не делаем
                 if(!msg.Text.ToLower().StartsWith("!бот"))
                 {
+                    
+
                     return Ok("ok");
+                    
                 }
 
                 //а если начинается, то вот
