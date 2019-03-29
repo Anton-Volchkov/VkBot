@@ -23,7 +23,7 @@ namespace VkBot.Bot.Commands
             var roulette = "";
 
             //TODO: плохое решение
-            if(new Random().Next(1, 7) == new Random().Next(1, 7))
+            if(new System.Random().Next(1, 7) == new System.Random().Next(1, 7))
             {
                 roulette = $"{user.FirstName} {user.LastName} погиб(ла) в рулетке...PRESS F TO PAY RESPECT!";
             }
