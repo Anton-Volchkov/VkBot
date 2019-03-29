@@ -10,7 +10,7 @@ namespace VkBot.Bot.Commands
 {
     public class Random : IBotCommand
     {
-        public string[] Alliases { get; set; } = { "рулетка" };
+        public string[] Alliases { get; set; } = { "рандом" };
         private readonly IVkApi _vkApi;
 
         public Random(IVkApi api)
