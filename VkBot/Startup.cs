@@ -41,6 +41,7 @@ namespace VkBot
             services.AddScoped<IBotCommand, Roulette>();
             services.AddScoped<IBotCommand, BotTimeTable>();
             services.AddScoped<IBotCommand, BotGetTimeTable>();
+            services.AddScoped<IBotCommand, Random>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
