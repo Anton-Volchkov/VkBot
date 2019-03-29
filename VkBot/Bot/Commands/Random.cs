@@ -22,7 +22,7 @@ namespace VkBot.Bot.Commands
         {
             var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
-            return $"{user.FirstName} {user.LastName} в промежутке от 1 до 100 вам выпало число -  " + new System.Random().Next(1,100);
+            return $"{user.FirstName} {user.LastName}, в промежутке от 1 до 100 выпало число - " + new System.Random().Next(1,100);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace VkBot.Bot.Commands
     {
         public string[] Alliases { get; set; } = { "рулетка" };
         private readonly IVkApi _vkApi;
-
+       
         public Roulette(IVkApi api)
         {
             _vkApi = api;
