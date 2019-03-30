@@ -15,7 +15,7 @@ namespace VkBot.botlogic
         public readonly MainContext _tm;
         private readonly IVkApi _vkApi;
 
-        private readonly Random rnd = new Random();
+        private readonly System.Random rnd = new System.Random();
         private static string text = "Расписание пусто!";
         private static bool hangrFire;
 
