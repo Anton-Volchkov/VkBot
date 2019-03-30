@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using VkBot.Bot.Commands;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
 using VkNet.Model;
