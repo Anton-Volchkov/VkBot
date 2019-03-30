@@ -42,6 +42,8 @@ namespace VkBot
             services.AddScoped<IBotCommand, BotTimeTable>();
             services.AddScoped<IBotCommand, BotGetTimeTable>();
             services.AddScoped<IBotCommand, Random>();
+            services.AddScoped<IBotCommand, Bell>();
+            services.AddScoped<IBotCommand, BicepsMetr>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
