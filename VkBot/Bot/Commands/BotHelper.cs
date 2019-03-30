@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VkBot.botlogic
+namespace VkBot.Bot.Commands
 {
     public static class BotHelper
     {
