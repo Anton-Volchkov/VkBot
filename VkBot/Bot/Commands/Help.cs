@@ -16,15 +16,13 @@ namespace VkBot.Bot.Commands
             {
                 var strBuilder = new StringBuilder();
                 strBuilder.AppendLine("***КОМАНДЫ БОТА****");
-                strBuilder.AppendLine("Перед каждой командой нужно ставить восклицательный знак.");
-                strBuilder.AppendLine("Пример: !Команда");
+                strBuilder.AppendLine("Перед каждой командой нужно ставить восклицательный знак.Пример: !Команда");
                 strBuilder.AppendLine("_____________").AppendLine();
                 strBuilder.AppendLine("Бот звонок");
-                strBuilder.AppendLine("Бот бибаметр");
                 strBuilder.AppendLine("Бот бицепсметр");
                 strBuilder.AppendLine("Бот рандом");
-                strBuilder.AppendLine("Бот русская рулетка");
-                strBuilder.AppendLine("Бот запомни расписание [В скобках указать расписание]");
+                strBuilder.AppendLine("Бот рулетка");
+                strBuilder.AppendLine("Бот запомни + переслать сообщение которое нужно запомнить");
                 strBuilder.AppendLine("Бот расписание").AppendLine();
                 strBuilder.AppendLine("_____________");
 
