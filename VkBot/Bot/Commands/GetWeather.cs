@@ -44,7 +44,7 @@ namespace VkBot.Bot.Commands
             {
              oW = JsonConvert.DeserializeObject<OpenWeather.OpenWeather>(answer);
             }
-            catch (Exception)
+            catch (WebException)
             {
                 return $"Город {city} не найден.";
             }
