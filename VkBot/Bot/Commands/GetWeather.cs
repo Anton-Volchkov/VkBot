@@ -26,7 +26,15 @@ namespace VkBot.Bot.Commands
             request.Method = "POST";
             request.ContentType = "application/json";
 
-            WebResponse response = await request.GetResponseAsync();
+            WebResponse response = default(WebResponse);
+            try
+            {
+                response = await request.GetResponseAsync();
+            }
+            catch (Exception)
+            {
+                return $"Город {city} не найден";
+            }
 
             string answer = string.Empty;
 
@@ -39,15 +47,9 @@ namespace VkBot.Bot.Commands
             }
             response.Close();
 
-            OpenWeather.OpenWeather oW;
-            try
-            {
-             oW = JsonConvert.DeserializeObject<OpenWeather.OpenWeather>(answer);
-            }
-            catch (WebException)
-            {
-                return $"Город {city} не найден.";
-            }
+            OpenWeather.OpenWeather oW = oW = JsonConvert.DeserializeObject<OpenWeather.OpenWeather>(answer);
+
+           
     
             DateTime sunrise = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             sunrise = sunrise.AddSeconds(oW.sys.sunrise).ToLocalTime();
