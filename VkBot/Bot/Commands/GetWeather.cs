@@ -38,9 +38,9 @@ namespace VkBot.Bot.Commands
 
             string answer = string.Empty;
 
-            using (Stream s = response.GetResponseStream())
+            using (Stream s = response.GetResponseStream())//читаем поток ответа
             {
-                using (StreamReader reader = new StreamReader(s))
+                using (StreamReader reader = new StreamReader(s)) //передаем поток и считываем в answer
                 {
                     answer = await reader.ReadToEndAsync();
                 }
