@@ -10,6 +10,8 @@ namespace VkBot.Bot.OpenWeather
     {
         public coord coord;
 
+        public weather[] weather;
+
         [JsonProperty("base")]
         public string Base;
 
