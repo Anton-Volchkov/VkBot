@@ -21,7 +21,7 @@ namespace VkBot.Bot.Commands
             var text = split[1].ToLower().Trim();
 
             
-            WebRequest request = WebRequest.Create("http://api.openweathermap.org/data/2.5/weather?q="+text+"&APPID=***REMOVED***");
+            WebRequest request = WebRequest.Create("http://api.openweathermap.org/data/2.5/weather?q=Минск&APPID=***REMOVED***");
 
             request.Method = "POST";
             request.Method = "application/x-www-urlencoded";
