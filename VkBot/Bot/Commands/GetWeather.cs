@@ -26,15 +26,14 @@ namespace VkBot.Bot.Commands
             request.Method = "POST";
             request.ContentType = "application/json";
 
-            WebResponse response = default(WebResponse);
+            WebResponse response;
             try
             {
                 response = await request.GetResponseAsync();
             }
             catch (Exception)
             {
-                request.Abort();
-                response.Close();
+                request.Abort(); 
                 return $"Город {city} не найден.";
             }
 
