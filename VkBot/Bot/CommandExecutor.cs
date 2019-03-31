@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.Internal;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VkBot.Data.Abstractions;
@@ -25,7 +26,7 @@ namespace VkBot.Bot
             var cmd = msg.Text.ToLower();
             foreach(var command in Commands)
             {
-                if(!command.Alliases.Contains(cmd))
+                if(!(command.Alliases.IndexOf(cmd) >=0 ))
                 {
                     continue;
                 }
