@@ -33,7 +33,7 @@ namespace VkBot.Bot.Commands
             }
             catch (Exception)
             {
-                return $"Город {city} не найден";
+                return $"Город {city} не найден.";
             }
 
             string answer = string.Empty;
