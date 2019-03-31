@@ -56,7 +56,7 @@ namespace VkBot.Bot.Commands
             sunset = sunset.AddSeconds(oW.sys.sunset).ToLocalTime();
 
             var strBuilder = new StringBuilder();
-            strBuilder.AppendLine($"Погода {text}");
+            strBuilder.AppendLine($"Погода {city}");
             strBuilder.AppendLine("_____________").AppendLine();
             strBuilder.AppendLine($"Средняя температура - {oW.main.temp.ToString("0.##")}°");
             strBuilder.AppendLine($"Скорость ветра - {oW.wind.speed.ToString()} м/c");
