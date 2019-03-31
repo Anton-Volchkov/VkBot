@@ -18,10 +18,10 @@ namespace VkBot.Bot.Commands
         public async Task<string> Execute(Message msg)
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
-            var text = split[1].Trim();
+            var city = split[1].Trim();
           
 
-            WebRequest request = WebRequest.Create($"http://api.openweathermap.org/data/2.5/weather?q={text}&APPID=***REMOVED***");
+            WebRequest request = WebRequest.Create($"http://api.openweathermap.org/data/2.5/weather?q={city}&APPID=***REMOVED***");
 
             request.Method = "POST";
             request.ContentType = "application/json";
@@ -37,16 +37,18 @@ namespace VkBot.Bot.Commands
                     answer = await reader.ReadToEndAsync();
                 }
             }
-
             response.Close();
 
-            OpenWeather.OpenWeather oW = JsonConvert.DeserializeObject<OpenWeather.OpenWeather>(answer);
-
-            if (oW == null)
+            OpenWeather.OpenWeather oW;
+            try
             {
-                return "Город не найден";
+             oW = JsonConvert.DeserializeObject<OpenWeather.OpenWeather>(answer);
             }
-
+            catch (Exception)
+            {
+                return $"Город {city} не найден.";
+            }
+    
             DateTime sunrise = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             sunrise = sunrise.AddSeconds(oW.sys.sunrise).ToLocalTime();
 
