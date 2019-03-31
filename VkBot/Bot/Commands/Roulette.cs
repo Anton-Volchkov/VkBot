@@ -9,7 +9,7 @@ namespace VkBot.Bot.Commands
 {
     public class Roulette : IBotCommand
     {
-        public string[] Alliases { get; set; } = { "рулетка" };
+        public string[] Alliases { get; set; } = { "рулетка","русская рулетка" };
         private readonly IVkApi _vkApi;
        
         public Roulette(IVkApi api)

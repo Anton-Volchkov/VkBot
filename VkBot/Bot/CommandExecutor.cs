@@ -20,9 +20,9 @@ namespace VkBot.Bot
         public async Task<string> HandleMessage(Message msg)
         {
             var result = "";
-            var split = msg.Text.Split(' ', 2); // [команда, параметры]
-            var cmd = split[0].ToLower();
-
+            //  var split = msg.Text.Split(' ', 2); // [команда, параметры]
+            //  var cmd = split[0].ToLower();
+            var cmd = msg.Text.ToLower();
             foreach(var command in Commands)
             {
                 if(!command.Alliases.Contains(cmd))
