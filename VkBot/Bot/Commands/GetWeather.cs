@@ -42,11 +42,16 @@ namespace VkBot.Bot.Commands
 
             OpenWeather.OpenWeather oW = JsonConvert.DeserializeObject<OpenWeather.OpenWeather>(answer);
 
+            if (oW == null)
+            {
+                return "Город не найден";
+            }
+
             DateTime sunrise = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            sunrise.AddSeconds(oW.sys.sunrise).ToLocalTime();
+            sunrise = sunrise.AddSeconds(oW.sys.sunrise).ToLocalTime();
 
             DateTime sunset = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            sunset.AddSeconds(oW.sys.sunset).ToLocalTime();
+            sunset = sunset.AddSeconds(oW.sys.sunset).ToLocalTime();
 
             var strBuilder = new StringBuilder();
             strBuilder.AppendLine($"Погода {text}");
