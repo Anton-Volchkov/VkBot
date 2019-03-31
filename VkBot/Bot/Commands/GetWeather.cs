@@ -45,7 +45,7 @@ namespace VkBot.Bot.Commands
             DateTime sunrise = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             sunrise.AddMilliseconds(oW.sys.sunrise);
 
-            DateTime sunse = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            DateTime sunset = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             sunse.AddMilliseconds(oW.sys.sunset);
 
             var strBuilder = new StringBuilder();
@@ -56,8 +56,8 @@ namespace VkBot.Bot.Commands
             strBuilder.AppendLine($"Направление - {oW.wind.deg.ToString()}");
             strBuilder.AppendLine($"Влажность - {oW.main.humidity.ToString()}%");
             strBuilder.AppendLine($"Давление - {((int)oW.main.pressure).ToString()}").AppendLine();
-            strBuilder.AppendLine($"Рассвет - {sunrise.Hours}:{sunrise.Minutes}");
-            strBuilder.AppendLine($"Закат - {sunset.Hours}:{sunset.Minutes}");
+            strBuilder.AppendLine($"Рассвет - {sunrise.Hour}:{sunrise.Minute}");
+            strBuilder.AppendLine($"Закат - {sunset.Hour}:{sunset.Minute}");
             strBuilder.AppendLine("_____________");
         
             return strBuilder.ToString();
