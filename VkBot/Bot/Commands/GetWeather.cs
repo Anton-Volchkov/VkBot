@@ -18,7 +18,7 @@ namespace VkBot.Bot.Commands
         public async Task<string> Execute(Message msg)
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
-            var text = split[1].ToLower().Trim();
+            var text = split[1].Trim();
           
 
             WebRequest request = WebRequest.Create($"http://api.openweathermap.org/data/2.5/weather?q={text}&APPID=***REMOVED***");
@@ -43,10 +43,10 @@ namespace VkBot.Bot.Commands
             OpenWeather.OpenWeather oW = JsonConvert.DeserializeObject<OpenWeather.OpenWeather>(answer);
 
             DateTime sunrise = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            sunrise.AddMilliseconds(oW.sys.sunrise);
+            sunrise.AddSeconds(oW.sys.sunrise);
 
             DateTime sunset = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            sunset.AddMilliseconds(oW.sys.sunset);
+            sunset.AddSeconds(oW.sys.sunset);
 
             var strBuilder = new StringBuilder();
             strBuilder.AppendLine($"Погода {text}");
