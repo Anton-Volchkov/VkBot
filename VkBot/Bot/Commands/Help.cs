@@ -23,7 +23,7 @@ namespace VkBot.Bot.Commands
                 strBuilder.AppendLine("Бот бицепсметр");
                 strBuilder.AppendLine("Бот рандом");
                 strBuilder.AppendLine("Бот рулетка");
-                strBuilder.AppendLine("Бот запомни + переслать сообщение которое нужно запомнить");
+                strBuilder.AppendLine("Бот запомни расписание + переслать сообщение которое нужно запомнить");
                 strBuilder.AppendLine("Бот расписание").AppendLine();
                 strBuilder.AppendLine("_____________");
 
