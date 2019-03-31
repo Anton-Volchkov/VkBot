@@ -46,14 +46,14 @@ namespace VkBot.Bot.Commands
             sunrise.AddMilliseconds(oW.sys.sunrise);
 
             DateTime sunset = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            sunse.AddMilliseconds(oW.sys.sunset);
+            sunset.AddMilliseconds(oW.sys.sunset);
 
             var strBuilder = new StringBuilder();
             strBuilder.AppendLine($"Погода {text}");
             strBuilder.AppendLine("_____________").AppendLine();
             strBuilder.AppendLine($"Средняя температура - {oW.main.temp.ToString("0.##")}°");
             strBuilder.AppendLine($"Скорость ветра - {oW.wind.speed.ToString()} м/c");
-            strBuilder.AppendLine($"Направление - {oW.wind.deg.ToString()}");
+            strBuilder.AppendLine($"Направление - {oW.wind.deg.ToString()}°");
             strBuilder.AppendLine($"Влажность - {oW.main.humidity.ToString()}%");
             strBuilder.AppendLine($"Давление - {((int)oW.main.pressure).ToString()}").AppendLine();
             strBuilder.AppendLine($"Рассвет - {sunrise.Hour}:{sunrise.Minute}");
