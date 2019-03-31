@@ -42,8 +42,11 @@ namespace VkBot.Bot.Commands
 
             OpenWeather.OpenWeather oW = JsonConvert.DeserializeObject<OpenWeather.OpenWeather>(answer);
 
-            var sunrise = new TimeSpan(Convert.ToInt64(oW.sys.sunrise));
-            var sunset = new TimeSpan(Convert.ToInt64(oW.sys.sunset));
+            DateTime sunrise = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            sunrise.AddMilliseconds(oW.sys.sunrise);
+
+            DateTime sunse = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            sunse.AddMilliseconds(oW.sys.sunset);
 
             var strBuilder = new StringBuilder();
             strBuilder.AppendLine($"Погода {text}");
@@ -56,7 +59,7 @@ namespace VkBot.Bot.Commands
             strBuilder.AppendLine($"Рассвет - {sunrise.Hours}:{sunrise.Minutes}");
             strBuilder.AppendLine($"Закат - {sunset.Hours}:{sunset.Minutes}");
             strBuilder.AppendLine("_____________");
-
+        
             return strBuilder.ToString();
         }
     }
