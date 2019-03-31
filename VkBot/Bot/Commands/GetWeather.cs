@@ -19,12 +19,12 @@ namespace VkBot.Bot.Commands
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
             var text = split[1].ToLower().Trim();
+          
 
-            
-            WebRequest request = WebRequest.Create("http://api.openweathermap.org/data/2.5/weather?q=Минск&APPID=***REMOVED***");
+            WebRequest request = WebRequest.Create($"http://api.openweathermap.org/data/2.5/weather?q={text}&APPID=***REMOVED***");
 
             request.Method = "POST";
-            request.Method = "application/x-www-urlencoded";
+            request.ContentType = "application/json";
 
             WebResponse response = await request.GetResponseAsync();
 
