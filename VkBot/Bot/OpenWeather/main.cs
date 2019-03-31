@@ -17,7 +17,7 @@ namespace VkBot.Bot.OpenWeather
             }
             set
             {
-                _temp = value 
+                _temp = value;
             }
         }
 
@@ -47,7 +47,7 @@ namespace VkBot.Bot.OpenWeather
             }
             set
             {
-                _temp = value 
+                _temp = value;
             }
         }
 
@@ -61,7 +61,7 @@ namespace VkBot.Bot.OpenWeather
             }
             set
             {
-                _temp = value 
+                _temp = value;
             }
         }
     }

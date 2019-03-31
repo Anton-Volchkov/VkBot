@@ -62,7 +62,7 @@ namespace VkBot.Bot.Commands
             strBuilder.AppendLine($"Погода {city}");
             strBuilder.AppendLine("_____________").AppendLine();
             strBuilder.AppendLine($"Средняя температура -  {oW.main.temp.ToString("0.##")}°С");
-            strBuilder.AppendLine($"Описание погоды -  {oW.weather[0].description});
+            strBuilder.AppendLine($"Описание погоды -  {oW.weather[0].description}");
             strBuilder.AppendLine($"Скорость ветра -  {oW.wind.speed.ToString()} м/c");
             strBuilder.AppendLine($"Направление -  {oW.wind.deg.ToString()}°");
             strBuilder.AppendLine($"Влажность -  {oW.main.humidity.ToString()}%");
