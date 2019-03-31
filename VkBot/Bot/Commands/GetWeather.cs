@@ -42,14 +42,19 @@ namespace VkBot.Bot.Commands
 
             OpenWeather.OpenWeather oW = JsonConvert.DeserializeObject<OpenWeather.OpenWeather>(answer);
 
+            var sunrise = new TimeSpan(Convert.ToInt64(oW.sys.sunrise));
+            var sunset = new TimeSpan(Convert.ToInt64(oW.sys.sunset));
+
             var strBuilder = new StringBuilder();
             strBuilder.AppendLine($"Погода {text}");
             strBuilder.AppendLine("_____________").AppendLine();
-            strBuilder.AppendLine($"Средняя температура - {oW.main.temp.ToString("0.##")}");
+            strBuilder.AppendLine($"Средняя температура - {oW.main.temp.ToString("0.##")}°");
             strBuilder.AppendLine($"Скорость ветра - {oW.wind.speed.ToString()} м/c");
             strBuilder.AppendLine($"Направление - {oW.wind.deg.ToString()}");
             strBuilder.AppendLine($"Влажность - {oW.main.humidity.ToString()}%");
             strBuilder.AppendLine($"Давление - {((int)oW.main.pressure).ToString()}").AppendLine();
+            strBuilder.AppendLine($"Рассвет - {sunrise.Hours}:{sunrise.Minutes}");
+            strBuilder.AppendLine($"Закат - {sunset.Hours}:{sunset.Minutes}");
             strBuilder.AppendLine("_____________");
 
             return strBuilder.ToString();
