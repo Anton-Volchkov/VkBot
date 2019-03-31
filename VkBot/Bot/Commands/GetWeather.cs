@@ -61,12 +61,12 @@ namespace VkBot.Bot.Commands
             var strBuilder = new StringBuilder();
             strBuilder.AppendLine($"Погода {city}");
             strBuilder.AppendLine("_____________").AppendLine();
-            strBuilder.AppendLine($"Средняя температура -  {oW.main.temp.ToString("0.##")}°С");
-            strBuilder.AppendLine($"Описание погоды -  {oW.weather[0].description}");
-            strBuilder.AppendLine($"Скорость ветра -  {oW.wind.speed.ToString()} м/c");
-            strBuilder.AppendLine($"Направление -  {oW.wind.deg.ToString()}°");
-            strBuilder.AppendLine($"Влажность -  {oW.main.humidity.ToString()}%");
-            strBuilder.AppendLine($"Давление -  {((int)oW.main.pressure).ToString()}мм").AppendLine();
+            strBuilder.AppendLine($"Средняя температура:  {oW.main.temp.ToString("0.##")}°С");
+            strBuilder.AppendLine($"Описание погоды:  {oW.weather[0].description}");
+            strBuilder.AppendLine($"Скорость ветра:  {oW.wind.speed.ToString()} м/c");
+            strBuilder.AppendLine($"Направление:  {oW.wind.deg.ToString()}°");
+            strBuilder.AppendLine($"Влажность: {oW.main.humidity.ToString()}%");
+            strBuilder.AppendLine($"Давление:  {((int)oW.main.pressure).ToString()}мм").AppendLine();
             strBuilder.AppendLine($"Рассвет -  {sunrise.Hour}:{sunrise.Minute}");
             strBuilder.AppendLine($"Закат -  {sunset.Hour}:{sunset.Minute}");
             strBuilder.AppendLine("_____________");
