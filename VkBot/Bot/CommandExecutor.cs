@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Internal;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VkBot.Data.Abstractions;
@@ -21,12 +20,12 @@ namespace VkBot.Bot
         public async Task<string> HandleMessage(Message msg)
         {
             var result = "";
-            //  var split = msg.Text.Split(' ', 2); // [команда, параметры]
-            //  var cmd = split[0].ToLower();
-            var cmd = msg.Text.ToLower();
+              var split = msg.Text.Split(' ', 2); // [команда, параметры]
+              var cmd = split[0].ToLower();
+            //var cmd = msg.Text.ToLower();
             foreach(var command in Commands)
             {
-                if(!(command.Alliases.IndexOf(cmd) >=0 ))
+                if(!command.Alliases.Contains(cmd))
                 {
                     continue;
                 }
