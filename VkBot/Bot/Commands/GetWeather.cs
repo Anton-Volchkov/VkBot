@@ -33,6 +33,7 @@ namespace VkBot.Bot.Commands
             }
             catch (Exception)
             {
+                response.Close();
                 return $"Город {city} не найден.";
             }
 
@@ -46,7 +47,7 @@ namespace VkBot.Bot.Commands
                 }
             }
             response.Close();
-
+           
             OpenWeather.OpenWeather oW = oW = JsonConvert.DeserializeObject<OpenWeather.OpenWeather>(answer);
 
            
