@@ -30,12 +30,10 @@ namespace VkBot.Bot.Commands
             try
             {
                 answer = Convert.ToString(a.Compute(expression, ""));
-                return $"{user.FirstName} {user.LastName}, ответ вашего выражения = {answer}";
-                
+                return $"{user.FirstName} {user.LastName}, ответ вашего выражения = {answer}"; 
             }
             catch (Exception)
             {
-
                 return $"{user.FirstName} {user.LastName}, я не смог посчитать это... =(";
             }
            

@@ -21,6 +21,7 @@ namespace VkBot.Bot.Commands
                 strBuilder.AppendLine("Бот команды");
                 strBuilder.AppendLine("Бот погода + название города");
                 strBuilder.AppendLine("Бот посчитай + выражение которое нужно посчитать");
+                strBuilder.AppendLine("Бот любовь + с кем или с чем проверить процент любви");
                 strBuilder.AppendLine("Бот звонок");
                 strBuilder.AppendLine("Бот бицепсметр");
                 strBuilder.AppendLine("Бот рандом");
