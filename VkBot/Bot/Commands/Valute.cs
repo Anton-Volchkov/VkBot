@@ -24,22 +24,25 @@ namespace VkBot.Bot.Commands
 
             switch (Cod_Valute)
             {
+                case "usd":
                 case "доллар":
                     {
                         Cod_Valute = "145";
                         NameValute = "USD";
                     }
                     break;
+                case "eur":
                 case "евро":
                     {
                         Cod_Valute = "292";
                         NameValute = "EUR";
                     }
                     break;
+                case "rur":
                 case "рубль":
                     {
                         Cod_Valute = "298";
-                         NameValute = "RUR";
+                        NameValute = "RUR";
                     }
                     break;
                     
