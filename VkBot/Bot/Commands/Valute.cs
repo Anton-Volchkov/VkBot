@@ -44,16 +44,9 @@ namespace VkBot.Bot.Commands
             request.ContentType = "application/json";
 
             WebResponse response;
-            try
-            {
+            
                 response = await request.GetResponseAsync();
-            }
-            catch (Exception)
-            {
-                request.Abort();
-                return $"Я не знаю такой валюты.";
-            }
-
+           
             string answer = string.Empty;
 
             using (Stream s = response.GetResponseStream())//читаем поток ответа
