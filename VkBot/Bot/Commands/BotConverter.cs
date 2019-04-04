@@ -18,7 +18,7 @@ namespace VkBot.Bot.Commands
 
         public async Task<string> Execute(Message msg)
         {
-            var split = msg.Text.Split(' ', 3); // [команда, параметры1, параметры2]
+            var split = msg.Text.Split(' '); // [команда, параметры1, параметры2]
             var Cod_Valute = split[1].ToLower().Trim();
             string NameValute = "";
 
