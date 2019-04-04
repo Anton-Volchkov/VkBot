@@ -30,7 +30,7 @@ namespace VkBot.Bot.Commands
                     valute = "EUR";
                     break;
                 case "рубль":
-                    valute = "RUS";
+                    valute = "RUR";
                     break;
                     
 
