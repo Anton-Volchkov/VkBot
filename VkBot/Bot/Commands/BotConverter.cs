@@ -81,7 +81,7 @@ namespace VkBot.Bot.Commands
             ValuteConverter MyValute = JsonConvert.DeserializeObject<ValuteConverter>(answer);
 
             var strBuilder = new StringBuilder();
-            if (Int64.TryParse(split[3],out long result))
+            if (Int64.TryParse(split[3].Trim(),out long result))
             {
     
                 strBuilder.AppendLine($"Перевод {NameValute} в BYN");
