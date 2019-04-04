@@ -18,7 +18,7 @@ namespace VkBot.Bot.Commands
 
         public async Task<string> Execute(Message msg)
         {
-            var split = msg.Text.Split(' '); // [команда, параметры1, параметры2]
+            var split = msg.Text.Split(' ',2); // [команда, параметры1, параметры2]
             var Cod_Valute = split[1].ToLower().Trim();
             string NameValute = "";
 
@@ -81,14 +81,13 @@ namespace VkBot.Bot.Commands
             ValuteConverter MyValute = JsonConvert.DeserializeObject<ValuteConverter>(answer);
 
             var strBuilder = new StringBuilder();
-            if (Int64.TryParse(split[3].Trim(),out long result))
-            {
+           
     
                 strBuilder.AppendLine($"Перевод {NameValute} в BYN");
                 strBuilder.AppendLine("_____________").AppendLine();
-                strBuilder.AppendLine($"{split[3]} {NameValute} = {(MyValute.CurOfficialRate * result)/MyValute.CurScale }  BYN");
+                strBuilder.AppendLine($"{split[3]} {NameValute} = {(MyValute.CurOfficialRate * 3)/MyValute.CurScale }  BYN");
                 strBuilder.AppendLine("_____________");
-            }
+            
             
 
             return strBuilder.ToString();
