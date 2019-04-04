@@ -21,6 +21,7 @@ namespace VkBot.Bot.Commands
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
             var Cod_Valute = split[1].ToLower().Trim();
             string NameValute = "";
+
             switch (Cod_Valute)
             {
                 case "доллар":
