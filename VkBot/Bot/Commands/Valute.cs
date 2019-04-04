@@ -19,18 +19,27 @@ namespace VkBot.Bot.Commands
         public async Task<string> Execute(Message msg)
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
-            var valute = split[1].ToLower().Trim();
-
-            switch (valute)
+            var Cod_Valute = split[1].ToLower().Trim();
+            string NameValute = "";
+            switch (Cod_Valute)
             {
                 case "доллар":
-                    valute = "145";
+                    {
+                        Cod_Valute = "145";
+                        NameValute = "USD";
+                    }
                     break;
                 case "евро":
-                    valute = "292";
+                    {
+                        Cod_Valute = "292";
+                        NameValute = "EUR";
+                    }
                     break;
                 case "рубль":
-                    valute = "298";
+                    {
+                        Cod_Valute = "298";
+                         NameValute = "RUR";
+                    }
                     break;
                     
 
@@ -38,7 +47,7 @@ namespace VkBot.Bot.Commands
                     break;
             }
 
-            WebRequest request = WebRequest.Create($"http://www.nbrb.by/API/ExRates/Rates/{valute}");
+            WebRequest request = WebRequest.Create($"http://www.nbrb.by/API/ExRates/Rates/{Cod_Valute}");
 
             request.Method = "GET";
             request.ContentType = "application/json";
@@ -70,9 +79,9 @@ namespace VkBot.Bot.Commands
 
 
             var strBuilder = new StringBuilder();
-            strBuilder.AppendLine($"Курс {valute}");
+            strBuilder.AppendLine($"Курс {NameValute}");
             strBuilder.AppendLine("_____________").AppendLine();
-            strBuilder.AppendLine($"{MyValute.CurScale} {valute} = {MyValute.CurOfficialRate} BYN");
+            strBuilder.AppendLine($"{MyValute.CurScale} {NameValute} = {MyValute.CurOfficialRate} BYN");
             strBuilder.AppendLine("_____________");
 
             return strBuilder.ToString();
