@@ -21,6 +21,7 @@ namespace VkBot.Bot.Commands
                 strBuilder.AppendLine("Бот команды");
                 strBuilder.AppendLine("Бот погода + название города");
                 strBuilder.AppendLine("Бот курс + (доллар, евро, рубль)");
+                strBuilder.AppendLine("Бот конвертируй + имя валюты (доллар, евро, рубль) + сколько(100,200,150)");
                 strBuilder.AppendLine("Бот посчитай + выражение которое нужно посчитать");
                 strBuilder.AppendLine("Бот любовь + с кем или с чем проверить процент любви");
                 strBuilder.AppendLine("Бот звонок");
