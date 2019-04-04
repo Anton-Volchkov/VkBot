@@ -14,12 +14,6 @@ namespace VkBot.Bot.Commands
 {
     public class BotConverter : IBotCommand
     {
-        Valute _valute;
-        public BotConverter(Valute valute)
-        {
-            _valute = valute;
-        }
-
         public string[] Alliases { get; set; } = {"конвертируй"};
 
         public async Task<string> Execute(Message msg)
