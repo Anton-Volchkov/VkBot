@@ -24,13 +24,13 @@ namespace VkBot.Bot.Commands
             switch (valute)
             {
                 case "доллар":
-                    valute = "USD";
+                    valute = "145";
                     break;
                 case "евро":
-                    valute = "EUR";
+                    valute = "292";
                     break;
                 case "рубль":
-                    valute = "RUR";
+                    valute = "298";
                     break;
                     
 
@@ -38,7 +38,7 @@ namespace VkBot.Bot.Commands
                     break;
             }
 
-            WebRequest request = WebRequest.Create($"http://www.nbrb.by/API/ExRates/Rates/{valute}?ParamMode=2");
+            WebRequest request = WebRequest.Create($"http://www.nbrb.by/API/ExRates/Rates/{valute}");
 
             request.Method = "GET";
             request.ContentType = "application/json";
@@ -72,7 +72,7 @@ namespace VkBot.Bot.Commands
             var strBuilder = new StringBuilder();
             strBuilder.AppendLine($"Курс {valute}");
             strBuilder.AppendLine("_____________").AppendLine();
-            strBuilder.AppendLine($"1 {valute} = {MyValute.CurOfficialRate} BYN");
+            strBuilder.AppendLine($"{MyValute.CurScale} {valute} = {MyValute.CurOfficialRate} BYN");
             strBuilder.AppendLine("_____________");
 
             return strBuilder.ToString();
