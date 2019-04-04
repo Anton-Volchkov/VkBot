@@ -38,7 +38,7 @@ namespace VkBot.Bot.Commands
                     break;
             }
 
-            WebRequest request = WebRequest.Create($"http://www.nbrb.by/API/ExRates/Rates/{valute}?ParamMode=2");
+            WebRequest request = WebRequest.Create($"http://www.nbrb.by/API/ExRates/Rates/EUR?ParamMode=2");
 
             request.Method = "POST";
             request.ContentType = "application/json";
