@@ -40,13 +40,20 @@ namespace VkBot.Bot.Commands
 
             WebRequest request = WebRequest.Create($"http://www.nbrb.by/API/ExRates/Rates/EUR?ParamMode=2");
 
-            request.Method = "POST";
+            request.Method = "GET";
             request.ContentType = "application/json";
 
             WebResponse response;
-            
+            try
+            {
                 response = await request.GetResponseAsync();
-           
+            }
+            catch (Exception)
+            {
+                request.Abort();
+                return $"Я не знаю такой валюты.";
+            }
+
             string answer = string.Empty;
 
             using (Stream s = response.GetResponseStream())//читаем поток ответа
