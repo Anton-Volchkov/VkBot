@@ -19,7 +19,7 @@ namespace VkBot.Bot.Commands
         public async Task<string> Execute(Message msg)
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
-            var valute = split[1].Trim();
+            var valute = split[1].ToLower().Trim();
 
             switch (valute)
             {
