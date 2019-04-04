@@ -47,6 +47,7 @@ namespace VkBot
             services.AddScoped<IBotCommand, GetWeather>();
             services.AddScoped<IBotCommand, Calculator>();
             services.AddScoped<IBotCommand, Love>();
+            services.AddScoped<IBotCommand, Valute>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
