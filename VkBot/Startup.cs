@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OpenWeatherMap;
 using VkBot.Bot;
 using VkBot.Bot.Commands;
 using VkBot.Data.Abstractions;
@@ -37,6 +38,7 @@ namespace VkBot
                 api.Authorize(new ApiAuthParams { AccessToken = Configuration["Config:AccessToken"] });
                 return api;
             });
+            services.AddSingleton(x => new WeatherInfo(Configuration["Config:OWM_Token"]));
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<MainContext>(options => options.UseNpgsql(connectionString));
@@ -54,6 +56,7 @@ namespace VkBot
             services.AddScoped<IBotCommand, Love>();
             services.AddScoped<IBotCommand, Valute>();
             services.AddScoped<IBotCommand, BotConverter>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

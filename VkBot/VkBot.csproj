@@ -12,4 +12,8 @@
         <PackageReference Include="VkNet" Version="1.42.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\OpenWeatherMap\OpenWeatherMap.csproj" />
+    </ItemGroup>
+
 </Project>
