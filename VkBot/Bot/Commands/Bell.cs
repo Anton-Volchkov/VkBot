@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using VkBot.Data.Abstractions;
+using VkBot.Extensions;
 using VkNet.Model;
 
 namespace VkBot.Bot.Commands

@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using VkBot.Bot.Commands;
 using VkBot.Data.Models;
+using VkBot.Extensions;
 using VkNet.Abstractions;
 using VkNet.Model;
 using VkNet.Model.RequestParams;

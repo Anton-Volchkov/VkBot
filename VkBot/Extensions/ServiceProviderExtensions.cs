@@ -12,16 +12,16 @@ namespace VkBot
             services.AddScoped<CommandExecutor>();
             services.AddScoped<IBotCommand, Help>();
             services.AddScoped<IBotCommand, Roulette>();
-            services.AddScoped<IBotCommand, BotTimeTable>();
-            services.AddScoped<IBotCommand, BotGetTimeTable>();
+            services.AddScoped<IBotCommand, TimeTable>();
+            services.AddScoped<IBotCommand, GetTimeTable>();
             services.AddScoped<IBotCommand, Random>();
             services.AddScoped<IBotCommand, Bell>();
             services.AddScoped<IBotCommand, BicepsMetr>();
             services.AddScoped<IBotCommand, GetWeather>();
             services.AddScoped<IBotCommand, Calculator>();
             services.AddScoped<IBotCommand, Love>();
-            services.AddScoped<IBotCommand, Valute>();
-            services.AddScoped<IBotCommand, BotConverter>();
+            services.AddScoped<IBotCommand, CurrencyRate>();
+            services.AddScoped<IBotCommand, Bot.Commands.CurrencyConverter>();
         }
     }
 }

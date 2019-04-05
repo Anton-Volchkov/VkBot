@@ -6,12 +6,12 @@ using VkNet.Model;
 
 namespace VkBot.Bot.Commands
 {
-    public class Valute : IBotCommand
+    public class CurrencyRate : IBotCommand
     {
         private readonly CurrencyInfo _currencyInfo;
         public string[] Alliases { get; set; } = { "курс" };
 
-        public Valute(CurrencyInfo currencyInfo)
+        public CurrencyRate(CurrencyInfo currencyInfo)
         {
             _currencyInfo = currencyInfo;
         }

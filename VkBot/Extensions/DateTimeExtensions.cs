@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace VkBot.Bot.Commands
+namespace VkBot.Extensions
 {
     //TODO:
-    public static class BotHelper
+    public static class DateTimeExtensions
     {
         public static string GetTime(this DateTime dt)
         {
