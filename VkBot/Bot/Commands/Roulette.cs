@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using VkBot.Data.Abstractions;
 using VkNet.Abstractions;
@@ -11,7 +10,7 @@ namespace VkBot.Bot.Commands
     {
         public string[] Alliases { get; set; } = { "рулетка" };
         private readonly IVkApi _vkApi;
-       
+
         public Roulette(IVkApi api)
         {
             _vkApi = api;
@@ -20,7 +19,7 @@ namespace VkBot.Bot.Commands
         public async Task<string> Execute(Message msg)
         {
             var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
-            var roulette = "";
+            string roulette;
 
             //TODO: плохое решение
             if(new System.Random().Next(1, 7) == new System.Random().Next(1, 7))

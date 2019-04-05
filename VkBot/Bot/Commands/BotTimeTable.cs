@@ -9,7 +9,7 @@ namespace VkBot.Bot.Commands
     public class BotTimeTable : IBotCommand
     {
         public string[] Alliases { get; set; } = { "запомни" };
-        public readonly MainContext _db;
+        private readonly MainContext _db;
 
         public BotTimeTable(MainContext db)
         {
@@ -23,7 +23,7 @@ namespace VkBot.Bot.Commands
                                      msg.ReplyMessage :
                                      msg.ForwardedMessages[0];
 
-            if(forwardMessage == null)
+            if(forwardMessage is null)
             {
                 return "Нет сообщения!";
             }

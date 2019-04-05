@@ -7,15 +7,16 @@ using VkBot.Data.Models;
 using VkNet.Abstractions;
 using VkNet.Model;
 using VkNet.Model.RequestParams;
+using Random = System.Random;
 
 namespace VkBot.botlogic
 {
     public class Bot
     {
-        public readonly MainContext _tm;
+        private readonly MainContext _tm;
         private readonly IVkApi _vkApi;
 
-        private readonly System.Random rnd = new System.Random();
+        private readonly Random rnd = new Random();
         private static string text = "Расписание пусто!";
         private static bool hangrFire;
 
@@ -77,7 +78,10 @@ namespace VkBot.botlogic
 
             if(message.ToUpper().IndexOf("!БОТ РАНДОМ") >= 0)
             {
-                return p.FirstName + " " + p.LastName + ", вам выпало рандомное число от 1 до 100 =  " +
+                return p.FirstName +
+                       " " +
+                       p.LastName +
+                       ", вам выпало рандомное число от 1 до 100 =  " +
                        rnd.Next(1, 100);
             }
 
@@ -85,7 +89,9 @@ namespace VkBot.botlogic
             {
                 if(rnd.Next(1, 7) == rnd.Next(1, 7))
                 {
-                    return p.FirstName + " " + p.LastName +
+                    return p.FirstName +
+                           " " +
+                           p.LastName +
                            " был(а) убит(а) в русской рулетке! Press F to pay respects!";
                 }
 
@@ -107,7 +113,8 @@ namespace VkBot.botlogic
             if(message.ToUpper().IndexOf("!БОТ ЗВОНОК") == 0)
             {
                 var dt = DateTime.Now;
-                return "Сейчас - " + dt.ToShortTimeString() +
+                return "Сейчас - " +
+                       dt.ToShortTimeString() +
                        "\n\n Расписание звонков \n 1) 8:00 - 8:45 / 8:55 - 9:40 \n 2) 9:50 - 10:35 / 10:45 - 11:30 \n 3)12:10 - 12:55 / 13:05 - 13:50 \n 4) 14:00 - 14:45 / 14:55 - 15:40 \n 5) 16:00 - 16:45 / 16:55 - 17:40 \n\n " +
                        dt.GetTime();
             }

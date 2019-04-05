@@ -9,7 +9,7 @@ namespace VkBot.Bot.Commands
     public class BotGetTimeTable : IBotCommand
     {
         public string[] Alliases { get; set; } = { "расписание" };
-        public readonly MainContext _db;
+        private readonly MainContext _db;
 
         public BotGetTimeTable(MainContext db)
         {
@@ -21,7 +21,7 @@ namespace VkBot.Bot.Commands
             const string scheduleEmpty = "Расписание пустое!";
             var sendText = await _db.TimeTables.FirstOrDefaultAsync();
 
-            return (sendText?.Timetable) ?? scheduleEmpty;
+            return sendText?.Timetable ?? scheduleEmpty;
         }
     }
 }

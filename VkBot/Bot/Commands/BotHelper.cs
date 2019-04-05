@@ -2,6 +2,7 @@
 
 namespace VkBot.Bot.Commands
 {
+    //TODO:
     public static class BotHelper
     {
         public static string GetTime(this DateTime dt)

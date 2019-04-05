@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using VkBot.Data.Abstractions;
 using VkNet.Abstractions;
@@ -22,7 +20,7 @@ namespace VkBot.Bot.Commands
         {
             var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
-            return $"{user.FirstName} {user.LastName}, в промежутке от 1 до 100 выпало число - " + new System.Random().Next(1,100);
+            return $"{user.FirstName} {user.LastName}, в промежутке от 1 до 100 выпало число - {new System.Random().Next(1, 100)}";
         }
     }
 }

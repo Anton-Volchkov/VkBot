@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +17,7 @@ namespace VkBot.Bot.Commands
         {
             _vkApi = api;
         }
+
         public async Task<string> Execute(Message msg)
         {
             var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
@@ -25,19 +25,16 @@ namespace VkBot.Bot.Commands
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
             var expression = split[1].Trim();
 
-            DataTable a = new DataTable();
-            string answer= "";
+            var a = new DataTable();
             try
             {
-                answer = Convert.ToString(a.Compute(expression, ""));
-                return $"{user.FirstName} {user.LastName}, ответ вашего выражения = {answer}"; 
+                var answer = Convert.ToString(a.Compute(expression, ""));
+                return $"{user.FirstName} {user.LastName}, ответ вашего выражения = {answer}";
             }
-            catch (Exception)
+            catch(Exception)
             {
                 return $"{user.FirstName} {user.LastName}, я не смог посчитать это... =(";
             }
-           
-            
         }
     }
 }
