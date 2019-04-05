@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot", "VkBot\VkBot.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWeatherMap", "OpenWeatherMap\OpenWeatherMap.csproj", "{E0DA7265-20A4-4EF0-8060-9E76592F5EE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyConverter", "CurrencyConverter\CurrencyConverter.csproj", "{9F8FF07E-54D8-4FBB-96ED-7C0C44366B30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E0DA7265-20A4-4EF0-8060-9E76592F5EE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0DA7265-20A4-4EF0-8060-9E76592F5EE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0DA7265-20A4-4EF0-8060-9E76592F5EE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F8FF07E-54D8-4FBB-96ED-7C0C44366B30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F8FF07E-54D8-4FBB-96ED-7C0C44366B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F8FF07E-54D8-4FBB-96ED-7C0C44366B30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F8FF07E-54D8-4FBB-96ED-7C0C44366B30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

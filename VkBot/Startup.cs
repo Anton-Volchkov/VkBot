@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using CurrencyConverter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -6,9 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenWeatherMap;
-using VkBot.Bot;
-using VkBot.Bot.Commands;
-using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet;
 using VkNet.Abstractions;
@@ -39,6 +37,7 @@ namespace VkBot
                 return api;
             });
             services.AddSingleton(x => new WeatherInfo(Configuration["Config:OWM_Token"]));
+            services.AddSingleton<CurrencyInfo>();
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<MainContext>(options => options.UseNpgsql(connectionString));

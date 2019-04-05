@@ -1,26 +1,26 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace VkBot.Bot.Valute
+namespace CurrencyConverter.Models
 {
-    public class ValuteConverter
+    public class Currency
     {
         [JsonProperty("Cur_ID")]
-        public long CurId { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("Date")]
         public DateTimeOffset Date { get; set; }
 
         [JsonProperty("Cur_Abbreviation")]
-        public string CurAbbreviation { get; set; }
+        public string Abbreviation { get; set; }
 
         [JsonProperty("Cur_Scale")]
-        public long CurScale { get; set; }
+        public long Scale { get; set; }
 
         [JsonProperty("Cur_Name")]
-        public string CurName { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("Cur_OfficialRate")]
-        public double CurOfficialRate { get; set; }
+        public double OfficialRate { get; set; }
     }
 }

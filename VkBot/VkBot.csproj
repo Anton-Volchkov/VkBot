@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CurrencyConverter\CurrencyConverter.csproj" />
       <ProjectReference Include="..\OpenWeatherMap\OpenWeatherMap.csproj" />
     </ItemGroup>
 
