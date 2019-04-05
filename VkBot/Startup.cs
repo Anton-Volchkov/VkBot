@@ -43,19 +43,7 @@ namespace VkBot
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<MainContext>(options => options.UseNpgsql(connectionString));
 
-            services.AddScoped<CommandExecutor>();
-            services.AddScoped<IBotCommand, Help>();
-            services.AddScoped<IBotCommand, Roulette>();
-            services.AddScoped<IBotCommand, BotTimeTable>();
-            services.AddScoped<IBotCommand, BotGetTimeTable>();
-            services.AddScoped<IBotCommand, Random>();
-            services.AddScoped<IBotCommand, Bell>();
-            services.AddScoped<IBotCommand, BicepsMetr>();
-            services.AddScoped<IBotCommand, GetWeather>();
-            services.AddScoped<IBotCommand, Calculator>();
-            services.AddScoped<IBotCommand, Love>();
-            services.AddScoped<IBotCommand, Valute>();
-            services.AddScoped<IBotCommand, BotConverter>();
+            services.AddBotFeatures();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
