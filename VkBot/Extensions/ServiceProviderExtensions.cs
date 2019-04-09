@@ -22,6 +22,9 @@ namespace VkBot
             services.AddScoped<IBotCommand, Love>();
             services.AddScoped<IBotCommand, CurrencyRate>();
             services.AddScoped<IBotCommand, Bot.Commands.CurrencyConverter>();
+            services.AddScoped<IBotCommand, GetMemory>();
+            services.AddScoped<IBotCommand, GiveMemory>();
+            services.AddScoped<IBotCommand, DeleteMemory>();
         }
     }
 }
