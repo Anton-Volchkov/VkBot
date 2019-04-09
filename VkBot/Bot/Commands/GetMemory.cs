@@ -33,7 +33,7 @@ namespace VkBot.Bot.Commands
                 return $"{user.FirstName} {user.LastName} - Я вас еще не знаю. ";
             }
             string sendText = string.IsNullOrWhiteSpace(UserMemory.Memory)? "Ваших данных нет в базе!" : UserMemory.Memory;
-            return $"{user.FirstName} {user.LastName} - {sendText}";
+            return $"{user.FirstName} {user.LastName} ваши данные: \n {sendText}";
         }
     }
 }
