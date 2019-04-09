@@ -20,7 +20,7 @@ namespace VkBot.Bot.Commands
             };
             var dt = DateTime.Now;
             return $"Сейчас - {dt.ToShortTimeString()}\n\n" +
-                   $"Расписание звонков: {string.Join('\n', bells)}\n{dt.GetTime()}";
+                   $"Расписание звонков: \n {string.Join('\n', bells)}\n{dt.GetTime()}";
         }
     }
 }
