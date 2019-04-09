@@ -19,6 +19,9 @@ namespace VkBot.Bot.Commands
                 strBuilder.AppendLine("Перед каждой командой нужно ставить восклицательный знак.Пример: !Команда");
                 strBuilder.AppendLine("_____________").AppendLine();
                 strBuilder.AppendLine("Бот команды");
+                strBuilder.AppendLine("Бот личное [в квадратных скобках указать что запомнить боту])");
+                strBuilder.AppendLine("Бот память (выведет данные которые вы просили запомнить)");
+                strBuilder.AppendLine("Бот забудь (забудет введенные данные)");
                 strBuilder.AppendLine("Бот погода + название города");
                 strBuilder.AppendLine("Бот курс + (доллар, евро, рубль)");
                 strBuilder.AppendLine("Бот конвертируй + имя валюты (доллар, евро, рубль) + сколько(100,200,150)");
@@ -28,8 +31,8 @@ namespace VkBot.Bot.Commands
                 strBuilder.AppendLine("Бот бицепсметр");
                 strBuilder.AppendLine("Бот рандом");
                 strBuilder.AppendLine("Бот рулетка");
-                strBuilder.AppendLine("Бот запомни + переслать сообщение которое нужно запомнить");
-                strBuilder.AppendLine("Бот расписание").AppendLine();
+                strBuilder.AppendLine("Бот запомни + переслать сообщение которое нужно запомнить (оно будет общее для всех пользователей)");
+                strBuilder.AppendLine("Бот общее (сообщение которое запомнили при помощи !бот запомни)").AppendLine();
                 strBuilder.AppendLine("_____________");
 
                 return strBuilder.ToString();

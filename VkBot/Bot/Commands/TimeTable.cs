@@ -8,7 +8,7 @@ namespace VkBot.Bot.Commands
 {
     public class TimeTable : IBotCommand
     {
-        public string[] Alliases { get; set; } = { "запомни" };
+        public string[] Alliases { get; set; } = { "общее" };
         private readonly MainContext _db;
 
         public TimeTable(MainContext db)
