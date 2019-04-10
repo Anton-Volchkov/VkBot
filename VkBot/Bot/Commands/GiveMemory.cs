@@ -25,12 +25,12 @@ namespace VkBot.Bot.Commands
         public async Task<string> Execute(Message msg)
         {
             string TextMemory = msg.Text.Substring(msg.Text.IndexOf("[") + 1, msg.Text.IndexOf(']') - msg.Text.IndexOf('[') - 1);
-            var UserMemory = await _db.Memory.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
+            var UserMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
             var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
             if (UserMemory == null)
             {
-                await _db.Memory.AddAsync(new UserMemory
+                await _db.Memories.AddAsync(new UserMemory
                 {
                    UserID = msg.FromId.Value,
                    Memory = TextMemory,

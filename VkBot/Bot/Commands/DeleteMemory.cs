@@ -26,7 +26,7 @@ namespace VkBot.Bot.Commands
         {
             var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
-            var UserMemory = await _db.Memory.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
+            var UserMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
 
             if (UserMemory == null)
             {

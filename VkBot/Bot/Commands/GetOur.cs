@@ -6,12 +6,12 @@ using VkNet.Model;
 
 namespace VkBot.Bot.Commands
 {
-    public class GetTimeTable : IBotCommand
+    public class GetOur : IBotCommand
     {
-        public string[] Alliases { get; set; } = { "расписание" };
+        public string[] Alliases { get; set; } = { "общее" };
         private readonly MainContext _db;
 
-        public GetTimeTable(MainContext db)
+        public GetOur(MainContext db)
         {
             _db = db;
         }

@@ -6,12 +6,12 @@ using VkNet.Model;
 
 namespace VkBot.Bot.Commands
 {
-    public class TimeTable : IBotCommand
+    public class SetOur : IBotCommand
     {
-        public string[] Alliases { get; set; } = { "общее" };
+        public string[] Alliases { get; set; } = { "запомни" };
         private readonly MainContext _db;
 
-        public TimeTable(MainContext db)
+        public SetOur(MainContext db)
         {
             _db = db;
         }
@@ -37,7 +37,7 @@ namespace VkBot.Bot.Commands
             }
             else
             {
-                await _db.TimeTables.AddAsync(new Data.Models.TimeTable
+                await _db.TimeTables.AddAsync(new Data.Models.Our
                 {
                     Timetable = text
                 });
