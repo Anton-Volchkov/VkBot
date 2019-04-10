@@ -18,7 +18,7 @@ namespace VkBot.Bot.Commands
 
         public async Task<string> Execute(Message msg)
         {
-            const string scheduleEmpty = "Расписание пустое!";
+            const string scheduleEmpty = "Общего сообщения нет!";
             var sendText = await _db.Commons.FirstOrDefaultAsync();
 
             return sendText?.СommonInfo ?? scheduleEmpty;
