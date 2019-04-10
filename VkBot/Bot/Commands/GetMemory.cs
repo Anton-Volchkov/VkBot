@@ -26,13 +26,13 @@ namespace VkBot.Bot.Commands
         {
             var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
-            var UserMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
+            var userMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
 
-            if (UserMemory == null)
+            if (userMemory == null)
             {
                 return $"{user.FirstName} {user.LastName} - Я вас еще не знаю. ";
             }
-            string sendText = string.IsNullOrWhiteSpace(UserMemory.Memory)? "Ваших данных нет в базе!" : UserMemory.Memory;
+            string sendText = string.IsNullOrWhiteSpace(userMemory.Memory)? "Ваших данных нет в базе!" : userMemory.Memory;
             return $"{user.FirstName} {user.LastName} ваши данные: \n {sendText}";
         }
     }

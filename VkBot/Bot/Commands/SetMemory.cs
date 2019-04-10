@@ -10,13 +10,13 @@ using VkNet.Model;
 
 namespace VkBot.Bot.Commands
 {
-    public class GiveMemory : IBotCommand
+    public class SetMemory : IBotCommand
     {
         public string[] Alliases { get; set; } = {"личное"};
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
 
-        public GiveMemory(MainContext db, IVkApi api)
+        public SetMemory(MainContext db, IVkApi api)
         {
             _db = db;
             _vkApi = api;
@@ -24,21 +24,21 @@ namespace VkBot.Bot.Commands
 
         public async Task<string> Execute(Message msg)
         {
-            string TextMemory = msg.Text.Substring(msg.Text.IndexOf("[") + 1, msg.Text.IndexOf(']') - msg.Text.IndexOf('[') - 1);
-            var UserMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
+            string textMemory = msg.Text.Substring(msg.Text.IndexOf("[") + 1, msg.Text.IndexOf(']') - msg.Text.IndexOf('[') - 1);
+            var userMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
             var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
-            if (UserMemory == null)
+            if (userMemory == null)
             {
                 await _db.Memories.AddAsync(new UserMemory
                 {
                    UserID = msg.FromId.Value,
-                   Memory = TextMemory,
+                   Memory = textMemory,
                 });
             }
             else
             {
-                UserMemory.Memory += $"\n {TextMemory}";
+                userMemory.Memory += $"\n {textMemory}";
             }
             await _db.SaveChangesAsync();
 

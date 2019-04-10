@@ -33,13 +33,13 @@ namespace VkBot.Bot.Commands
             var timeTable = await _db.Commons.FirstOrDefaultAsync();
             if(timeTable != null)
             {
-                timeTable.commonInfo = text;
+                timeTable.СommonInfo = text;
             }
             else
             {
                 await _db.Commons.AddAsync(new Data.Models.Common
                 {
-                   commonInfo = text
+                   СommonInfo = text
                 });
             }
 
