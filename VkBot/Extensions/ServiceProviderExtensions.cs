@@ -12,8 +12,8 @@ namespace VkBot
             services.AddScoped<CommandExecutor>();
             services.AddScoped<IBotCommand, Help>();
             services.AddScoped<IBotCommand, Roulette>();
-            services.AddScoped<IBotCommand, SetOur>();
-            services.AddScoped<IBotCommand, GetOur>();
+            services.AddScoped<IBotCommand, SetCommon>();
+            services.AddScoped<IBotCommand, GetCommon>();
             services.AddScoped<IBotCommand, Random>();
             services.AddScoped<IBotCommand, Bell>();
             services.AddScoped<IBotCommand, BicepsMetr>();

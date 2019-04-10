@@ -1,8 +1,8 @@
 ﻿namespace VkBot.Data.Models
 {
-    public class Our
+    public class Common
     {
         public int Id { get; set; }
-        public string Timetable { get; set; }
+        public string commonInfo { get; set; }
     }
 }

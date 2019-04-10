@@ -6,12 +6,12 @@ using VkNet.Model;
 
 namespace VkBot.Bot.Commands
 {
-    public class SetOur : IBotCommand
+    public class SetCommon : IBotCommand
     {
         public string[] Alliases { get; set; } = { "запомни" };
         private readonly MainContext _db;
 
-        public SetOur(MainContext db)
+        public SetCommon(MainContext db)
         {
             _db = db;
         }
@@ -30,16 +30,16 @@ namespace VkBot.Bot.Commands
 
             text = forwardMessage.Text;
 
-            var timeTable = await _db.TimeTables.FirstOrDefaultAsync();
+            var timeTable = await _db.Commons.FirstOrDefaultAsync();
             if(timeTable != null)
             {
-                timeTable.Timetable = text;
+                timeTable.commonInfo = text;
             }
             else
             {
-                await _db.TimeTables.AddAsync(new Data.Models.Our
+                await _db.Commons.AddAsync(new Data.Models.Common
                 {
-                    Timetable = text
+                   commonInfo = text
                 });
             }
 
