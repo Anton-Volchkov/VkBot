@@ -59,7 +59,7 @@ namespace VkBot.Controllers
 
                 var subscription = _vkApi.Groups.IsMember("178921904", msg.FromId.Value, null, null).Select(x => x.Member).FirstOrDefault();
 
-                var text = subscription == null? "Подпишитесь на сообщество, чтобы пользоваться командами бота!" : await commandExec.HandleMessage(msg);
+                var text = subscription == false? "Подпишитесь на сообщество, чтобы пользоваться командами бота!" : await commandExec.HandleMessage(msg);
 
                 // Отправим в ответ полученный от пользователя текст
                 _vkApi.Messages.Send(new MessagesSendParams
