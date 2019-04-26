@@ -57,7 +57,9 @@ namespace VkBot.Controllers
                 //а если начинается, то вот
                 msg.Text = string.Join(' ', msg.Text.Split(' ').Skip(1)); // убираем !бот
 
-                var text = await commandExec.HandleMessage(msg);
+                var subscription = _vkApi.Groups.IsMember("178921904", msg.FromId.Value, null, null).Select(x => x.Member).FirstOrDefault();
+
+                var text = subscription == null? "Подпишитесь на сообщество, чтобы пользоваться командами бота!" : await commandExec.HandleMessage(msg);
 
                 // Отправим в ответ полученный от пользователя текст
                 _vkApi.Messages.Send(new MessagesSendParams
