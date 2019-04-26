@@ -57,10 +57,12 @@ namespace VkBot.Controllers
                 //а если начинается, то вот
                 msg.Text = string.Join(' ', msg.Text.Split(' ').Skip(1)); // убираем !бот
 
-                var subscription = _vkApi.Groups.IsMember("178921904", msg.FromId.Value, null, null).Select(x => x.Member).FirstOrDefault();
+                #region Проверка подписки
+                //var subscription = _vkApi.Groups.IsMember("178921904", msg.FromId.Value, null, null).Select(x => x.Member).FirstOrDefault();
+                //var text = subscription == false? "Подпишитесь на сообщество, чтобы пользоваться командами бота! \n \n https://vk.com/kerlibot" : await commandExec.HandleMessage(msg);
+                #endregion
 
-                var text = subscription == false? "Подпишитесь на сообщество, чтобы пользоваться командами бота! \n \n https://vk.com/kerlibot" : await commandExec.HandleMessage(msg);
-
+                var text = await commandExec.HandleMessage(msg);
                 // Отправим в ответ полученный от пользователя текст
                 _vkApi.Messages.Send(new MessagesSendParams
                 {
