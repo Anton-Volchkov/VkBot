@@ -25,13 +25,15 @@ namespace VkBot.Controllers
 
         private readonly CommandExecutor commandExec;
 
+        private readonly MainContext _db;
         //private Random rnd = new Random(); //TODO: почему нигде не используется
 
-        public CallbackController(IVkApi vkApi, IConfiguration configuration, CommandExecutor cmdExec)
+        public CallbackController(IVkApi vkApi, IConfiguration configuration, CommandExecutor cmdExec, MainContext db)
         {
             _vkApi = vkApi;
             _configuration = configuration;
             commandExec = cmdExec;
+            _db = db;
         }
 
         [HttpPost]
@@ -56,6 +58,12 @@ namespace VkBot.Controllers
 
                 //а если начинается, то вот
                 msg.Text = string.Join(' ', msg.Text.Split(' ').Skip(1)); // убираем !бот
+
+                if (_db.GetUsers().All(x => x.Vk != msg.FromId))
+                {
+                    await _db.Users.AddAsync(new Data.Models.User { Vk = msg.FromId });
+                    await _db.SaveChangesAsync();
+                }
 
                 #region Проверка подписки
                 //var subscription = _vkApi.Groups.IsMember("178921904", msg.FromId.Value, null, null).Select(x => x.Member).FirstOrDefault();

@@ -25,6 +25,7 @@ namespace VkBot
             services.AddScoped<IBotCommand, GetMemory>();
             services.AddScoped<IBotCommand, SetMemory>();
             services.AddScoped<IBotCommand, DeleteMemory>();
+            services.AddScoped<IBotCommand, MailingWeather>();
         }
     }
 }
