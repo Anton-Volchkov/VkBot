@@ -37,7 +37,7 @@ namespace VkBot.Bot.Help
                         {
                             RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
                             UserId = id,
-                            Message = await _weather.GetWeather(group.Key)
+                            Message = await _weather.GetDailyWeather(group.Key, DateTime.Now)
                         });
                     }
                     await Task.Delay(300);
