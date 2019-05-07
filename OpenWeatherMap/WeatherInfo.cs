@@ -13,7 +13,7 @@ namespace OpenWeatherMap
         private const string Lang = "ru";
         private readonly string Token;
         private readonly HttpClient Client;
-        private readonly string Query;
+
         public WeatherInfo(string token)
         {
             if(string.IsNullOrEmpty(token))
@@ -21,12 +21,13 @@ namespace OpenWeatherMap
                 throw new ArgumentNullException(nameof(token), "Токен отсутствует");
             }
 
-            Token = token;
             Client = new HttpClient
             {
                 BaseAddress = new Uri(EndPoint)
             };
-            Query = $"units=metric&appid={Token}&lang={Lang}";
+
+            Token = token;
+
         }
 
         public async Task<string> GetWeather(string city)
@@ -43,7 +44,7 @@ namespace OpenWeatherMap
             const double pressureConvert = 0.75006375541921;
 
             var strBuilder = new StringBuilder();
-            strBuilder.AppendFormat("Погода {0}", city).AppendLine();
+            strBuilder.AppendFormat("Погода {0} на данный момент", city).AppendLine();
             strBuilder.AppendLine("_____________").AppendLine();
             strBuilder.AppendFormat("Средняя температура: {0:N0}°С", w.Weather.Temperature).AppendLine();
             strBuilder.AppendFormat("Описание погоды: {0}", w.Info[0].State).AppendLine();
@@ -61,9 +62,9 @@ namespace OpenWeatherMap
         {
             const int count = 2;
             city = char.ToUpper(city[0]) + city.Substring(1); //TODO ?
-            var response = await Client.GetAsync($"forecast/daily?q={city}&{Query}&cnt={count}");
-            var w = JsonConvert.DeserializeObject<Models.Daily.DailyWeather>(await response.Content.ReadAsStringAsync());
-            var weatherToday = w.List.FirstOrDefault(x => UnixToDateTime(x.UnixTime).Date == DateTime.Today);
+            var response = await Client.GetAsync($"forecast?q={city}&units=metric&appid={Token}&cnt=8&lang={Lang}");
+            var weatherToday = JsonConvert.DeserializeObject<Models.Daily.DailyWeather>(await response.Content.ReadAsStringAsync());
+
             if(weatherToday is null)
             {
                 return $"Погода на {date:dd.MM} не найдена";
@@ -73,12 +74,17 @@ namespace OpenWeatherMap
 
             var strBuilder = new StringBuilder();
             strBuilder.AppendFormat("Погода в городе {0} на сегодня ({1:dddd, d MMMM}):", city, DateTime.Today).AppendLine();
-            strBuilder.AppendFormat("Температура: от {0:+#;-#;0}°С до {1:+#;-#;0}°С", weatherToday.Temp.Min, weatherToday.Temp.Max).AppendLine();
-            strBuilder.AppendFormat("Описание погоды: {0}", weatherToday.Weather[0].State).AppendLine();
-            strBuilder.AppendFormat("Влажность: {0}%", weatherToday.Humidity).AppendLine();
-            strBuilder.AppendFormat("Ветер: {0:N0} м/с", weatherToday.Speed).AppendLine();
-            strBuilder.AppendFormat("Давление: {0:N0} мм.рт.ст", weatherToday.Pressure * pressureConvert).AppendLine();
-            strBuilder.AppendFormat("Облачность: {0}%", weatherToday.Cloudiness).AppendLine();
+            for (int i = 0; i < weatherToday.List.Length; i++)
+            {
+                strBuilder.AppendFormat("Время: {0}",weatherToday.List[i].DtTxt);
+                strBuilder.AppendFormat("Температура: от {0:+#;-#;0}°С до {1:+#;-#;0}°С", weatherToday.List[i].Main.TempMax, weatherToday.List[i].Main.TempMax).AppendLine();
+                strBuilder.AppendFormat("Описание погоды: {0}", weatherToday.List[i].Weather[i]).AppendLine();
+                strBuilder.AppendFormat("Влажность: {0}%", weatherToday.List[i].Main.Humidity).AppendLine();
+                strBuilder.AppendFormat("Ветер: {0:N0} м/с", weatherToday.List[i].Wind.Speed).AppendLine();
+                strBuilder.AppendFormat("Давление: {0:N0} мм.рт.ст", weatherToday.List[i].Main.Pressure * pressureConvert).AppendLine();
+                strBuilder.AppendFormat("Облачность: {0}%", weatherToday.List[i].Clouds.All).AppendLine().AppendLine();
+
+            }
 
             return strBuilder.ToString();
         }
