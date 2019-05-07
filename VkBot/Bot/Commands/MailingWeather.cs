@@ -24,16 +24,27 @@ namespace VkBot.Bot.Commands
         public async Task<string> Execute(Message msg)
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
-            var city = split[1].Trim();
             var command = split[0].Trim();
-
             var user = await _db.Users.FirstOrDefaultAsync((x) => x.Vk == msg.FromId.Value);
             var vkUser = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
-            user.Weather = command == "подписка" ? true : false;
 
-            return command == "подписка" ? $"{vkUser.FirstName} {vkUser.LastName}, подписка на рассылку по городу {city} успешно оформлена!"
-                                        : $"{vkUser.FirstName} {vkUser.LastName}, вы отписались от рассылки погоды!";
-                                                                                                                                              
+            if (command == "отписка")
+            {
+                user.Weather = false;
+                await _db.SaveChangesAsync();
+
+                return  $"{vkUser.FirstName} {vkUser.LastName}, вы отписались от рассылки погоды!";
+            }
+            else
+            {
+                var city = split[1].Trim();   
+                user.Weather = true;
+                user.City = city;
+                await _db.SaveChangesAsync();
+                return $"{vkUser.FirstName} {vkUser.LastName}, подписка на рассылку погоды в городе {city} успешно оформлена!";
+            }
+
+
         }
     }
 }
