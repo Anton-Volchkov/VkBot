@@ -53,7 +53,7 @@ namespace VkBot.Bot.Help
         private void InitJobs()
         {
             RecurringJob.AddOrUpdate<ScheduledTask>("SendWeather", x => x.SendWeather(),
-                                                    "50 6 * * *", TimeZoneInfo.Local);
+                                                    "00 6 * * *", TimeZoneInfo.Local);
         }
     }
 }
