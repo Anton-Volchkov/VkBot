@@ -83,7 +83,6 @@ namespace OpenWeatherMap
                 strBuilder.AppendFormat("Ветер: {0:N0} м/с", weatherToday.List[i].Wind.Speed).AppendLine();
                 strBuilder.AppendFormat("Давление: {0:N0} мм.рт.ст", weatherToday.List[i].Main.Pressure * pressureConvert).AppendLine();
                 strBuilder.AppendFormat("Облачность: {0}%", weatherToday.List[i].Clouds.All).AppendLine().AppendLine();
-
             }
 
             return strBuilder.ToString();

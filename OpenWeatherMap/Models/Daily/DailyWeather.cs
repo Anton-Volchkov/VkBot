@@ -5,10 +5,10 @@ using System.Text;
 
 namespace OpenWeatherMap.Models.Daily
 {
-    class DailyWeather
+    public partial class DailyWeather
     {
         [JsonProperty("cod")]
-        public string Cod { get; set; }
+        public long Cod { get; set; }
 
         [JsonProperty("message")]
         public double Message { get; set; }
@@ -67,14 +67,14 @@ namespace OpenWeatherMap.Models.Daily
         [JsonProperty("wind")]
         public Wind Wind { get; set; }
 
-        [JsonProperty("rain", NullValueHandling = NullValueHandling.Ignore)]
-        public Rain Rain { get; set; }
-
         [JsonProperty("sys")]
         public Sys Sys { get; set; }
 
         [JsonProperty("dt_txt")]
         public DateTimeOffset DtTxt { get; set; }
+
+        [JsonProperty("rain", NullValueHandling = NullValueHandling.Ignore)]
+        public Rain Rain { get; set; }
     }
 
     public partial class Clouds
@@ -107,7 +107,7 @@ namespace OpenWeatherMap.Models.Daily
         public long Humidity { get; set; }
 
         [JsonProperty("temp_kf")]
-        public long TempKf { get; set; }
+        public double TempKf { get; set; }
     }
 
     public partial class Rain
@@ -145,5 +145,6 @@ namespace OpenWeatherMap.Models.Daily
         [JsonProperty("deg")]
         public double Deg { get; set; }
     }
+
 }
 
