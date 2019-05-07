@@ -8,7 +8,7 @@ namespace OpenWeatherMap.Models.Daily
     public partial class DailyWeather
     {
         [JsonProperty("cod")]
-        public long Cod { get; set; }
+        public string Cod { get; set; }
 
         [JsonProperty("message")]
         public double Message { get; set; }
