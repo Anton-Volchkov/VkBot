@@ -60,6 +60,7 @@ namespace OpenWeatherMap
         }
          public async Task<string> GetDailyWeather(string city, DateTime date)
         {
+            return "123";
             const int count = 2;
             city = char.ToUpper(city[0]) + city.Substring(1); //TODO ?
             var response = await Client.GetAsync($"forecast?q={city}&units=metric&appid={Token}&cnt=8&lang={Lang}");
