@@ -77,7 +77,7 @@ namespace OpenWeatherMap
             strBuilder.AppendFormat("Погода в городе {0} на сегодня ({1:dddd, d MMMM}):", city, DateTime.Today).AppendLine();
             for (int i = 0; i < weatherToday.List.Length; i++)
             {
-                strBuilder.AppendFormat("Время: {0}:{1}0",weatherToday.List[i].DtTxt.Hour, weatherToday.List[i].DtTxt.Minute).AppendLine();
+                strBuilder.AppendFormat("Время: {0}",weatherToday.List[i].DtTxt).AppendLine();
                 strBuilder.AppendFormat("Температура: {0:+#;-#;0}°С", weatherToday.List[i].Main.Temp).AppendLine();
                 strBuilder.AppendFormat("Описание погоды: {0}", weatherToday.List[i].Weather[0].Description).AppendLine();
                 strBuilder.AppendFormat("Влажность: {0}%", weatherToday.List[i].Main.Humidity).AppendLine();
