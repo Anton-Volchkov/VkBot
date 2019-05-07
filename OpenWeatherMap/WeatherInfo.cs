@@ -60,13 +60,13 @@ namespace OpenWeatherMap
         }
          public async Task<string> GetDailyWeather(string city, DateTime date)
         {
-          
+            
             const int count = 2;
             city = char.ToUpper(city[0]) + city.Substring(1); //TODO ?
             var response = await Client.GetAsync($"forecast?q={city}&units=metric&appid={Token}&cnt=8&lang={Lang}");
             var weatherToday = JsonConvert.DeserializeObject<Models.Daily.DailyWeather>(await response.Content.ReadAsStringAsync());
 
-            if (weatherToday is null)
+            if(weatherToday is null)
             {
                 return $"Погода на {date:dd.MM} не найдена";
             }
@@ -75,9 +75,16 @@ namespace OpenWeatherMap
 
             var strBuilder = new StringBuilder();
             strBuilder.AppendFormat("Погода в городе {0} на сегодня ({1:dddd, d MMMM}):", city, DateTime.Today).AppendLine();
-
-                strBuilder.AppendFormat("Облачность: {0}%", weatherToday.Cod).AppendLine().AppendLine();
-            
+            for (int i = 0; i < weatherToday.List.Length; i++)
+            {
+                strBuilder.AppendFormat("Время: {0}",weatherToday.List[i].DtTxt);
+                strBuilder.AppendFormat("Температура: от {0:+#;-#;0}°С до {1:+#;-#;0}°С", weatherToday.List[i].Main.TempMax, weatherToday.List[i].Main.TempMax).AppendLine();
+                strBuilder.AppendFormat("Описание погоды: {0}", weatherToday.List[i].Weather[i].Description).AppendLine();
+                strBuilder.AppendFormat("Влажность: {0}%", weatherToday.List[i].Main.Humidity).AppendLine();
+                strBuilder.AppendFormat("Ветер: {0:N0} м/с", weatherToday.List[i].Wind.Speed).AppendLine();
+                strBuilder.AppendFormat("Давление: {0:N0} мм.рт.ст", weatherToday.List[i].Main.Pressure * pressureConvert).AppendLine();
+                strBuilder.AppendFormat("Облачность: {0}%", weatherToday.List[i].Clouds.All).AppendLine().AppendLine();
+            }
 
             return strBuilder.ToString();
         }
