@@ -77,9 +77,9 @@ namespace OpenWeatherMap
             strBuilder.AppendFormat("Погода в городе {0} на сегодня ({1:dddd, d MMMM}):", city, DateTime.Today).AppendLine();
             for (int i = 0; i < weatherToday.List.Length; i++)
             {
-                strBuilder.AppendFormat("Время: {0}",weatherToday.List[i].DtTxt);
-                strBuilder.AppendFormat("Температура: от {0:+#;-#;0}°С до {1:+#;-#;0}°С", weatherToday.List[i].Main.TempMax, weatherToday.List[i].Main.TempMax).AppendLine();
-                strBuilder.AppendFormat("Описание погоды: {0}", weatherToday.List[i].Weather[i].Description).AppendLine();
+                strBuilder.AppendFormat("Время: {0}:{1}0",weatherToday.List[i].DtTxt.Hour, weatherToday.List[i].DtTxt.Minute).AppendLine();
+                strBuilder.AppendFormat("Температура: {0:+#;-#;0}°С", weatherToday.List[i].Main.Temp).AppendLine();
+                strBuilder.AppendFormat("Описание погоды: {0}", weatherToday.List[i].Weather[0].Description).AppendLine();
                 strBuilder.AppendFormat("Влажность: {0}%", weatherToday.List[i].Main.Humidity).AppendLine();
                 strBuilder.AppendFormat("Ветер: {0:N0} м/с", weatherToday.List[i].Wind.Speed).AppendLine();
                 strBuilder.AppendFormat("Давление: {0:N0} мм.рт.ст", weatherToday.List[i].Main.Pressure * pressureConvert).AppendLine();
