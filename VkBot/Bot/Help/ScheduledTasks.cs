@@ -6,15 +6,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using VkBot.Data.Models;
 using VkNet;
+using VkNet.Abstractions;
 
 namespace VkBot.Bot.Help
 {
     public class ScheduledTask
     {
         private readonly MainContext _db;
-        private readonly VkApi _vkApi;
+        private readonly IVkApi _vkApi;
         private readonly WeatherInfo _weather;
-        public ScheduledTask(MainContext db, VkApi vkApi, WeatherInfo weather)
+        public ScheduledTask(MainContext db, IVkApi vkApi, WeatherInfo weather)
         {
             _db = db;
             _vkApi = vkApi;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet;
+using VkNet.Abstractions;
 using VkNet.Model;
 
 namespace VkBot.Bot.Commands
@@ -14,8 +15,8 @@ namespace VkBot.Bot.Commands
     {
         public string[] Alliases { get; set; } =  {"подписка","отписка"};
         private readonly MainContext _db;
-        private readonly VkApi _vkApi;
-        public MailingWeather(MainContext db, VkApi vkApi)
+        private readonly IVkApi _vkApi;
+        public MailingWeather(MainContext db, IVkApi vkApi)
         {
             _db = db;
             _vkApi = vkApi;
