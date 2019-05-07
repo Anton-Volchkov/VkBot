@@ -76,7 +76,7 @@ namespace OpenWeatherMap
             var strBuilder = new StringBuilder();
             strBuilder.AppendFormat("Погода в городе {0} на сегодня ({1:dddd, d MMMM}):", city, DateTime.Today).AppendLine();
 
-                strBuilder.AppendFormat("Облачность: {0}%", weatherToday.List[0].Clouds.All.ToString()).AppendLine().AppendLine();
+                strBuilder.AppendFormat("Облачность: {0}%", weatherToday.Cod).AppendLine().AppendLine();
             
 
             return strBuilder.ToString();
