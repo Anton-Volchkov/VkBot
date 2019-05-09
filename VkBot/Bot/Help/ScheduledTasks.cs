@@ -32,15 +32,22 @@ namespace VkBot.Bot.Help
                 {
                     var ids = group.Select(x => x.Vk).ToArray();
                     foreach (var id in ids)
-                    {
-                        await _vkApi.Messages.SendAsync(new VkNet.Model.RequestParams.MessagesSendParams
+                    {   ///нужен блок try потому что если у человека закрыта личка но он был подписан на рассылку, вылетает ексепшн и для других рассылка не идёт
+                        try
                         {
-                            RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
-                            UserId = id,
-                            Message = await _weather.GetDailyWeather(group.Key, DateTime.Today)
-                        });
+                            await _vkApi.Messages.SendAsync(new VkNet.Model.RequestParams.MessagesSendParams
+                            {
+                                RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
+                                UserId = id,
+                                Message = await _weather.GetDailyWeather(group.Key, DateTime.Today)
+                            });
+                        }
+                        finally
+                        {
+                            await Task.Delay(100);
+                        }
                     }
-                    await Task.Delay(300);
+                   
                 }
             });
         }

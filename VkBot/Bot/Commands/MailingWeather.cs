@@ -37,9 +37,10 @@ namespace VkBot.Bot.Commands
             }
             else
             {
-                var city = split[1].Trim();   
-                user.Weather = true;
+                var city = split[1].Trim();
+                city = char.ToUpper(city[0]) + city.Substring(1);
                 user.City = city;
+                user.Weather = true;
                 await _db.SaveChangesAsync();
                 return $"{vkUser.FirstName} {vkUser.LastName}, подписка на рассылку погоды в городе {city} успешно оформлена!";
             }
