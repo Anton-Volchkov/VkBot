@@ -46,8 +46,7 @@ namespace VkBot.Bot.Help
                         {
                             await Task.Delay(100);
                         }
-                    }
-                   
+                    }           
                 }
             });
         }

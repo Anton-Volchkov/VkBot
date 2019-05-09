@@ -18,7 +18,7 @@ namespace VkBot.Bot.Commands
         public async Task<string> Execute(Message msg)
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
-            var city = split[1].Trim();
+            var city = split[1].Trim().ToLower();
             return await _weather.GetWeather(city);
         }
     }

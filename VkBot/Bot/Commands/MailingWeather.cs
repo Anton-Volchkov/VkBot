@@ -37,7 +37,7 @@ namespace VkBot.Bot.Commands
             }
             else
             {
-                var city = split[1].Trim();
+                var city = split[1].Trim().ToLower();
                 city = char.ToUpper(city[0]) + city.Substring(1);
                 user.City = city;
                 user.Weather = true;
