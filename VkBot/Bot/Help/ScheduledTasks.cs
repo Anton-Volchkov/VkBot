@@ -39,7 +39,7 @@ namespace VkBot.Bot.Help
                             {
                                 RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
                                 UserId = id,
-                                Message = await _weather.GetDailyWeather(group.Key, DateTime.Today)
+                                Message = await _weather.GetDailyWeather(group.Key)
                             });
                         }
                         catch(Exception)
