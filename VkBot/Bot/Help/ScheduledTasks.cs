@@ -42,11 +42,12 @@ namespace VkBot.Bot.Help
                                 Message = await _weather.GetDailyWeather(group.Key, DateTime.Today)
                             });
                         }
-                        finally
+                        catch(Exception)
                         {
-                            await Task.Delay(100);
                         }
-                    }           
+
+                        await Task.Delay(100);
+                    }
                 }
             });
         }
