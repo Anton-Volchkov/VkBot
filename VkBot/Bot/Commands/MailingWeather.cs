@@ -42,7 +42,8 @@ namespace VkBot.Bot.Commands
                 user.City = city;
                 user.Weather = true;
                 await _db.SaveChangesAsync();
-                return $"{vkUser.FirstName} {vkUser.LastName}, подписка на рассылку погоды в городе {city} успешно оформлена!";
+                return $"{vkUser.FirstName} {vkUser.LastName}, подписка на рассылку погоды в городе {city} успешно оформлена!\n" +
+                       $"ВАЖНО: Для корректной рассылки погоды у вас должен быть диалог с ботом. Если его нет, пожалуйста напишите ему любоое сообщение https://vk.com/kerlibot.";
             }
 
 
