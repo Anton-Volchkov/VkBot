@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
@@ -12,7 +10,7 @@ namespace VkBot.Bot.Commands
 {
     public class DeleteMemory : IBotCommand
     {
-        public string[] Alliases { get; set; } = {"забудь"};
+        public string[] Alliases { get; set; } = { "забудь" };
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
 
@@ -28,7 +26,7 @@ namespace VkBot.Bot.Commands
 
             var userMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
 
-            if (userMemory == null)
+            if(userMemory == null)
             {
                 return $"{user.FirstName} {user.LastName} вас нет в моей базе!";
             }

@@ -1,11 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenWeatherMap.Models.Daily
 {
-    public partial class DailyWeather
+    public class DailyWeather
     {
         [JsonProperty("cod")]
         public string Cod { get; set; }
@@ -23,7 +20,7 @@ namespace OpenWeatherMap.Models.Daily
         public City City { get; set; }
     }
 
-    public partial class City
+    public class City
     {
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -41,7 +38,7 @@ namespace OpenWeatherMap.Models.Daily
         public long Population { get; set; }
     }
 
-    public partial class Coord
+    public class Coord
     {
         [JsonProperty("lat")]
         public double Lat { get; set; }
@@ -50,7 +47,7 @@ namespace OpenWeatherMap.Models.Daily
         public double Lon { get; set; }
     }
 
-    public partial class List
+    public class List
     {
         [JsonProperty("dt")]
         public long Dt { get; set; }
@@ -77,13 +74,13 @@ namespace OpenWeatherMap.Models.Daily
         public Rain Rain { get; set; }
     }
 
-    public partial class Clouds
+    public class Clouds
     {
         [JsonProperty("all")]
         public long All { get; set; }
     }
 
-    public partial class Main
+    public class Main
     {
         [JsonProperty("temp")]
         public double Temp { get; set; }
@@ -110,19 +107,19 @@ namespace OpenWeatherMap.Models.Daily
         public double TempKf { get; set; }
     }
 
-    public partial class Rain
+    public class Rain
     {
         [JsonProperty("3h")]
         public double The3H { get; set; }
     }
 
-    public partial class Sys
+    public class Sys
     {
         [JsonProperty("pod")]
         public string Pod { get; set; }
     }
 
-    public partial class Weather
+    public class Weather
     {
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -137,7 +134,7 @@ namespace OpenWeatherMap.Models.Daily
         public string Icon { get; set; }
     }
 
-    public partial class Wind
+    public class Wind
     {
         [JsonProperty("speed")]
         public double Speed { get; set; }
@@ -145,6 +142,4 @@ namespace OpenWeatherMap.Models.Daily
         [JsonProperty("deg")]
         public double Deg { get; set; }
     }
-
 }
-

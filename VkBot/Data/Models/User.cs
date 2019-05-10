@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace VkBot.Data.Models
+﻿namespace VkBot.Data.Models
 {
     public class User
     {
@@ -12,6 +7,5 @@ namespace VkBot.Data.Models
         public long? Vk { get; set; }
         public bool Weather { get; set; }
         public string City { get; set; }
-
     }
 }

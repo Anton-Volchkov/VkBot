@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
+﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace VkBot.Data.Models
 {
@@ -8,6 +8,7 @@ namespace VkBot.Data.Models
         public DbSet<Common> Commons { get; set; }
         public DbSet<UserMemory> Memories { get; set; }
         public DbSet<User> Users { get; set; }
+
         public MainContext(DbContextOptions<MainContext> options) : base(options)
         {
             //TODO: это не нужно вообще здесь
@@ -23,6 +24,5 @@ namespace VkBot.Data.Models
         {
             return Users.AsNoTracking().Where(x => x.Weather && x.City != "").ToArray();
         }
-
     }
 }

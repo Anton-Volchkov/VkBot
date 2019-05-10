@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
@@ -12,14 +10,14 @@ namespace VkBot.Bot.Commands
 {
     public class GetMemory : IBotCommand
     {
-        public string[] Alliases { get; set; } = {"память"};
+        public string[] Alliases { get; set; } = { "память" };
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
 
         public GetMemory(MainContext db, IVkApi api)
         {
             _vkApi = api;
-            _db = db;    
+            _db = db;
         }
 
         public async Task<string> Execute(Message msg)
@@ -28,11 +26,12 @@ namespace VkBot.Bot.Commands
 
             var userMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
 
-            if (userMemory == null)
+            if(userMemory == null)
             {
                 return $"{user.FirstName} {user.LastName} - Я вас еще не знаю. ";
             }
-            string sendText = string.IsNullOrWhiteSpace(userMemory.Memory)? "Ваших данных нет в базе!" : userMemory.Memory;
+
+            var sendText = string.IsNullOrWhiteSpace(userMemory.Memory) ? "Ваших данных нет в базе!" : userMemory.Memory;
             return $"{user.FirstName} {user.LastName} ваши данные: \n {sendText}";
         }
     }

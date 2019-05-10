@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace VkBot.Data.Models
+﻿namespace VkBot.Data.Models
 {
     public class UserMemory
     {

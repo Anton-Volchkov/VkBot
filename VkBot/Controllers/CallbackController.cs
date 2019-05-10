@@ -9,6 +9,7 @@ using VkNet.Abstractions;
 using VkNet.Model;
 using VkNet.Model.RequestParams;
 using VkNet.Utils;
+using User = VkBot.Data.Models.User;
 
 namespace VkBot.Controllers
 {
@@ -26,6 +27,7 @@ namespace VkBot.Controllers
         private readonly CommandExecutor commandExec;
 
         private readonly MainContext _db;
+
         //private Random rnd = new Random(); //TODO: почему нигде не используется
 
         public CallbackController(IVkApi vkApi, IConfiguration configuration, CommandExecutor cmdExec, MainContext db)
@@ -59,9 +61,9 @@ namespace VkBot.Controllers
                 //а если начинается, то вот
                 msg.Text = string.Join(' ', msg.Text.Split(' ').Skip(1)); // убираем !бот
 
-                if (_db.GetUsers().All(x => x.Vk != msg.FromId))
+                if(_db.GetUsers().All(x => x.Vk != msg.FromId))
                 {
-                    await _db.Users.AddAsync(new Data.Models.User { Vk = msg.FromId });
+                    await _db.Users.AddAsync(new User { Vk = msg.FromId });
                     await _db.SaveChangesAsync();
                 }
 
@@ -71,6 +73,7 @@ namespace VkBot.Controllers
                 #endregion
 
                 var text = await commandExec.HandleMessage(msg);
+
                 // Отправим в ответ полученный от пользователя текст
                 _vkApi.Messages.Send(new MessagesSendParams
                 {

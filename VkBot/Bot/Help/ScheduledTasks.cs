@@ -1,12 +1,11 @@
-﻿using Hangfire;
-using OpenWeatherMap;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
+using OpenWeatherMap;
 using VkBot.Data.Models;
-using VkNet;
 using VkNet.Abstractions;
+using VkNet.Model.RequestParams;
 
 namespace VkBot.Bot.Help
 {
@@ -15,6 +14,7 @@ namespace VkBot.Bot.Help
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
         private readonly WeatherInfo _weather;
+
         public ScheduledTask(MainContext db, IVkApi vkApi, WeatherInfo weather)
         {
             _db = db;
@@ -23,28 +23,28 @@ namespace VkBot.Bot.Help
 
             InitJobs();
         }
+
         public async Task SendWeather()
         {
             await Task.Factory.StartNew(async () =>
             {
                 var grouped = _db.GetWeatherUsers().GroupBy(x => x.City);
-                foreach (var group in grouped)
+                foreach(var group in grouped)
                 {
                     var ids = group.Select(x => x.Vk).ToArray();
-                    foreach (var id in ids)
-                    {   ///нужен блок try потому что если у человека закрыта личка но он был подписан на рассылку, вылетает ексепшн и для других рассылка не идёт
+                    foreach(var id in ids)
+                    {
+                        //нужен блок try потому что если у человека закрыта личка но он был подписан на рассылку, вылетает ексепшн и для других рассылка не идёт
                         try
                         {
-                            await _vkApi.Messages.SendAsync(new VkNet.Model.RequestParams.MessagesSendParams
+                            await _vkApi.Messages.SendAsync(new MessagesSendParams
                             {
                                 RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
                                 UserId = id,
                                 Message = await _weather.GetDailyWeather(group.Key)
                             });
                         }
-                        catch(Exception)
-                        {
-                        }
+                        catch(Exception) { }
 
                         await Task.Delay(100);
                     }
@@ -52,10 +52,7 @@ namespace VkBot.Bot.Help
             });
         }
 
-        public void Dummy()
-        {
-
-        }
+        public void Dummy() { }
 
         private void InitJobs()
         {

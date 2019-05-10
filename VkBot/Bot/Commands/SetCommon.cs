@@ -37,9 +37,9 @@ namespace VkBot.Bot.Commands
             }
             else
             {
-                await _db.Commons.AddAsync(new Data.Models.Common
+                await _db.Commons.AddAsync(new Common
                 {
-                   СommonInfo = text
+                    СommonInfo = text
                 });
             }
 

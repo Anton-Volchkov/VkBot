@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using VkBot.Data.Abstractions;
-using VkNet.Abstractions;
 using VkNet.Model;
 
 namespace VkBot.Bot.Commands
@@ -19,9 +17,6 @@ namespace VkBot.Bot.Commands
 
         public async Task<string> Execute(Message msg)
         {
-            //TODO: неиспользуемая переменная
-            //var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
-
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
             var param = split[1].Trim();
 
