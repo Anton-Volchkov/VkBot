@@ -25,8 +25,8 @@ namespace VkBot.Bot.Commands
                 strBuilder.AppendLine("Бот память (выведет данные которые вы просили запомнить)");
                 strBuilder.AppendLine("Бот забудь (забудет введенные данные)");
                 strBuilder.AppendLine("Бот погода + название города");
-                strBuilder.AppendLine("Бот курс + (доллар, евро, рубль)");
-                strBuilder.AppendLine("Бот конвертируй + имя валюты (доллар, евро, рубль) + сколько(100,200,150)");
+                strBuilder.AppendLine("Бот курс + (USD, EUR, RUR, UAH)");
+                strBuilder.AppendLine("Бот конвертируй + имя валюты (USD, EUR, RUR, UAH) + сколько(100,200,150)");
                 strBuilder.AppendLine("Бот посчитай + выражение которое нужно посчитать");
                 strBuilder.AppendLine("Бот любовь + с кем или с чем проверить процент любви");
                 strBuilder.AppendLine("Бот звонок");

@@ -34,7 +34,7 @@ namespace VkBot.Bot.Commands
             var currency = await _currencyInfo.GetCurrency(result.Code);
 
             var strBuilder = new StringBuilder();
-            strBuilder.AppendFormat("Конвертация {0} в BYN", currency.Abbreviation).AppendLine();
+            strBuilder.AppendFormat("Конвертация {0} в BYN по курсу НБ РБ", currency.Abbreviation).AppendLine();
             strBuilder.AppendLine("_____________").AppendLine();
             strBuilder.AppendFormat("{0} {1} = {2} BYN",
                                     split[2], currency.Abbreviation, currency.OfficialRate * inputMoney / currency.Scale)

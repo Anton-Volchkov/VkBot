@@ -49,6 +49,11 @@ namespace CurrencyConverter
                 code = 298;
                 name = "RUR";
             }
+            else if (name == "uah" || name == "украинский")
+            {
+                code = 290;
+                name = "UAH";
+            }
             else
             {
                 code = 0;

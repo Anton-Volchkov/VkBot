@@ -29,7 +29,7 @@ namespace VkBot.Bot.Commands
             var currency = await _currencyInfo.GetCurrency(result.Code);
 
             var strBuilder = new StringBuilder();
-            strBuilder.AppendFormat("Курс {0}", currency.Abbreviation).AppendLine();
+            strBuilder.AppendFormat("Курс {0} НБ РБ", currency.Abbreviation).AppendLine();
             strBuilder.AppendLine("_____________").AppendLine();
             strBuilder.AppendLine($"{currency.Scale} {currency.Abbreviation} = {currency.OfficialRate} BYN");
             strBuilder.AppendLine("_____________");
