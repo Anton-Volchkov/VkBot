@@ -21,6 +21,7 @@ namespace VkBot.Bot.Commands
                 strBuilder.AppendLine("Бот команды");
                 strBuilder.AppendLine("Бот подписка + название города (подписывает вас на рассылку погоды по утрам для данного города)");
                 strBuilder.AppendLine("Бот отписка (отписывает от рассылки погоды по утрам)");
+                strBuilder.AppendLine("Бот вики + заголовок запроса (возвращает ответ по запросу с Wikipedia)");
                 strBuilder.AppendLine("Бот личное [в квадратных скобках указать что запомнить боту])");
                 strBuilder.AppendLine("Бот память (выведет данные которые вы просили запомнить)");
                 strBuilder.AppendLine("Бот забудь (забудет введенные данные)");
