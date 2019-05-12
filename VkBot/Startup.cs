@@ -15,6 +15,7 @@ using VkBot.Data.Models;
 using VkNet;
 using VkNet.Abstractions;
 using VkNet.Model;
+using WikipediaApi;
 
 namespace VkBot
 {
@@ -41,7 +42,10 @@ namespace VkBot
                 return api;
             });
             services.AddSingleton(x => new WeatherInfo(Configuration["Config:OWM_Token"]));
+
             services.AddSingleton<CurrencyInfo>();
+
+            services.AddSingleton<WikiApi>();
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<MainContext>(options => options.UseNpgsql(connectionString));

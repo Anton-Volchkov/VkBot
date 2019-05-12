@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.489
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot", "VkBot\VkBot.csproj", "{5090AC66-3447-42E4-BF48-6A7D1BC377E9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWeatherMap", "OpenWeatherMap\OpenWeatherMap.csproj", "{E0DA7265-20A4-4EF0-8060-9E76592F5EE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyConverter", "CurrencyConverter\CurrencyConverter.csproj", "{9F8FF07E-54D8-4FBB-96ED-7C0C44366B30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyConverter", "CurrencyConverter\CurrencyConverter.csproj", "{9F8FF07E-54D8-4FBB-96ED-7C0C44366B30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikipediaApi", "WikipediaApi\WikipediaApi.csproj", "{B4C4E978-1B9E-4CB2-B933-553EAE76EE83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{9F8FF07E-54D8-4FBB-96ED-7C0C44366B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F8FF07E-54D8-4FBB-96ED-7C0C44366B30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F8FF07E-54D8-4FBB-96ED-7C0C44366B30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4C4E978-1B9E-4CB2-B933-553EAE76EE83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4C4E978-1B9E-4CB2-B933-553EAE76EE83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4C4E978-1B9E-4CB2-B933-553EAE76EE83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4C4E978-1B9E-4CB2-B933-553EAE76EE83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
