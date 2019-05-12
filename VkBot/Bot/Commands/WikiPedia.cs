@@ -36,7 +36,6 @@ namespace VkBot.Bot.Commands
             var split = msg.Text.Split(' ',2);
 
             string titles = split[1];
-            titles = char.ToUpper(titles[0]) + titles.Substring(1);
 
             var response = await Client.GetAsync($"?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles={titles}");
 
