@@ -18,6 +18,7 @@
       <ProjectReference Include="..\CurrencyConverter\CurrencyConverter.csproj" />
       <ProjectReference Include="..\OpenWeatherMap\OpenWeatherMap.csproj" />
       <ProjectReference Include="..\WikipediaApi\WikipediaApi.csproj" />
+      <ProjectReference Include="..\YandexTranslator\YandexTranslator.csproj" />
     </ItemGroup>
 
 </Project>

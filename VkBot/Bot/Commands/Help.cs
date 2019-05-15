@@ -36,6 +36,8 @@ namespace VkBot.Bot.Commands
                 strBuilder.AppendLine("Бот рулетка");
                 strBuilder.AppendLine("Бот запомни + переслать сообщение которое нужно запомнить (оно будет общее для всех пользователей)");
                 strBuilder.AppendLine("Бот общее (сообщение которое запомнили при помощи !бот запомни)").AppendLine();
+                strBuilder.AppendLine("Бот перевод c языка - на язык Текст");
+                strBuilder.AppendLine("Пример: !Бот перевод ru-en Привет\n(Переведёт с Русского на Английский текст 'Привет')");
                 strBuilder.AppendLine("_____________");
 
                 return strBuilder.ToString();

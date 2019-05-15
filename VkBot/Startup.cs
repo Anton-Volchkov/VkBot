@@ -16,6 +16,7 @@ using VkNet;
 using VkNet.Abstractions;
 using VkNet.Model;
 using WikipediaApi;
+using YandexTranslator;
 
 namespace VkBot
 {
@@ -41,7 +42,10 @@ namespace VkBot
                 api.Authorize(new ApiAuthParams { AccessToken = Configuration["Config:AccessToken"] });
                 return api;
             });
+           
             services.AddSingleton(x => new WeatherInfo(Configuration["Config:OWM_Token"]));
+
+            services.AddSingleton(x => new Translator(Configuration["Config:YT_Token"]));
 
             services.AddSingleton<CurrencyInfo>();
 

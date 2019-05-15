@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWeatherMap", "OpenWeath
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyConverter", "CurrencyConverter\CurrencyConverter.csproj", "{9F8FF07E-54D8-4FBB-96ED-7C0C44366B30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikipediaApi", "WikipediaApi\WikipediaApi.csproj", "{B4C4E978-1B9E-4CB2-B933-553EAE76EE83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikipediaApi", "WikipediaApi\WikipediaApi.csproj", "{B4C4E978-1B9E-4CB2-B933-553EAE76EE83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YandexTranslator", "YandexTranslator\YandexTranslator.csproj", "{897F1EC7-FB4C-43D0-96BE-86026ADF6335}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B4C4E978-1B9E-4CB2-B933-553EAE76EE83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4C4E978-1B9E-4CB2-B933-553EAE76EE83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4C4E978-1B9E-4CB2-B933-553EAE76EE83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{897F1EC7-FB4C-43D0-96BE-86026ADF6335}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{897F1EC7-FB4C-43D0-96BE-86026ADF6335}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{897F1EC7-FB4C-43D0-96BE-86026ADF6335}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{897F1EC7-FB4C-43D0-96BE-86026ADF6335}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
