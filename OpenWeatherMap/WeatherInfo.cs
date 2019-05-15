@@ -35,9 +35,20 @@ namespace OpenWeatherMap
         {
             city = char.ToUpper(city[0]) + city.Substring(1); //TODO ?
             var response = await Client.GetAsync($"weather?q={city}&units=metric&appid={Token}&lang={Lang}");
-            if(!response.IsSuccessStatusCode)
+
+            if (!response.IsSuccessStatusCode)
             {
-                return $"Город {city} не найден.";
+                var newCity = city.Replace("е", "ё");
+                response = await Client.GetAsync($"weather?q={newCity}&units=metric&appid={Token}&lang={Lang}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return $"Город {city} не найден.";
+                }
+                else
+                {
+                    city = newCity;
+                }
             }
 
             var w = JsonConvert.DeserializeObject<Models.WeatherInfo>(await response.Content.ReadAsStringAsync());
