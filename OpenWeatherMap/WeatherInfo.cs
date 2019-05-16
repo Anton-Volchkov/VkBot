@@ -76,6 +76,22 @@ namespace OpenWeatherMap
             const int count = 8;
 
             var response = await Client.GetAsync($"forecast?q={city}&units=metric&appid={Token}&cnt={count}&lang={Lang}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var newCity = city.Replace("е", "ё");
+                response = await Client.GetAsync($"forecast?q={newCity}&units=metric&appid={Token}&cnt={count}&lang={Lang}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return $"Город {city} не найден. Проверьте введённые данные.";
+                }
+                else
+                {
+                    city = newCity;
+                }
+            }
+
             var weatherToday = JsonConvert.DeserializeObject<DailyWeather>(await response.Content.ReadAsStringAsync());
 
             if(weatherToday is null)
