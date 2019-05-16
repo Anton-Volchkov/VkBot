@@ -24,11 +24,16 @@ namespace VkBot.Bot.Commands
         {
             var split = msg.Text.Split(' ', 3); // [команда, параметры, текст]
 
+            var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
+
+            if (split.Length != 3)
+            {
+                return $"{user.FirstName} {user.LastName}, проверьте введённые данные.";
+            }
+
             var lang = split[1].Trim().ToLower();
 
             var text = split[2].Trim();
-
-            var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
             return $"{user.FirstName} {user.LastName}, перевод вашего текста\n\n{await _translator.Translate(text,lang)}";
         }
