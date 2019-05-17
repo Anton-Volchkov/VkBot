@@ -10,6 +10,8 @@ namespace VkBot.Bot.Commands
     {
         private readonly CurrencyInfo _currencyInfo;
         public string[] Alliases { get; set; } = { "конвертируй" };
+        public string Description { get; set; } = "Команда !Бот конвертируй конвертирует переданную вами валюту(по курсу НБ РБ) в BYN." +
+                                                  "\nПример: !Бот конвертируй USD 100";
 
         public CurrencyConverter(CurrencyInfo currencyInfo)
         {

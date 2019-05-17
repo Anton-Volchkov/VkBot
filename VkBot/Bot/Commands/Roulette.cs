@@ -9,6 +9,9 @@ namespace VkBot.Bot.Commands
     public class Roulette : IBotCommand
     {
         public string[] Alliases { get; set; } = { "рулетка" };
+        public string Description { get; set; } = "Команда !Бот рулетка является развлекательно командой, она скажет вам удалось ли вам выжить в русской рулетке." +
+                                                  "\nПример: !Бот рулетка";
+
         private readonly IVkApi _vkApi;
 
         public Roulette(IVkApi api)

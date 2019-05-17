@@ -11,6 +11,9 @@ namespace VkBot.Bot.Commands
     public class SetMemory : IBotCommand
     {
         public string[] Alliases { get; set; } = { "личное" };
+        public string Description { get; set; } = "Команда !Бот личное запомнит текст который вы передадите ТОЛЬКО для вас.Получить его можно через команду !бот память." +
+                                                  "\nПример: !Бот личное [Что-то личное, что запомнит бот] ";
+
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
 

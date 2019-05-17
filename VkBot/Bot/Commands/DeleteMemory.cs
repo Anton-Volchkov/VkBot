@@ -11,6 +11,9 @@ namespace VkBot.Bot.Commands
     public class DeleteMemory : IBotCommand
     {
         public string[] Alliases { get; set; } = { "забудь" };
+        public string Description { get; set ; }= "Команда !Бот забудь забывает все введённые вами данный(при помощи команды !Бот личное)." +
+                                                  "\nПример: !Бот забудь";
+
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
 

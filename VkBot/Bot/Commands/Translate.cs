@@ -12,6 +12,9 @@ namespace VkBot.Bot.Commands
     public class Translate : IBotCommand
     {
         public string[] Alliases { get; set; } = { "перевод", "переводчик" };
+        public string Description { get; set; } = "Команда !Бот перевод переведёт ваш текст с выбранного языка на выбранный язык." +
+                                                  "\nПример: !Бот перевод ru-en Привет\nP.S Переведёт с Русского на Английский текст Привет";
+
         private readonly IVkApi _vkApi;
         private readonly Translator _translator;
         public Translate(IVkApi vkApi, Translator translator)

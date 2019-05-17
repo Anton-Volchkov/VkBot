@@ -9,6 +9,9 @@ namespace VkBot.Bot.Commands
     public class Random : IBotCommand
     {
         public string[] Alliases { get; set; } = { "рандом" };
+        public string Description { get; set; } = "Команда !Бот рандом возвращает вам случайно число в диапазоне от 1 до 100." +
+                                                  "\nПример: !Бот рандом ";
+
         private readonly IVkApi _vkApi;
 
         public Random(IVkApi api)

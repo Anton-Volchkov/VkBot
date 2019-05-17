@@ -9,6 +9,9 @@ namespace VkBot.Bot.Commands
     public class BicepsMetr : IBotCommand
     {
         public string[] Alliases { get; set; } = { "бицепсметр", "битка", "бицметр" };
+        public string Description { get; set; } = "Команда !Бот бицепсметр является развлекательной командой.Она скажет вам размер вашего бицепса по мнению бота." +
+                                                  "\nПример: !Бот бицепсметр";
+
         private readonly IVkApi _vkApi;
 
         public BicepsMetr(IVkApi api)

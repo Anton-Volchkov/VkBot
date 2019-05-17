@@ -9,6 +9,9 @@ namespace VkBot.Bot.Commands
     public class SetCommon : IBotCommand
     {
         public string[] Alliases { get; set; } = { "запомни" };
+        public string Description { get; set; } = "Команда !Бот запомни, запоминает пересланное вам сообщение как общее сообщение для всех кто будет его запрашивать." +
+                                                  "\nПример: !Бот запомни + пересланное сообщение ";
+
         private readonly MainContext _db;
 
         public SetCommon(MainContext db)

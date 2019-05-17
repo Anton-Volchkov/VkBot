@@ -11,6 +11,9 @@ namespace VkBot.Bot.Commands
     public class MailingWeather : IBotCommand
     {
         public string[] Alliases { get; set; } = { "подписка", "отписка" };
+        public string Description { get; set; } = "Команда !Бот подписка подписывает вас на рассылку погоды по указанному городу." +
+                                                  "\nПример: !Бот подписка Витебск ";
+
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
 

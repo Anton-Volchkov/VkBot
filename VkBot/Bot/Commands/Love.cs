@@ -8,6 +8,8 @@ namespace VkBot.Bot.Commands
     {
         //private readonly IVkApi _vkApi;
         public string[] Alliases { get; set; } = { "любовь" };
+        public string Description { get; set; } = "Команда !Бот любовь является развлекательно командой, она скажет вам процент любви с чем либо по мнению бота." +
+                                                  "\nПример: !Бот любовь с Ботом ";
 
         //public Love(IVkApi api)
         //{

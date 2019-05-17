@@ -11,6 +11,9 @@ namespace VkBot.Bot.Commands
     public class GetMemory : IBotCommand
     {
         public string[] Alliases { get; set; } = { "память" };
+        public string Description { get; set; } = "Команда !Бот память вернёт вам ваши данные, которые вы запомнили при помощи команды !бот личное." +
+                                                  "\nПример: !Бот память ";
+
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
 

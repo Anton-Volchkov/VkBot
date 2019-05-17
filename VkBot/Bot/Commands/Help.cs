@@ -9,6 +9,8 @@ namespace VkBot.Bot.Commands
     {
         // public string Name { get; set; } = "Помощь";
         public string[] Alliases { get; set; } = { "команды", "помоги", "хелп" };
+        public string Description { get; set; } = "Команда !Бот команды возвращает вам список доступных команд." +
+                                                  "\nПример: !Бот команды ";
 
         public Task<string> Execute(Message msg)
         {

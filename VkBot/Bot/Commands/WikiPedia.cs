@@ -14,6 +14,8 @@ namespace VkBot.Bot.Commands
     public class WikiPedia : IBotCommand
     {
         public string[] Alliases { get; set; } = { "вики","википедия" };
+        public string Description { get; set; } = "Команда !Бот вики вернёт вам информацию по вашему с вопросы, если она там будет, с Википедии." +
+                                                  "\nПример: !Бот вики Компьютер ";
 
         private readonly IVkApi _vkApi;
 

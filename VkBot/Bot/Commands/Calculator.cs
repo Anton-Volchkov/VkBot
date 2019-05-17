@@ -11,6 +11,9 @@ namespace VkBot.Bot.Commands
     public class Calculator : IBotCommand
     {
         public string[] Alliases { get; set; } = { "калькулятор", "посчитай" };
+        public string Description { get; set; } = "Команда !Бот калькулятор вернёт вам результат выражения которое вы передадите." +
+                                                  "\nПример: !Бот калькулятор 2+2";
+
         private readonly IVkApi _vkApi;
 
         public Calculator(IVkApi api)
