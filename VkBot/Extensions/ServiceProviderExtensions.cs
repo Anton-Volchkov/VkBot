@@ -28,7 +28,7 @@ namespace VkBot
             services.AddScoped<IBotCommand, MailingWeather>();
             services.AddScoped<IBotCommand, WikiPedia>();
             services.AddScoped<IBotCommand, Translate>();
-            services.AddScoped<IBotCommand, Info>();
+            services.AddScoped<IInfo, Info>();
         }
     }
 }

@@ -10,10 +10,11 @@ namespace VkBot.Bot
     {
         private const string ErrorMessage = "Я не знаю такой команды =(";
         private readonly IBotCommand[] Commands;
-
-        public CommandExecutor(IEnumerable<IBotCommand> commands)
+        private readonly IInfo _info;
+        public CommandExecutor(IEnumerable<IBotCommand> commands, IInfo info)
         {
             Commands = commands.ToArray();
+            _info = info;
         }
 
         // тут вся логика обработки команд
@@ -24,6 +25,11 @@ namespace VkBot.Bot
             var cmd = split[0].ToLower();
 
             //var cmd = msg.Text.ToLower();
+            if (cmd == "инфо" || cmd == "информация")
+            {
+                return await _info.Execute(msg);
+            }
+
             foreach(var command in Commands)
             {
                 if(!command.Alliases.Contains(cmd))

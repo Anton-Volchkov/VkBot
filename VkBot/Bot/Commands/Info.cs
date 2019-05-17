@@ -7,16 +7,17 @@ using VkNet.Model;
 
 namespace VkBot.Bot.Commands
 {
-    public class Info : IBotCommand
+    public class Info : IInfo
     {
         public string[] Alliases { get; set; } = { "инфо", "информация" };
         public string Description { get; set; } = "Команда !Бот инфо информацию о команде и пример ее использования." +
                                                   "\nПример: !Бот инфо Звонок ";
 
         private readonly IBotCommand[] Commands;
+
         public Info(IEnumerable<IBotCommand> commands)
-        {
-            Commands = commands.ToArray();
+        {  
+                Commands = commands.ToArray(); 
         }
     
 
