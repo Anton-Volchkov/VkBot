@@ -25,7 +25,7 @@ namespace VkBot.Bot.Commands
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
 
-            if (split[1].Trim().ToLower() == "инфо" || split[1].Trim().ToLower() == "информация")
+            if (this.Alliases.Contains(split[1].Trim().ToLower()))
             {
                 return this.Description;
             }

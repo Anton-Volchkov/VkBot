@@ -25,7 +25,7 @@ namespace VkBot.Bot
             var cmd = split[0].ToLower();
 
             //var cmd = msg.Text.ToLower();
-            if (cmd == "инфо" || cmd == "информация")
+            if (_info.Alliases.Contains(cmd))
             {
                 return await _info.Execute(msg);
             }
