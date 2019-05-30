@@ -18,7 +18,7 @@ namespace VkBot.Bot.Commands
             {
                 var strBuilder = new StringBuilder();
                 strBuilder.AppendLine("***КОМАНДЫ БОТА****");
-                strBuilder.AppendLine("Перед каждой командой нужно ставить восклицательный знак.Пример: !Команда");
+                strBuilder.AppendLine("Перед каждой командой нужно ставить восклицательный знак.\nПример: !Команда");
                 strBuilder.AppendLine("_____________").AppendLine();
                 strBuilder.AppendLine("!Бот команды");
                 strBuilder.AppendLine("!Бот инфо + команда (Пример: !Бот инфо Подписка ). Команды вы видите в этом списке, нужно лишь убрать слово !Бот");
