@@ -100,10 +100,10 @@ namespace OpenWeatherMap
             }
 
             var strBuilder = new StringBuilder();
-            strBuilder.AppendFormat("Погода в городе {0} на сегодня ({1:dddd, d MMMM}):", city, date).AppendLine();
+            strBuilder.AppendFormat("Погода в городе {0} на сегодня ({1:dddd, d MMMM}):", city, date).AppendLine().AppendLine();
             foreach(var weatherHourly in weatherToday.List)
             {
-                strBuilder.AppendFormat("Время: {0} ({1})", weatherHourly.DtTxt.ToString("HH:mm"), weatherHourly.DtTxt.ToString("dd.MM.yyyy")).AppendLine();
+                strBuilder.AppendFormat("Время: {0:HH:mm (dd.MM.yyyy)}", weatherHourly.DtTxt).AppendLine();
                 strBuilder.AppendFormat("Температура: {0:+#;-#;0}°С", weatherHourly.Main.Temp).AppendLine();
                 strBuilder.AppendFormat("Описание погоды: {0}", weatherHourly.Weather[0].Description).AppendLine();
                 strBuilder.AppendFormat("Влажность: {0}%", weatherHourly.Main.Humidity).AppendLine();
