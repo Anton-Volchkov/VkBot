@@ -8,10 +8,6 @@ namespace VkBot.Bot.Commands
 {
     public class Roulette : IBotCommand
     {
-        public string[] Alliases { get; set; } = { "рулетка" };
-        public string Description { get; set; } = "Команда !Бот рулетка является развлекательно командой, она скажет вам удалось ли вам выжить в русской рулетке." +
-                                                  "\nПример: !Бот рулетка";
-
         private readonly IVkApi _vkApi;
 
         public Roulette(IVkApi api)
@@ -19,20 +15,22 @@ namespace VkBot.Bot.Commands
             _vkApi = api;
         }
 
+        public string[] Alliases { get; set; } = { "рулетка" };
+
+        public string Description { get; set; } =
+            "Команда !Бот рулетка является развлекательно командой, она скажет вам удалось ли вам выжить в русской рулетке." +
+            "\nПример: !Бот рулетка";
+
         public async Task<string> Execute(Message msg)
         {
             var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
             string roulette;
 
             //TODO: плохое решение
-            if(new System.Random().Next(1, 7) == new System.Random().Next(1, 7))
-            {
+            if (new System.Random().Next(1, 7) == new System.Random().Next(1, 7))
                 roulette = $"{user.FirstName} {user.LastName} погиб(ла) в рулетке...PRESS F TO PAY RESPECT!";
-            }
             else
-            {
                 roulette = $"{user.FirstName} {user.LastName} выжил(а) в рулетке! Поздравляем!";
-            }
 
             return roulette;
         }

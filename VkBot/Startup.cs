@@ -22,8 +22,6 @@ namespace VkBot
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-
         public Startup(IHostingEnvironment env)
         {
             var culture = new CultureInfo("ru-RU");
@@ -31,17 +29,16 @@ namespace VkBot
             CultureInfo.DefaultThreadCurrentUICulture = culture;
 
             var builder = new ConfigurationBuilder()
-                          .SetBasePath(env.ContentRootPath)
-                          .AddJsonFile("appsettings.json", false, true)
-                          .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
-                          .AddEnvironmentVariables();
-            if (env.IsDevelopment())
-            {
-                builder.AddUserSecrets<Startup>();
-            }
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+                .AddEnvironmentVariables();
+            if (env.IsDevelopment()) builder.AddUserSecrets<Startup>();
 
             Configuration = builder.Build();
         }
+
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -53,7 +50,7 @@ namespace VkBot
                 api.RequestsPerSecond = 20;
                 return api;
             });
-           
+
             services.AddSingleton(x => new WeatherInfo(Configuration["Config:OWM_Token"]));
 
             services.AddSingleton(x => new Translator(Configuration["Config:YT_Token"]));
@@ -78,15 +75,11 @@ namespace VkBot
             var options = new BackgroundJobServerOptions { WorkerCount = Environment.ProcessorCount * 2 };
             app.UseHangfireServer(options);
 
-            if(env.IsDevelopment())
-            {
+            if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
-            }
             else
-            {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
 
             app.UseHttpsRedirection();
             app.UseMvc();

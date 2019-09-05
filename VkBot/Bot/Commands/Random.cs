@@ -8,10 +8,6 @@ namespace VkBot.Bot.Commands
 {
     public class Random : IBotCommand
     {
-        public string[] Alliases { get; set; } = { "рандом" };
-        public string Description { get; set; } = "Команда !Бот рандом возвращает вам случайно число в диапазоне от 1 до 100." +
-                                                  "\nПример: !Бот рандом ";
-
         private readonly IVkApi _vkApi;
 
         public Random(IVkApi api)
@@ -19,11 +15,18 @@ namespace VkBot.Bot.Commands
             _vkApi = api;
         }
 
+        public string[] Alliases { get; set; } = { "рандом" };
+
+        public string Description { get; set; } =
+            "Команда !Бот рандом возвращает вам случайно число в диапазоне от 1 до 100." +
+            "\nПример: !Бот рандом ";
+
         public async Task<string> Execute(Message msg)
         {
             var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
-            return $"{user.FirstName} {user.LastName}, в промежутке от 1 до 100 выпало число - {new System.Random().Next(1, 100)}";
+            return
+                $"{user.FirstName} {user.LastName}, в промежутке от 1 до 100 выпало число - {new System.Random().Next(1, 100)}";
         }
     }
 }

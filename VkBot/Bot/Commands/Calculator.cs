@@ -10,16 +10,18 @@ namespace VkBot.Bot.Commands
 {
     public class Calculator : IBotCommand
     {
-        public string[] Alliases { get; set; } = { "калькулятор", "посчитай" };
-        public string Description { get; set; } = "Команда !Бот калькулятор вернёт вам результат выражения которое вы передадите." +
-                                                  "\nПример: !Бот калькулятор 2+2";
-
         private readonly IVkApi _vkApi;
 
         public Calculator(IVkApi api)
         {
             _vkApi = api;
         }
+
+        public string[] Alliases { get; set; } = { "калькулятор", "посчитай" };
+
+        public string Description { get; set; } =
+            "Команда !Бот калькулятор вернёт вам результат выражения которое вы передадите." +
+            "\nПример: !Бот калькулятор 2+2";
 
         public async Task<string> Execute(Message msg)
         {
@@ -34,7 +36,7 @@ namespace VkBot.Bot.Commands
                 var answer = Convert.ToString(a.Compute(expression, ""));
                 return $"{user.FirstName} {user.LastName}, ответ вашего выражения = {answer}";
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return $"{user.FirstName} {user.LastName}, я не смог посчитать это... =(";
             }

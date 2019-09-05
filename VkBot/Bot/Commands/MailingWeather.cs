@@ -10,10 +10,6 @@ namespace VkBot.Bot.Commands
 {
     public class MailingWeather : IBotCommand
     {
-        public string[] Alliases { get; set; } = { "подписка", "отписка" };
-        public string Description { get; set; } = "Команда !Бот подписка подписывает вас на рассылку погоды по указанному городу." +
-                                                  "\nПример: !Бот подписка Витебск ";
-
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
 
@@ -23,6 +19,12 @@ namespace VkBot.Bot.Commands
             _vkApi = vkApi;
         }
 
+        public string[] Alliases { get; set; } = { "подписка", "отписка" };
+
+        public string Description { get; set; } =
+            "Команда !Бот подписка подписывает вас на рассылку погоды по указанному городу." +
+            "\nПример: !Бот подписка Витебск ";
+
         public async Task<string> Execute(Message msg)
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
@@ -30,7 +32,7 @@ namespace VkBot.Bot.Commands
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value);
             var vkUser = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
-            if(command == "отписка")
+            if (command == "отписка")
             {
                 user.Weather = false;
                 await _db.SaveChangesAsync();
@@ -43,8 +45,9 @@ namespace VkBot.Bot.Commands
             user.City = city;
             user.Weather = true;
             await _db.SaveChangesAsync();
-            return $"{vkUser.FirstName} {vkUser.LastName}, подписка на рассылку погоды в городе {city} успешно оформлена!\n" +
-                   "ВАЖНО: Для корректной рассылки погоды у вас должен быть диалог с ботом. Если его нет, пожалуйста напишите ему любоое сообщение https://vk.com/kerlibot.";
+            return
+                $"{vkUser.FirstName} {vkUser.LastName}, подписка на рассылку погоды в городе {city} успешно оформлена!\n" +
+                "ВАЖНО: Для корректной рассылки погоды у вас должен быть диалог с ботом. Если его нет, пожалуйста напишите ему любоое сообщение https://vk.com/kerlibot.";
         }
     }
 }

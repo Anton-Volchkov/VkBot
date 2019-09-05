@@ -5,15 +5,15 @@ namespace VkBot.Data.Models
 {
     public class MainContext : DbContext
     {
-        public DbSet<Common> Commons { get; set; }
-        public DbSet<UserMemory> Memories { get; set; }
-        public DbSet<User> Users { get; set; }
-
         public MainContext(DbContextOptions<MainContext> options) : base(options)
         {
             //TODO: это не нужно вообще здесь
             //Database.EnsureCreated();
         }
+
+        public DbSet<Common> Commons { get; set; }
+        public DbSet<UserMemory> Memories { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public User[] GetUsers()
         {

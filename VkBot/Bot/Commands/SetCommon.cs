@@ -8,10 +8,6 @@ namespace VkBot.Bot.Commands
 {
     public class SetCommon : IBotCommand
     {
-        public string[] Alliases { get; set; } = { "запомни" };
-        public string Description { get; set; } = "Команда !Бот запомни, запоминает пересланное вам сообщение как общее сообщение для всех кто будет его запрашивать." +
-                                                  "\nПример: !Бот запомни + пересланное сообщение ";
-
         private readonly MainContext _db;
 
         public SetCommon(MainContext db)
@@ -19,32 +15,29 @@ namespace VkBot.Bot.Commands
             _db = db;
         }
 
+        public string[] Alliases { get; set; } = { "запомни" };
+
+        public string Description { get; set; } =
+            "Команда !Бот запомни, запоминает пересланное вам сообщение как общее сообщение для всех кто будет его запрашивать." +
+            "\nПример: !Бот запомни + пересланное сообщение ";
+
         public async Task<string> Execute(Message msg)
         {
             var text = "";
-            var forwardMessage = msg.ForwardedMessages.Count == 0 ?
-                                     msg.ReplyMessage :
-                                     msg.ForwardedMessages[0];
+            var forwardMessage = msg.ForwardedMessages.Count == 0 ? msg.ReplyMessage : msg.ForwardedMessages[0];
 
-            if(forwardMessage is null)
-            {
-                return "Нет сообщения!";
-            }
+            if (forwardMessage is null) return "Нет сообщения!";
 
             text = forwardMessage.Text;
 
             var timeTable = await _db.Commons.FirstOrDefaultAsync();
-            if(timeTable != null)
-            {
+            if (timeTable != null)
                 timeTable.СommonInfo = text;
-            }
             else
-            {
                 await _db.Commons.AddAsync(new Common
                 {
                     СommonInfo = text
                 });
-            }
 
             await _db.SaveChangesAsync();
 

@@ -9,7 +9,9 @@ namespace VkBot.Bot.Commands
     public class Bell : IBotCommand
     {
         public string[] Alliases { get; set; } = { "звонок" };
-        public string Description { get; set; } = "Команда !Бот звонок скажет вам время до окнчания пары/полупары или перемены.\nПример: !Бот звонок";
+
+        public string Description { get; set; } =
+            "Команда !Бот звонок скажет вам время до окнчания пары/полупары или перемены.\nПример: !Бот звонок";
 
         public async Task<string> Execute(Message msg)
         {

@@ -8,40 +8,34 @@ namespace VkBot.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Commons",
-                columns: table => new
+                "Commons",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     commonInfo = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Commons", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Commons", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Memories",
-                columns: table => new
+                "Memories",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    UserID = table.Column<long>(nullable: false),
+                    UserID = table.Column<long>(),
                     Memory = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Memories", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Memories", x => x.Id); });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Commons");
+                "Commons");
 
             migrationBuilder.DropTable(
-                name: "Memories");
+                "Memories");
         }
     }
 }

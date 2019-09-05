@@ -7,16 +7,18 @@ namespace VkBot.Bot.Commands
 {
     public class GetWeather : IBotCommand
     {
-        public string[] Alliases { get; set; } = { "погода" };
-        public string Description { get; set; } = "Команда !Бот погода скажет вам текущую погоду в переданном вами городе." +
-                                                  "\nПример: !Бот погода Витебск";
-
         private readonly WeatherInfo _weather;
 
         public GetWeather(WeatherInfo weather)
         {
             _weather = weather;
         }
+
+        public string[] Alliases { get; set; } = { "погода" };
+
+        public string Description { get; set; } =
+            "Команда !Бот погода скажет вам текущую погоду в переданном вами городе." +
+            "\nПример: !Бот погода Витебск";
 
         public async Task<string> Execute(Message msg)
         {

@@ -9,29 +9,26 @@ namespace VkBot.Bot.Commands
     public class CurrencyConverter : IBotCommand
     {
         private readonly CurrencyInfo _currencyInfo;
-        public string[] Alliases { get; set; } = { "конвертируй" };
-        public string Description { get; set; } = "Команда !Бот конвертируй конвертирует переданную вами валюту(по курсу НБ РБ) в BYN." +
-                                                  "\nПример: !Бот конвертируй USD 100";
 
         public CurrencyConverter(CurrencyInfo currencyInfo)
         {
             _currencyInfo = currencyInfo;
         }
 
+        public string[] Alliases { get; set; } = { "конвертируй" };
+
+        public string Description { get; set; } =
+            "Команда !Бот конвертируй конвертирует переданную вами валюту(по курсу НБ РБ) в BYN." +
+            "\nПример: !Бот конвертируй USD 100";
+
         public async Task<string> Execute(Message msg)
         {
             var split = msg.Text.Split(' ', 3); // [команда, параметры]
-            if(!int.TryParse(split[2], out var inputMoney))
-            {
-                return "Конвертация не удалась.";
-            }
+            if (!int.TryParse(split[2], out var inputMoney)) return "Конвертация не удалась.";
 
             var name = split[1].ToLower().Trim();
             var result = _currencyInfo.GetCodeByName(name);
-            if(string.IsNullOrEmpty(result.Name))
-            {
-                return "Я не знаю такой валюты";
-            }
+            if (string.IsNullOrEmpty(result.Name)) return "Я не знаю такой валюты";
 
             var currency = await _currencyInfo.GetCurrency(result.Code);
 
@@ -39,8 +36,8 @@ namespace VkBot.Bot.Commands
             strBuilder.AppendFormat("Конвертация {0} в BYN по курсу НБ РБ", currency.Abbreviation).AppendLine();
             strBuilder.AppendLine("_____________").AppendLine();
             strBuilder.AppendFormat("{0} {1} = {2} BYN",
-                                    split[2], currency.Abbreviation, currency.OfficialRate * inputMoney / currency.Scale)
-                      .AppendLine();
+                    split[2], currency.Abbreviation, currency.OfficialRate * inputMoney / currency.Scale)
+                .AppendLine();
             strBuilder.AppendLine("_____________");
 
             return strBuilder.ToString();

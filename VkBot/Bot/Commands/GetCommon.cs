@@ -8,15 +8,18 @@ namespace VkBot.Bot.Commands
 {
     public class GetCommon : IBotCommand
     {
-        public string[] Alliases { get; set; } = { "общее" };
-        public string Description { get; set; } = "Команда !Бот общее вернёт вам общее для все сообщение, которое было установлено при помощи команды(!Бот общее)." +
-                                                  "\nПример: !Бот общее";
         private readonly MainContext _db;
 
         public GetCommon(MainContext db)
         {
             _db = db;
         }
+
+        public string[] Alliases { get; set; } = { "общее" };
+
+        public string Description { get; set; } =
+            "Команда !Бот общее вернёт вам общее для все сообщение, которое было установлено при помощи команды(!Бот общее)." +
+            "\nПример: !Бот общее";
 
         public async Task<string> Execute(Message msg)
         {

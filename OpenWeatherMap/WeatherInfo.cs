@@ -11,17 +11,14 @@ namespace OpenWeatherMap
     {
         private const string EndPoint = "https://api.openweathermap.org/data/2.5/";
         private const string Lang = "ru";
-        private readonly string Token;
-        private readonly HttpClient Client;
 
         private const double PressureConvert = 0.75006375541921;
+        private readonly HttpClient Client;
+        private readonly string Token;
 
         public WeatherInfo(string token)
         {
-            if(string.IsNullOrEmpty(token))
-            {
-                throw new ArgumentNullException(nameof(token), "Токен отсутствует");
-            }
+            if (string.IsNullOrEmpty(token)) throw new ArgumentNullException(nameof(token), "Токен отсутствует");
 
             Token = token;
 
@@ -42,13 +39,8 @@ namespace OpenWeatherMap
                 response = await Client.GetAsync($"weather?q={newCity}&units=metric&appid={Token}&lang={Lang}");
 
                 if (!response.IsSuccessStatusCode)
-                {
                     return $"Город {city} не найден.";
-                }
-                else
-                {
-                    city = newCity;
-                }
+                city = newCity;
             }
 
             var w = JsonConvert.DeserializeObject<Models.WeatherInfo>(await response.Content.ReadAsStringAsync());
@@ -75,40 +67,36 @@ namespace OpenWeatherMap
             var date = DateTime.Now;
             const int count = 8;
 
-            var response = await Client.GetAsync($"forecast?q={city}&units=metric&appid={Token}&cnt={count}&lang={Lang}");
+            var response =
+                await Client.GetAsync($"forecast?q={city}&units=metric&appid={Token}&cnt={count}&lang={Lang}");
 
             if (!response.IsSuccessStatusCode)
             {
                 var newCity = city.Replace("е", "ё");
-                response = await Client.GetAsync($"forecast?q={newCity}&units=metric&appid={Token}&cnt={count}&lang={Lang}");
+                response = await Client.GetAsync(
+                    $"forecast?q={newCity}&units=metric&appid={Token}&cnt={count}&lang={Lang}");
 
                 if (!response.IsSuccessStatusCode)
-                {
                     return $"Город {city} не найден. Проверьте введённые данные.";
-                }
-                else
-                {
-                    city = newCity;
-                }
+                city = newCity;
             }
 
             var weatherToday = JsonConvert.DeserializeObject<DailyWeather>(await response.Content.ReadAsStringAsync());
 
-            if(weatherToday is null)
-            {
-                return $"Погода на {date:dd.MM} не найдена";
-            }
+            if (weatherToday is null) return $"Погода на {date:dd.MM} не найдена";
 
             var strBuilder = new StringBuilder();
-            strBuilder.AppendFormat("Погода в городе {0} на сегодня ({1:dddd, d MMMM}):", city, date).AppendLine().AppendLine();
-            foreach(var weatherHourly in weatherToday.List)
+            strBuilder.AppendFormat("Погода в городе {0} на сегодня ({1:dddd, d MMMM}):", city, date).AppendLine()
+                .AppendLine();
+            foreach (var weatherHourly in weatherToday.List)
             {
                 strBuilder.AppendFormat("Время: {0:HH:mm (dd.MM.yyyy)}", weatherHourly.DtTxt).AppendLine();
                 strBuilder.AppendFormat("Температура: {0:+#;-#;0}°С", weatherHourly.Main.Temp).AppendLine();
                 strBuilder.AppendFormat("Описание погоды: {0}", weatherHourly.Weather[0].Description).AppendLine();
                 strBuilder.AppendFormat("Влажность: {0}%", weatherHourly.Main.Humidity).AppendLine();
                 strBuilder.AppendFormat("Ветер: {0:N0} м/с", weatherHourly.Wind.Speed).AppendLine();
-                strBuilder.AppendFormat("Давление: {0:N0} мм.рт.ст", weatherHourly.Main.Pressure * PressureConvert).AppendLine();
+                strBuilder.AppendFormat("Давление: {0:N0} мм.рт.ст", weatherHourly.Main.Pressure * PressureConvert)
+                    .AppendLine();
                 strBuilder.AppendFormat("Облачность: {0}%", weatherHourly.Clouds.All).AppendLine().AppendLine();
             }
 

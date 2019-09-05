@@ -29,10 +29,10 @@ namespace VkBot.Bot.Help
             await Task.Factory.StartNew(async () =>
             {
                 var grouped = _db.GetWeatherUsers().GroupBy(x => x.City);
-                foreach(var group in grouped)
+                foreach (var group in grouped)
                 {
                     var ids = group.Select(x => x.Vk).ToArray();
-                    foreach(var id in ids)
+                    foreach (var id in ids)
                     {
                         //нужен блок try потому что если у человека закрыта личка но он был подписан на рассылку, вылетает ексепшн и для других рассылка не идёт
                         try
@@ -44,7 +44,9 @@ namespace VkBot.Bot.Help
                                 Message = await _weather.GetDailyWeather(group.Key)
                             });
                         }
-                        catch(Exception) { }
+                        catch (Exception)
+                        {
+                        }
 
                         await Task.Delay(60);
                     }
@@ -52,12 +54,14 @@ namespace VkBot.Bot.Help
             });
         }
 
-        public void Dummy() { }
+        public void Dummy()
+        {
+        }
 
         private void InitJobs()
         {
             RecurringJob.AddOrUpdate<ScheduledTask>("SendWeather", x => x.SendWeather(),
-                                                    "5 6 * * *", TimeZoneInfo.Local);
+                "5 6 * * *", TimeZoneInfo.Local);
         }
     }
 }

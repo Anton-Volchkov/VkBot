@@ -9,8 +9,9 @@ namespace VkBot.Bot
     public class CommandExecutor
     {
         private const string ErrorMessage = "Я не знаю такой команды =(";
-        private readonly IBotCommand[] Commands;
         private readonly IInfo _info;
+        private readonly IBotCommand[] Commands;
+
         public CommandExecutor(IEnumerable<IBotCommand> commands, IInfo info)
         {
             Commands = commands.ToArray();
@@ -25,26 +26,18 @@ namespace VkBot.Bot
             var cmd = split[0].ToLower();
 
             //var cmd = msg.Text.ToLower();
-            if (_info.Alliases.Contains(cmd))
-            {
-                return await _info.Execute(msg);
-            }
+            if (_info.Alliases.Contains(cmd)) return await _info.Execute(msg);
 
-            foreach(var command in Commands)
+            foreach (var command in Commands)
             {
-                if(!command.Alliases.Contains(cmd))
-                {
-                    continue;
-                }
+                if (!command.Alliases.Contains(cmd)) continue;
 
                 result = await command.Execute(msg);
                 break;
             }
 
-            if(string.IsNullOrEmpty(result)) // если никакая из команд не выполнилась, посылаем сообщение об ошибке
-            {
+            if (string.IsNullOrEmpty(result)) // если никакая из команд не выполнилась, посылаем сообщение об ошибке
                 result = ErrorMessage;
-            }
 
             return result;
         }
