@@ -21,7 +21,7 @@ namespace VkBot.Migrations
             modelBuilder.Entity("VkBot.Data.Models.Common", b =>
             {
                 b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
+                 .ValueGeneratedOnAdd();
 
                 b.Property<string>("СommonInfo");
 
@@ -33,7 +33,7 @@ namespace VkBot.Migrations
             modelBuilder.Entity("VkBot.Data.Models.User", b =>
             {
                 b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
+                 .ValueGeneratedOnAdd();
 
                 b.Property<string>("City");
 
@@ -49,7 +49,7 @@ namespace VkBot.Migrations
             modelBuilder.Entity("VkBot.Data.Models.UserMemory", b =>
             {
                 b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
+                 .ValueGeneratedOnAdd();
 
                 b.Property<string>("Memory");
 

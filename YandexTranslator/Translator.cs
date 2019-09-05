@@ -27,7 +27,10 @@ namespace YandexTranslator
         {
             var response = await Client.GetAsync($"?key={Token}&text={text}&lang={lang}");
 
-            if (!response.IsSuccessStatusCode) return "по вашему запросу ничего не найдено";
+            if(!response.IsSuccessStatusCode)
+            {
+                return "по вашему запросу ничего не найдено";
+            }
 
             var translate = JsonConvert.DeserializeObject<TranslateText>(await response.Content.ReadAsStringAsync());
 

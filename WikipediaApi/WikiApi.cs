@@ -23,9 +23,12 @@ namespace WikipediaApi
         {
             var response =
                 await Client.GetAsync(
-                    $"?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles={titles}");
+                                      $"?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles={titles}");
 
-            if (!response.IsSuccessStatusCode) return "по вашему запросу ничего не найдено";
+            if(!response.IsSuccessStatusCode)
+            {
+                return "по вашему запросу ничего не найдено";
+            }
 
             var jo = JObject.Parse(await response.Content.ReadAsStringAsync());
             JToken token = jo["query"] as JObject;

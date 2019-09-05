@@ -18,7 +18,10 @@ namespace OpenWeatherMap
 
         public WeatherInfo(string token)
         {
-            if (string.IsNullOrEmpty(token)) throw new ArgumentNullException(nameof(token), "Токен отсутствует");
+            if(string.IsNullOrEmpty(token))
+            {
+                throw new ArgumentNullException(nameof(token), "Токен отсутствует");
+            }
 
             Token = token;
 
@@ -33,13 +36,16 @@ namespace OpenWeatherMap
             city = char.ToUpper(city[0]) + city.Substring(1); //TODO ?
             var response = await Client.GetAsync($"weather?q={city}&units=metric&appid={Token}&lang={Lang}");
 
-            if (!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
             {
                 var newCity = city.Replace("е", "ё");
                 response = await Client.GetAsync($"weather?q={newCity}&units=metric&appid={Token}&lang={Lang}");
 
-                if (!response.IsSuccessStatusCode)
+                if(!response.IsSuccessStatusCode)
+                {
                     return $"Город {city} не найден.";
+                }
+
                 city = newCity;
             }
 
@@ -70,25 +76,31 @@ namespace OpenWeatherMap
             var response =
                 await Client.GetAsync($"forecast?q={city}&units=metric&appid={Token}&cnt={count}&lang={Lang}");
 
-            if (!response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
             {
                 var newCity = city.Replace("е", "ё");
                 response = await Client.GetAsync(
-                    $"forecast?q={newCity}&units=metric&appid={Token}&cnt={count}&lang={Lang}");
+                                                 $"forecast?q={newCity}&units=metric&appid={Token}&cnt={count}&lang={Lang}");
 
-                if (!response.IsSuccessStatusCode)
+                if(!response.IsSuccessStatusCode)
+                {
                     return $"Город {city} не найден. Проверьте введённые данные.";
+                }
+
                 city = newCity;
             }
 
             var weatherToday = JsonConvert.DeserializeObject<DailyWeather>(await response.Content.ReadAsStringAsync());
 
-            if (weatherToday is null) return $"Погода на {date:dd.MM} не найдена";
+            if(weatherToday is null)
+            {
+                return $"Погода на {date:dd.MM} не найдена";
+            }
 
             var strBuilder = new StringBuilder();
             strBuilder.AppendFormat("Погода в городе {0} на сегодня ({1:dddd, d MMMM}):", city, date).AppendLine()
-                .AppendLine();
-            foreach (var weatherHourly in weatherToday.List)
+                      .AppendLine();
+            foreach(var weatherHourly in weatherToday.List)
             {
                 strBuilder.AppendFormat("Время: {0:HH:mm (dd.MM.yyyy)}", weatherHourly.DtTxt).AppendLine();
                 strBuilder.AppendFormat("Температура: {0:+#;-#;0}°С", weatherHourly.Main.Temp).AppendLine();
@@ -96,7 +108,7 @@ namespace OpenWeatherMap
                 strBuilder.AppendFormat("Влажность: {0}%", weatherHourly.Main.Humidity).AppendLine();
                 strBuilder.AppendFormat("Ветер: {0:N0} м/с", weatherHourly.Wind.Speed).AppendLine();
                 strBuilder.AppendFormat("Давление: {0:N0} мм.рт.ст", weatherHourly.Main.Pressure * PressureConvert)
-                    .AppendLine();
+                          .AppendLine();
                 strBuilder.AppendFormat("Облачность: {0}%", weatherHourly.Clouds.All).AppendLine().AppendLine();
             }
 

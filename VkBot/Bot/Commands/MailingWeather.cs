@@ -32,7 +32,7 @@ namespace VkBot.Bot.Commands
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value);
             var vkUser = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
-            if (command == "отписка")
+            if(command == "отписка")
             {
                 user.Weather = false;
                 await _db.SaveChangesAsync();

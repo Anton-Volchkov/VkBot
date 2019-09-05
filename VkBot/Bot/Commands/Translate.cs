@@ -31,7 +31,10 @@ namespace VkBot.Bot.Commands
 
             var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
-            if (split.Length != 3) return $"{user.FirstName} {user.LastName}, проверьте введённые данные.";
+            if(split.Length != 3)
+            {
+                return $"{user.FirstName} {user.LastName}, проверьте введённые данные.";
+            }
 
             var lang = split[1].Trim().ToLower();
 

@@ -26,7 +26,10 @@ namespace VkBot.Bot.Commands
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
             var name = split[1].ToLower().Trim();
             var result = _currencyInfo.GetCodeByName(name);
-            if (string.IsNullOrEmpty(result.Name)) return "Я не знаю такой валюты";
+            if(string.IsNullOrEmpty(result.Name))
+            {
+                return "Я не знаю такой валюты";
+            }
 
             var currency = await _currencyInfo.GetCurrency(result.Code);
 

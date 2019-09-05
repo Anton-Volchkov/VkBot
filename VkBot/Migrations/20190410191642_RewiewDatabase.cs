@@ -7,17 +7,17 @@ namespace VkBot.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                "commonInfo",
-                "Commons",
-                "СommonInfo");
+                                          "commonInfo",
+                                          "Commons",
+                                          "СommonInfo");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                "СommonInfo",
-                "Commons",
-                "commonInfo");
+                                          "СommonInfo",
+                                          "Commons",
+                                          "commonInfo");
         }
     }
 }

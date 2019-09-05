@@ -27,10 +27,14 @@ namespace VkBot.Bot.Commands
             string roulette;
 
             //TODO: плохое решение
-            if (new System.Random().Next(1, 7) == new System.Random().Next(1, 7))
+            if(new System.Random().Next(1, 7) == new System.Random().Next(1, 7))
+            {
                 roulette = $"{user.FirstName} {user.LastName} погиб(ла) в рулетке...PRESS F TO PAY RESPECT!";
+            }
             else
+            {
                 roulette = $"{user.FirstName} {user.LastName} выжил(а) в рулетке! Поздравляем!";
+            }
 
             return roulette;
         }

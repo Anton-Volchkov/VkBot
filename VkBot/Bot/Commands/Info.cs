@@ -26,11 +26,17 @@ namespace VkBot.Bot.Commands
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
 
-            if (Alliases.Contains(split[1].Trim().ToLower())) return Description;
+            if(Alliases.Contains(split[1].Trim().ToLower()))
+            {
+                return Description;
+            }
 
-            foreach (var command in Commands)
-                if (command.Alliases.Contains(split[1].Trim().ToLower()))
+            foreach(var command in Commands)
+                if(command.Alliases.Contains(split[1].Trim().ToLower()))
+                {
                     return command.Description;
+                }
+
             return $"Комманды {split[1]} не найдено.";
         }
     }

@@ -26,18 +26,26 @@ namespace VkBot.Bot
             var cmd = split[0].ToLower();
 
             //var cmd = msg.Text.ToLower();
-            if (_info.Alliases.Contains(cmd)) return await _info.Execute(msg);
-
-            foreach (var command in Commands)
+            if(_info.Alliases.Contains(cmd))
             {
-                if (!command.Alliases.Contains(cmd)) continue;
+                return await _info.Execute(msg);
+            }
+
+            foreach(var command in Commands)
+            {
+                if(!command.Alliases.Contains(cmd))
+                {
+                    continue;
+                }
 
                 result = await command.Execute(msg);
                 break;
             }
 
-            if (string.IsNullOrEmpty(result)) // если никакая из команд не выполнилась, посылаем сообщение об ошибке
+            if(string.IsNullOrEmpty(result)) // если никакая из команд не выполнилась, посылаем сообщение об ошибке
+            {
                 result = ErrorMessage;
+            }
 
             return result;
         }

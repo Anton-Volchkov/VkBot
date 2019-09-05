@@ -31,7 +31,10 @@ namespace VkBot.Bot.Commands
 
             var userMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
 
-            if (userMemory == null) return $"{user.FirstName} {user.LastName} вас нет в моей базе!";
+            if(userMemory == null)
+            {
+                return $"{user.FirstName} {user.LastName} вас нет в моей базе!";
+            }
 
             userMemory.Memory = "";
             await _db.SaveChangesAsync();

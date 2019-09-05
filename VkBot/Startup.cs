@@ -29,11 +29,14 @@ namespace VkBot
             CultureInfo.DefaultThreadCurrentUICulture = culture;
 
             var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", false, true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
-                .AddEnvironmentVariables();
-            if (env.IsDevelopment()) builder.AddUserSecrets<Startup>();
+                          .SetBasePath(env.ContentRootPath)
+                          .AddJsonFile("appsettings.json", false, true)
+                          .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+                          .AddEnvironmentVariables();
+            if(env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
 
             Configuration = builder.Build();
         }
@@ -75,11 +78,16 @@ namespace VkBot
             var options = new BackgroundJobServerOptions { WorkerCount = Environment.ProcessorCount * 2 };
             app.UseHangfireServer(options);
 
-            if (env.IsDevelopment())
+            if(env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
+            }
             else
+
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            {
                 app.UseHsts();
+            }
 
             app.UseHttpsRedirection();
             app.UseMvc();

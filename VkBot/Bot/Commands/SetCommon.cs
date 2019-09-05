@@ -26,18 +26,25 @@ namespace VkBot.Bot.Commands
             var text = "";
             var forwardMessage = msg.ForwardedMessages.Count == 0 ? msg.ReplyMessage : msg.ForwardedMessages[0];
 
-            if (forwardMessage is null) return "Нет сообщения!";
+            if(forwardMessage is null)
+            {
+                return "Нет сообщения!";
+            }
 
             text = forwardMessage.Text;
 
             var timeTable = await _db.Commons.FirstOrDefaultAsync();
-            if (timeTable != null)
+            if(timeTable != null)
+            {
                 timeTable.СommonInfo = text;
+            }
             else
+            {
                 await _db.Commons.AddAsync(new Common
                 {
                     СommonInfo = text
                 });
+            }
 
             await _db.SaveChangesAsync();
 

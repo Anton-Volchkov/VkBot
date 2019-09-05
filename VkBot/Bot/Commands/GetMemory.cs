@@ -31,11 +31,14 @@ namespace VkBot.Bot.Commands
 
             var userMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
 
-            if (userMemory == null) return $"{user.FirstName} {user.LastName} - Я вас еще не знаю. ";
+            if(userMemory == null)
+            {
+                return $"{user.FirstName} {user.LastName} - Я вас еще не знаю. ";
+            }
 
             var sendText = string.IsNullOrWhiteSpace(userMemory.Memory)
-                ? "Ваших данных нет в базе!"
-                : userMemory.Memory;
+                               ? "Ваших данных нет в базе!"
+                               : userMemory.Memory;
             return $"{user.FirstName} {user.LastName} ваши данные: \n {sendText}";
         }
     }
