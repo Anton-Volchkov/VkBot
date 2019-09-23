@@ -54,7 +54,7 @@ namespace VkBot.Controllers
                 var msg = Message.FromJson(new VkResponse(updates.Object));
 
                 //если сообщение НЕ НАЧИНАЕТСЯ С ЭТОГО, то ничо не делаем
-                if(!msg.Text.ToLower().StartsWith("!бот"))
+                if(!(msg.Text.ToLower().StartsWith("!бот") || msg.Text.ToLower().StartsWith("бот")))
                 {
                     return Ok("ok");
                 }
