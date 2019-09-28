@@ -1,25 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
-        <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-        <UserSecretsId>8b745b48-ef0d-4e81-88fa-7c5f9af30be9</UserSecretsId>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UserSecretsId>8b745b48-ef0d-4e81-88fa-7c5f9af30be9</UserSecretsId>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Hangfire" Version="1.7.2" />
-        <PackageReference Include="Hangfire.MemoryStorage" Version="1.6.0" />
-        <PackageReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />
-        <PackageReference Include="VkNet" Version="1.46.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Hangfire" Version="1.7.6" />
+    <PackageReference Include="Hangfire.MemoryStorage" Version="1.6.3" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3-beta1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.0" />
+    <PackageReference Include="VkNet" Version="1.46.0" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\CurrencyConverter\CurrencyConverter.csproj" />
-      <ProjectReference Include="..\OpenWeatherMap\OpenWeatherMap.csproj" />
-      <ProjectReference Include="..\WikipediaApi\WikipediaApi.csproj" />
-      <ProjectReference Include="..\YandexTranslator\YandexTranslator.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CurrencyConverter\CurrencyConverter.csproj" />
+    <ProjectReference Include="..\OpenWeatherMap\OpenWeatherMap.csproj" />
+    <ProjectReference Include="..\WikipediaApi\WikipediaApi.csproj" />
+    <ProjectReference Include="..\YandexTranslator\YandexTranslator.csproj" />
+  </ItemGroup>
 
 </Project>
