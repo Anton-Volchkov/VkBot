@@ -72,7 +72,7 @@ namespace VkBot.Bot.Help
                             {
                                 RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
                                 UserId = id,
-                                Message = schedule.Schedule
+                                Message = string.IsNullOrWhiteSpace(schedule.Schedule)?"Расписания нет!" : schedule.Schedule
                             });
                         }
                         catch(Exception) { }
