@@ -35,7 +35,7 @@ namespace VkBot.Bot.Commands
                        "Пример: Бот группа ПЗ-50";
             }
 
-            var schedule = (await _db.TimeTable.FirstOrDefaultAsync(x => x.Group == user.Group)).Schedule;
+            var schedule = (await _db.TimeTable.FirstOrDefaultAsync(x => x.Group == user.Group))?.Schedule;
             
             if (string.IsNullOrWhiteSpace(schedule))
             {
