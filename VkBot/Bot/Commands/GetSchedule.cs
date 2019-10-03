@@ -36,8 +36,8 @@ namespace VkBot.Bot.Commands
             }
 
             var schedule = (await _db.TimeTable.FirstOrDefaultAsync(x => x.Group == user.Group)).Schedule;
-
-            if (string.IsNullOrWhiteSpace(schedule)
+            
+            if (string.IsNullOrWhiteSpace(schedule))
             {
                 return "Расписание нет!";
             }
