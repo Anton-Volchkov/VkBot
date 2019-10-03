@@ -1,4 +1,6 @@
-﻿namespace VkBot.Data.Models
+﻿
+
+namespace VkBot.Data.Models
 {
     public class User
     {
@@ -7,5 +9,6 @@
         public long? Vk { get; set; }
         public bool Weather { get; set; }
         public string City { get; set; }
+        public string Group { get; set; }
     }
 }

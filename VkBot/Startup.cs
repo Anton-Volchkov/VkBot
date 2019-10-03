@@ -1,20 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using CurrencyConverter;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using OpenWeatherMap;
 using VkBot.Bot.Help;
 using VkBot.Data.Models;
@@ -39,7 +33,7 @@ namespace VkBot
                           .AddJsonFile("appsettings.json", false, true)
                           .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
                           .AddEnvironmentVariables();
-            if (env.IsDevelopment())
+            if(env.IsDevelopment())
             {
                 builder.AddUserSecrets<Startup>();
             }
@@ -53,7 +47,7 @@ namespace VkBot
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
-    .AddNewtonsoftJson();
+                    .AddNewtonsoftJson();
 
             services.AddSingleton<IVkApi>(sp =>
             {
@@ -87,7 +81,7 @@ namespace VkBot
             var options = new BackgroundJobServerOptions { WorkerCount = Environment.ProcessorCount * 2 };
             app.UseHangfireServer(options);
 
-            if (env.IsDevelopment())
+            if(env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -97,13 +91,10 @@ namespace VkBot
             app.UseRouting();
 
             app.UseAuthorization();
-            
+
             ConfigureJobs();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
 
         private void ConfigureJobs()

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Hangfire;
+using Microsoft.EntityFrameworkCore;
 using OpenWeatherMap;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
@@ -52,12 +53,45 @@ namespace VkBot.Bot.Help
             });
         }
 
+        public async Task SendSchedule()
+        {
+            await Task.Factory.StartNew(async () =>
+            {
+                var grouped = _db.GetScheduleUsers().GroupBy(x => x.Group);
+                foreach(var group in grouped)
+                {
+                    var schedule = await _db.TimeTable.FirstOrDefaultAsync(x => x.Group == group.First().Group);
+
+                    var ids = group.Select(x => x.Vk).ToArray();
+                    foreach(var id in ids)
+                    {
+                        //нужен блок try потому что если у человека закрыта личка но он был подписан на рассылку, вылетает ексепшн и для других рассылка не идёт
+                        try
+                        {
+                            await _vkApi.Messages.SendAsync(new MessagesSendParams
+                            {
+                                RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
+                                UserId = id,
+                                Message = schedule.Schedule
+                            });
+                        }
+                        catch(Exception) { }
+
+                        await Task.Delay(60);
+                    }
+                }
+            });
+        }
+
         public void Dummy() { }
 
         private void InitJobs()
         {
             RecurringJob.AddOrUpdate<ScheduledTask>("SendWeather", x => x.SendWeather(),
                                                     "5 6 * * *", TimeZoneInfo.Local);
+
+            RecurringJob.AddOrUpdate<ScheduledTask>("SendSchedule", x => x.SendSchedule(),
+                                                    "10 6 * * *", TimeZoneInfo.Local);
         }
     }
 }
