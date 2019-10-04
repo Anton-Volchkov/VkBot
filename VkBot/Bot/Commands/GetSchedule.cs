@@ -39,7 +39,7 @@ namespace VkBot.Bot.Commands
             
             if (string.IsNullOrWhiteSpace(schedule))
             {
-                return "Расписание нет!";
+                return "Расписание не заполнено!";
             }
 
             return schedule;
