@@ -82,7 +82,7 @@ namespace VkBot.Bot.Help
                             });
                         }
                         catch(Exception) { }
-
+                        
                         await Task.Delay(60);
                     }
                 }
@@ -97,7 +97,7 @@ namespace VkBot.Bot.Help
                                                     "5 6 * * *", TimeZoneInfo.Local);
 
             RecurringJob.AddOrUpdate<ScheduledTask>("SendSchedule", x => x.SendSchedule(),
-                                                    "57 8 * * *", TimeZoneInfo.Local);
+                                                    "10 6 * * *", TimeZoneInfo.Local);
         }
     }
 }
