@@ -104,7 +104,7 @@ namespace VkBot.Bot.Help
                                                     "5 6 * * *", TimeZoneInfo.Local);
 
             RecurringJob.AddOrUpdate<ScheduledTask>("SendSchedule", x => x.SendSchedule(),
-                                                    "13 9 * * *", TimeZoneInfo.Local);
+                                                    "10 6 * * *", TimeZoneInfo.Local);
         }
     }
 }
