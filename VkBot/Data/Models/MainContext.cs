@@ -29,7 +29,7 @@ namespace VkBot.Data.Models
 
         public User[] GetScheduleUsers()
         {
-            return Users.AsNoTracking().Where(x => x.Group != "").ToArray();
+            return Users.AsNoTracking().Where(x => x.Group != "" && x.Group != null).ToArray();
         }
     }
 }

@@ -60,7 +60,13 @@ namespace VkBot.Bot.Help
                 var grouped = _db.GetScheduleUsers().GroupBy(x => x.Group);
                 foreach(var group in grouped)
                 {
-                    var schedule = await _db.TimeTable.FirstOrDefaultAsync(x => x.Group == group.First().Group);
+                   
+                    var schedule =  _db.TimeTable.FirstOrDefault(x => x.Group == group.Key);
+
+                    if(string.IsNullOrWhiteSpace(schedule.Schedule))
+                    {
+                        continue;
+                    }
 
                     var ids = group.Select(x => x.Vk).ToArray();
                     foreach(var id in ids)
@@ -72,7 +78,7 @@ namespace VkBot.Bot.Help
                             {
                                 RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
                                 UserId = id,
-                                Message = string.IsNullOrWhiteSpace(schedule.Schedule)?"Расписания нет!" : schedule.Schedule
+                                Message = schedule.Schedule
                             });
                         }
                         catch(Exception) { }
@@ -91,7 +97,7 @@ namespace VkBot.Bot.Help
                                                     "5 6 * * *", TimeZoneInfo.Local);
 
             RecurringJob.AddOrUpdate<ScheduledTask>("SendSchedule", x => x.SendSchedule(),
-                                                    "10 6 * * *", TimeZoneInfo.Local);
+                                                    "57 8 * * *", TimeZoneInfo.Local);
         }
     }
 }
