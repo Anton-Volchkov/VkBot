@@ -55,6 +55,13 @@ namespace VkBot.Bot.Help
 
         public async Task SendSchedule()
         {
+            var day = DateTime.Now.ToString("dddd");
+
+            if(day == "воскресенье")
+            {
+                return;
+            }
+
             await Task.Factory.StartNew(async () =>
             {
                 var grouped = _db.GetScheduleUsers().GroupBy(x => x.Group);
@@ -97,7 +104,7 @@ namespace VkBot.Bot.Help
                                                     "5 6 * * *", TimeZoneInfo.Local);
 
             RecurringJob.AddOrUpdate<ScheduledTask>("SendSchedule", x => x.SendSchedule(),
-                                                    "10 6 * * *", TimeZoneInfo.Local);
+                                                    "13 9 * * *", TimeZoneInfo.Local);
         }
     }
 }
