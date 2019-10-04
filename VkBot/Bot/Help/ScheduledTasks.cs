@@ -55,9 +55,9 @@ namespace VkBot.Bot.Help
 
         public async Task SendSchedule()
         {
-            var day = DateTime.Now.ToString("dddd");
+            var day = DateTime.Now.DayOfWeek;
 
-            if(day == "воскресенье")
+            if(day == DayOfWeek.Sunday || day == DayOfWeek.Saturday)
             {
                 return;
             }
