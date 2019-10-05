@@ -27,10 +27,11 @@ namespace VkBot.Bot.Commands
         public async Task<string> Execute(Message msg)
         {
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value);
+            var vkUser = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
-            if(string.IsNullOrWhiteSpace(user.Group))
+            if (string.IsNullOrWhiteSpace(user.Group))
             {
-                return "Вы не установили группу!\n" +
+                return $"{vkUser.FirstName} {vkUser.LastName}, Вы не установили группу!\n" +
                        "Установите группу командой: Бот группа + имя группы \n" +
                        "Пример: Бот группа ПЗ-50";
             }
@@ -39,7 +40,7 @@ namespace VkBot.Bot.Commands
             
             if (string.IsNullOrWhiteSpace(schedule))
             {
-                return "Расписание не заполнено!";
+                return $"{vkUser.FirstName} {vkUser.LastName}, ваше расписание не заполнено!";
             }
 
             return schedule;

@@ -29,12 +29,13 @@ namespace VkBot.Bot.Commands
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
 
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value);
+            var vkUser = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
             user.Group = split[1].ToLower();
 
             await _db.SaveChangesAsync();
 
-            return "Группа установлена!";
+            return $"{vkUser.FirstName} {vkUser.LastName}, ваша группа установлена!";
 
         }
     }
