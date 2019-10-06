@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Flurl.Http;
 using Newtonsoft.Json.Linq;
 
 namespace WikipediaApi
@@ -21,9 +22,19 @@ namespace WikipediaApi
 
         public async Task<string> GetWikiAnswerAsync(string titles)
         {
-            var response =
-                await Client.GetAsync(
-                                      $"?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles={titles}");
+            var response = await EndPoint
+                                 .AllowAnyHttpStatus()
+                                 .SetQueryParam("format", "json")
+                                 .SetQueryParam("action", "query")
+                                 .SetQueryParam("prop", "extracts")
+                                 .SetQueryParam("exintro")
+                                 .SetQueryParam("explaintext")
+                                 .SetQueryParam("redirects", 1)
+                                 .SetQueryParam("titles", titles)
+                                 .GetAsync();
+            
+                //await Client.GetAsync(
+                  //                    $"?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles={titles}");
 
             if(!response.IsSuccessStatusCode)
             {
