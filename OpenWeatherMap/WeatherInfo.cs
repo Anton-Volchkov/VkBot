@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Flurl;
+using Flurl.Http;
 using Newtonsoft.Json;
 using OpenWeatherMap.Models.Daily;
 
@@ -34,14 +37,18 @@ namespace OpenWeatherMap
         public async Task<string> GetWeather(string city)
         {
             city = char.ToUpper(city[0]) + city.Substring(1); //TODO ?
-            var response = await Client.GetAsync($"weather?q={city}&units=metric&appid={Token}&lang={Lang}");
+
+            //var response = await Client.GetAsync($"weather?q={city}&units=metric&appid={Token}&lang={Lang}");
+
+            var response = await GetCurrentWeatherResponse(city);
 
             if(!response.IsSuccessStatusCode)
             {
                 var newCity = city.Replace("е", "ё");
-                response = await Client.GetAsync($"weather?q={newCity}&units=metric&appid={Token}&lang={Lang}");
 
-                if(!response.IsSuccessStatusCode)
+                response = await GetCurrentWeatherResponse(newCity);
+
+                if (!response.IsSuccessStatusCode)
                 {
                     return $"Город {city} не найден.";
                 }
@@ -73,14 +80,12 @@ namespace OpenWeatherMap
             var date = DateTime.Now;
             const int count = 8;
 
-            var response =
-                await Client.GetAsync($"forecast?q={city}&units=metric&appid={Token}&cnt={count}&lang={Lang}");
-
+            var response = await GetDailyWeatherResponse(city, count);
+            
             if(!response.IsSuccessStatusCode)
             {
                 var newCity = city.Replace("е", "ё");
-                response = await Client.GetAsync(
-                                                 $"forecast?q={newCity}&units=metric&appid={Token}&cnt={count}&lang={Lang}");
+                response = await GetDailyWeatherResponse(city, count);
 
                 if(!response.IsSuccessStatusCode)
                 {
@@ -113,6 +118,31 @@ namespace OpenWeatherMap
             }
 
             return strBuilder.ToString();
+        }
+
+        private async Task<HttpResponseMessage> GetCurrentWeatherResponse(string city)
+        {
+            return await BuildRequest()
+                         .AppendPathSegment("weather")
+                         .SetQueryParam("q", city)
+                         .GetAsync();
+        }
+
+        private async Task<HttpResponseMessage> GetDailyWeatherResponse(string city, int count)
+        {
+            return await BuildRequest()
+                         .AppendPathSegment("forecast")
+                         .SetQueryParam("q", city)
+                         .SetQueryParam("cnt", count)
+                         .GetAsync();
+        }
+
+        private IFlurlRequest BuildRequest()
+        {
+            return EndPoint.AllowAnyHttpStatus()
+                           .SetQueryParam("units", "metric")
+                           .SetQueryParam("appid", Token)
+                           .SetQueryParam("lang", Lang);
         }
 
         internal DateTime UnixToDateTime(double unixTimeStamp)
