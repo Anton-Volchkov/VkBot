@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Flurl.Http;
 using Newtonsoft.Json;
 using YandexTranslator.Models;
 
@@ -10,22 +11,22 @@ namespace YandexTranslator
     {
         private const string EndPoint = "https://translate.yandex.net/api/v1.5/tr.json/translate";
 
-        private readonly HttpClient Client;
         private readonly string Token;
 
         public Translator(string token)
         {
             Token = token;
 
-            Client = new HttpClient
-            {
-                BaseAddress = new Uri(EndPoint)
-            };
         }
 
         public async Task<string> Translate(string text, string lang)
         {
-            var response = await Client.GetAsync($"?key={Token}&text={text}&lang={lang}");
+            var response = await EndPoint
+                                 .AllowAnyHttpStatus()
+                                 .SetQueryParam("key", Token)
+                                 .SetQueryParam("text", text)
+                                 .SetQueryParam("lang", lang)
+                                 .GetAsync();
 
             if(!response.IsSuccessStatusCode)
             {

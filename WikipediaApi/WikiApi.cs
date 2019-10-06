@@ -10,16 +10,7 @@ namespace WikipediaApi
     public class WikiApi
     {
         private const string EndPoint = "https://ru.wikipedia.org/w/api.php";
-        private readonly HttpClient Client;
-
-        public WikiApi()
-        {
-            Client = new HttpClient
-            {
-                BaseAddress = new Uri(EndPoint)
-            };
-        }
-
+      
         public async Task<string> GetWikiAnswerAsync(string titles)
         {
             var response = await EndPoint
