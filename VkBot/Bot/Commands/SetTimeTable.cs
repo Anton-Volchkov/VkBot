@@ -26,7 +26,7 @@ namespace VkBot.Bot.Commands
 
         public async Task<string> Execute(Message msg)
         {
-            var split = msg.Text.Split(' ', 3); // [команда, группа, параметры]
+            var split = msg.Text.Split(new char[]{' ','\n'},3); // [команда, группа, параметры]
 
             var group = await _db.TimeTable.FirstOrDefaultAsync(x => x.Group == split[1].ToLower());
 
