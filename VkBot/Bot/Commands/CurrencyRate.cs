@@ -24,6 +24,12 @@ namespace VkBot.Bot.Commands
         public async Task<string> Execute(Message msg)
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
+
+            if(split.Length <=2)
+            {
+                return "Не все параметры указаны!";
+            }
+
             var name = split[1].ToLower().Trim();
             var result = _currencyInfo.GetCodeByName(name);
             if(string.IsNullOrEmpty(result.Name))

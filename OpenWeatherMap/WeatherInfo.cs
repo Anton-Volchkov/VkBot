@@ -16,7 +16,6 @@ namespace OpenWeatherMap
         private const string Lang = "ru";
 
         private const double PressureConvert = 0.75006375541921;
-        private readonly HttpClient Client;
         private readonly string Token;
 
         public WeatherInfo(string token)
@@ -27,11 +26,6 @@ namespace OpenWeatherMap
             }
 
             Token = token;
-
-            Client = new HttpClient
-            {
-                BaseAddress = new Uri(EndPoint)
-            };
         }
 
         public async Task<string> GetWeather(string city)

@@ -24,6 +24,7 @@ namespace VkBot.Bot.Commands
         public async Task<string> Execute(Message msg)
         {
             var split = msg.Text.Split(' ', 3); // [команда, параметры]
+
             if(!int.TryParse(split[2], out var inputMoney))
             {
                 return "Конвертация не удалась.";
