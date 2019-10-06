@@ -25,7 +25,7 @@ namespace VkBot.Bot.Commands
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
 
-            if(split.Length <=2)
+            if(split.Length < 2)
             {
                 return "Не все параметры указаны!";
             }
