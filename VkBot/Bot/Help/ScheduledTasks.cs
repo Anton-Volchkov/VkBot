@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Hangfire;
-using Microsoft.EntityFrameworkCore;
 using OpenWeatherMap;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
@@ -27,30 +26,27 @@ namespace VkBot.Bot.Help
 
         public async Task SendWeather()
         {
-            await Task.Factory.StartNew(async () =>
+            var grouped = _db.GetWeatherUsers().GroupBy(x => x.City);
+            foreach(var group in grouped)
             {
-                var grouped = _db.GetWeatherUsers().GroupBy(x => x.City);
-                foreach(var group in grouped)
+                var ids = group.Select(x => x.Vk).ToArray();
+                foreach(var id in ids)
                 {
-                    var ids = group.Select(x => x.Vk).ToArray();
-                    foreach(var id in ids)
+                    //нужен блок try потому что если у человека закрыта личка но он был подписан на рассылку, вылетает ексепшн и для других рассылка не идёт
+                    try
                     {
-                        //нужен блок try потому что если у человека закрыта личка но он был подписан на рассылку, вылетает ексепшн и для других рассылка не идёт
-                        try
+                        await _vkApi.Messages.SendAsync(new MessagesSendParams
                         {
-                            await _vkApi.Messages.SendAsync(new MessagesSendParams
-                            {
-                                RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
-                                UserId = id,
-                                Message = await _weather.GetDailyWeather(group.Key)
-                            });
-                        }
-                        catch(Exception) { }
-
-                        await Task.Delay(60);
+                            RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
+                            UserId = id,
+                            Message = await _weather.GetDailyWeather(group.Key)
+                        });
                     }
+                    catch(Exception) { }
+
+                    await Task.Delay(60);
                 }
-            });
+            }
         }
 
         public async Task SendSchedule()
@@ -62,38 +58,39 @@ namespace VkBot.Bot.Help
                 return;
             }
 
-            await Task.Factory.StartNew(async () =>
+            var grouped = _db.GetScheduleUsers().GroupBy(x => x.Group);
+            foreach(var group in grouped)
             {
-                var grouped = _db.GetScheduleUsers().GroupBy(x => x.Group);
-                foreach(var group in grouped)
+                var schedule = _db.TimeTable.FirstOrDefault(x => x.Group == group.Key);
+
+                if(schedule is null)
                 {
-                   
-                    var schedule =  _db.TimeTable.FirstOrDefault(x => x.Group == group.Key);
-
-                    if(string.IsNullOrWhiteSpace(schedule.Schedule))
-                    {
-                        continue;
-                    }
-
-                    var ids = group.Select(x => x.Vk).ToArray();
-                    foreach(var id in ids)
-                    {
-                        //нужен блок try потому что если у человека закрыта личка но он был подписан на рассылку, вылетает ексепшн и для других рассылка не идёт
-                        try
-                        {
-                            await _vkApi.Messages.SendAsync(new MessagesSendParams
-                            {
-                                RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
-                                UserId = id,
-                                Message = schedule.Schedule
-                            });
-                        }
-                        catch(Exception) { }
-                        
-                        await Task.Delay(60);
-                    }
+                    continue;
                 }
-            });
+
+                if(string.IsNullOrWhiteSpace(schedule.Schedule))
+                {
+                    continue;
+                }
+
+                var ids = group.Select(x => x.Vk).ToArray();
+                foreach(var id in ids)
+                {
+                    //нужен блок try потому что если у человека закрыта личка но он был подписан на рассылку, вылетает ексепшн и для других рассылка не идёт
+                    try
+                    {
+                        await _vkApi.Messages.SendAsync(new MessagesSendParams
+                        {
+                            RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
+                            UserId = id,
+                            Message = schedule.Schedule
+                        });
+                    }
+                    catch(Exception) { }
+
+                    await Task.Delay(60);
+                }
+            }
         }
 
         public void Dummy() { }
