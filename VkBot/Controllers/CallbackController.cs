@@ -41,7 +41,7 @@ namespace VkBot.Controllers
         [HttpPost]
         public async Task<IActionResult> Callback([FromBody] Updates updates)
         {
-            if(updates.Secret != _configuration["SecretKey"])
+            if(updates.Secret != _configuration["secret"])
             {
                 return Ok("Bad Secret Key");
             }
