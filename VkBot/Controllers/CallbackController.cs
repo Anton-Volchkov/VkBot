@@ -41,6 +41,10 @@ namespace VkBot.Controllers
         [HttpPost]
         public async Task<IActionResult> Callback([FromBody] Updates updates)
         {
+            if(updates.Secret != _configuration["SecretKey"])
+            {
+                return Ok("Bad Secret Key");
+            }
             // Проверяем, что находится в поле "type" 
             if(updates.Type == "confirmation")
 
