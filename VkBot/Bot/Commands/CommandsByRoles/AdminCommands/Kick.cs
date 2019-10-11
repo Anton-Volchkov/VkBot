@@ -44,17 +44,17 @@ namespace VkBot.Bot.Commands.CommandsByRoles.AdminCommands
             }
 
             var kickedUser =
-                await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserID == forwardMessage.FromId.Value &&
-                                                             x.ChatID == forwardMessage.PeerId.Value);
+                await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == forwardMessage.FromId.Value &&
+                                                             x.ChatVkID == forwardMessage.PeerId.Value);
 
             if(kickedUser is null)
             {
                 return "Такого пользователя нет в данном чате!";
             }
 
-            if ((await _db.Users.FirstOrDefaultAsync(x => x.Vk == kickedUser.UserID)).IsBotAdmin)
+            if ((await _db.Users.FirstOrDefaultAsync(x => x.Vk == kickedUser.UserVkID)).IsBotAdmin)
             {
-                return "Вы не можете кикнуть этого человека так как он адмминистратор бота!";
+                return "Вы не можете кикнуть этого человека, так как он адмминистратор бота!";
             }
 
             if(kickedUser.UserRole == Roles.Admin)
@@ -62,7 +62,17 @@ namespace VkBot.Bot.Commands.CommandsByRoles.AdminCommands
                 return "Вы не можете кикнуть админа!";
             }
 
-            _vkApi.Messages.RemoveChatUser((ulong)msg.PeerId.Value, kickedUser.UserID, kickedUser.UserID);
+            try
+            {
+                _vkApi.Messages.RemoveChatUser((ulong)msg.PeerId.Value, kickedUser.UserVkID, kickedUser.UserVkID);
+            }
+            catch(Exception e)
+            {
+                return "Упс...Что-то пошло не так, возможно у меня недостаточно прав!";
+            }
+
+            _db.ChatRoles.Remove(kickedUser);
+            await _db.SaveChangesAsync();
 
             return "Пользователь исключён!";
 

@@ -9,8 +9,8 @@ namespace VkBot.Data.Models
     public class ChatRoles
     {
         public int Id { get; set; }
-        public long? UserID  { get; set; }
-        public long? ChatID { get; set; }
+        public long? UserVkID  { get; set; }
+        public long? ChatVkID { get; set; }
         public Roles UserRole { get; set; }
     }
 }

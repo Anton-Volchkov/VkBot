@@ -67,7 +67,7 @@ namespace VkBot.Controllers
                 }
 
                 //а если начинается, то вот
-                _checker.CheckUserInChat(msg.UserId.Value, msg.ChatId.Value);
+                await _checker.CheckUserInChat(msg.FromId.Value, msg.PeerId.Value);
 
                 msg.Text = string.Join(' ', msg.Text.Split(' ').Skip(1)); // убираем !бот
 

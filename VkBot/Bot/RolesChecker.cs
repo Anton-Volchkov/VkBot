@@ -18,28 +18,30 @@ namespace VkBot.Bot
 
         public async Task<bool> CheckAccessToRoles(long? idUser, long? idChat, Roles needRole)
         {
+           
             if((await _db.Users.FirstOrDefaultAsync(x => x.Vk == idUser)).IsBotAdmin)
             {
                 return false;
             }
 
-            var role = (await _db.ChatRoles.FirstOrDefaultAsync(x => x.ChatID == idChat && x.UserID == idUser)).UserRole;
+            var role = (await _db.ChatRoles.FirstOrDefaultAsync(x => x.ChatVkID == idChat && x.UserVkID == idUser)).UserRole;
 
             return role >= needRole;
         }
 
         public async Task CheckUserInChat(long? userId, long? chatId)
         {
-            var user = await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserID == userId && x.ChatID == chatId);
+            var user = await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == userId && x.ChatVkID == chatId);
 
             if(user is null)
             {
                 await _db.ChatRoles.AddAsync(new ChatRoles
                 {
-                    UserID = userId,
-                    ChatID = chatId,
+                    UserVkID = userId,
+                    ChatVkID = chatId,
                     UserRole = Roles.User
                 });
+                await _db.SaveChangesAsync();
             }
         }
     }
