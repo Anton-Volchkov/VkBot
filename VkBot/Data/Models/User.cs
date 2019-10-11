@@ -10,5 +10,7 @@ namespace VkBot.Data.Models
         public bool Weather { get; set; }
         public string City { get; set; }
         public string Group { get; set; }
+        public string Status { get; set; }
+        public bool IsBotAdmin { get; set; }
     }
 }

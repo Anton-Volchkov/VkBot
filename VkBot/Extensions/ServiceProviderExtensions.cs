@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using VkBot.Bot;
 using VkBot.Bot.Commands;
+using VkBot.Bot.Commands.CommandsByRoles.AdminCommands;
 using VkBot.Data.Abstractions;
 
 namespace VkBot
@@ -10,6 +11,8 @@ namespace VkBot
         public static void AddBotFeatures(this IServiceCollection services)
         {
             services.AddScoped<CommandExecutor>();
+            services.AddScoped<RolesChecker>();
+
             services.AddScoped<IBotCommand, Help>();
             services.AddScoped<IBotCommand, Roulette>();
             services.AddScoped<IBotCommand, SetCommon>();
@@ -31,6 +34,7 @@ namespace VkBot
             services.AddScoped<IBotCommand, SetGroup>();
             services.AddScoped<IBotCommand, SetTimeTable>();
             services.AddScoped<IBotCommand, GetSchedule>();
+            services.AddScoped<IBotCommand, Kick>();
             services.AddScoped<IInfo, Info>();
         }
     }

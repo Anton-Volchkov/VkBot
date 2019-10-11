@@ -28,14 +28,17 @@ namespace VkBot.Controllers
 
         private readonly CommandExecutor commandExec;
 
+        private readonly RolesChecker _checker;
+
         //private Random rnd = new Random(); //TODO: почему нигде не используется
 
-        public CallbackController(IVkApi vkApi, IConfiguration configuration, CommandExecutor cmdExec, MainContext db)
+        public CallbackController(IVkApi vkApi, IConfiguration configuration, CommandExecutor cmdExec, MainContext db, RolesChecker checker)
         {
             _vkApi = vkApi;
             _configuration = configuration;
             commandExec = cmdExec;
             _db = db;
+            _checker = checker;
         }
 
         [HttpPost]
@@ -64,6 +67,8 @@ namespace VkBot.Controllers
                 }
 
                 //а если начинается, то вот
+                _checker.CheckUserInChat(msg.UserId.Value, msg.ChatId.Value);
+
                 msg.Text = string.Join(' ', msg.Text.Split(' ').Skip(1)); // убираем !бот
 
                 if(_db.GetUsers().All(x => x.Vk != msg.FromId))

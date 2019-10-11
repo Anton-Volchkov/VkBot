@@ -15,7 +15,7 @@ namespace VkBot.Data.Models
         public DbSet<UserMemory> Memories { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<TimeTable> TimeTable { get; set; }
-
+        public DbSet<ChatRoles> ChatRoles { get; set; }
 
         public User[] GetUsers()
         {
