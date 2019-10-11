@@ -16,11 +16,9 @@ namespace VkBot.Bot.Commands.CommandsByRoles.AdminCommands
         private readonly RolesChecker _checker;
         public string[] Alliases { get; set; } = { "кик", "выгнать" };
 
-        public string Description
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
+        public string Description { get; set; } =
+            "Команда !Бот кик кикает того пользоователя чьё сообщение в чате вы переслали.\nПример: !Бот кик + пересланное сообщение\n" +
+            "ВАЖНО: КОМАНДА РАБОТАЕТ ТОЛЬКО ДЛЯ АДМИНИСТРАТОРОВ!";
 
         public Kick(MainContext db, IVkApi api, RolesChecker checker)
         {
@@ -49,7 +47,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.AdminCommands
 
             if(kickedUser is null)
             {
-                return "Такого пользователя нет в данном чате!";
+                return "Данного пользователя нет или он ещё ничего не написал в этом чате!";
             }
 
             if ((await _db.Users.FirstOrDefaultAsync(x => x.Vk == kickedUser.UserVkID)).IsBotAdmin)
@@ -59,7 +57,11 @@ namespace VkBot.Bot.Commands.CommandsByRoles.AdminCommands
 
             if(kickedUser.UserRole == Roles.Admin)
             {
-                return "Вы не можете кикнуть админа!";
+                if(!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value)).IsBotAdmin)
+                {
+                    return "Вы не можете кикнуть админа!";
+                }
+               
             }
 
             try
