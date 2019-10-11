@@ -21,7 +21,7 @@ namespace VkBot.Bot
            
             if((await _db.Users.FirstOrDefaultAsync(x => x.Vk == idUser)).IsBotAdmin)
             {
-                return false;
+                return true;
             }
 
             var role = (await _db.ChatRoles.FirstOrDefaultAsync(x => x.ChatVkID == idChat && x.UserVkID == idUser)).UserRole;
