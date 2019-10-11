@@ -64,7 +64,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.AdminCommands
 
             try
             {
-                _vkApi.Messages.RemoveChatUser((ulong)msg.PeerId.Value, kickedUser.UserVkID, kickedUser.UserVkID);
+                _vkApi.Messages.RemoveChatUser((ulong)msg.PeerId.Value - 2000000000, kickedUser.UserVkID);
             }
             catch(Exception e)
             {

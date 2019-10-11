@@ -60,15 +60,15 @@ namespace VkBot.Controllers
             {
                 var msg = Message.FromJson(new VkResponse(updates.Object));
 
+                await _checker.CheckUserInChat(msg.FromId.Value, msg.PeerId.Value);
+
                 //если сообщение НЕ НАЧИНАЕТСЯ С ЭТОГО, то ничо не делаем
-                if(!(msg.Text.ToLower().StartsWith("!бот") || msg.Text.ToLower().StartsWith("бот")))
+                if (!(msg.Text.ToLower().StartsWith("!бот") || msg.Text.ToLower().StartsWith("бот")))
                 {
                     return Ok("ok");
                 }
 
                 //а если начинается, то вот
-                await _checker.CheckUserInChat(msg.FromId.Value, msg.PeerId.Value);
-
                 msg.Text = string.Join(' ', msg.Text.Split(' ').Skip(1)); // убираем !бот
 
                 if(_db.GetUsers().All(x => x.Vk != msg.FromId))
