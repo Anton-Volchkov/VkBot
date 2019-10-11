@@ -60,6 +60,11 @@ namespace VkBot.Controllers
             {
                 var msg = Message.FromJson(new VkResponse(updates.Object));
 
+                if(msg.FromId.Value == msg.PeerId.Value)
+                {
+                    return Ok("Ok");
+                }
+
                 await _checker.CheckUserInChat(msg.FromId.Value, msg.PeerId.Value);
 
                 //если сообщение НЕ НАЧИНАЕТСЯ С ЭТОГО, то ничо не делаем
