@@ -40,8 +40,7 @@ namespace VkBot
             services.AddScoped<IBotCommand, SetStatus>();
             services.AddScoped<IBotCommand, SetRole>();
             services.AddScoped<IBotCommand, Statistics>();
-            services.AddScoped<IBotCommand, CheckOnline>();
-
+            
             services.AddScoped<IInfo, Info>();
         }
     }

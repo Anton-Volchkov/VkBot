@@ -49,14 +49,14 @@ namespace VkBot.Bot.Commands
                     return "Данного пользователя нет или он ещё ничего не написал в этом чате!";
                 }
 
-                needUserId = forwardMessage.FromId.Value;
+                needUserId = msg.FromId.Value;
             }
             else
             {
                 user =
                     await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == forwardMessage.FromId.Value &&
                                                                  x.ChatVkID == msg.PeerId.Value);
-                needUserId = msg.FromId.Value;
+                needUserId = forwardMessage.FromId.Value;
             }
 
             var VkUser = (await _vkApi.Users.GetAsync(new[] { needUserId })).FirstOrDefault();
