@@ -60,16 +60,16 @@ namespace VkBot.Controllers
             {
                 var msg = Message.FromJson(new VkResponse(updates.Object));
 
-                if(msg.FromId.Value != msg.PeerId.Value)
-                {
-                    await _checker.CheckUserInChat(msg.FromId.Value, msg.PeerId.Value);
-
-                }
-
                 if (_db.GetUsers().All(x => x.Vk != msg.FromId))
                 {
                     await _db.Users.AddAsync(new User { Vk = msg.FromId });
                     await _db.SaveChangesAsync();
+                }
+
+                if (msg.FromId.Value != msg.PeerId.Value)
+                {
+                    await _checker.CheckUserInChat(msg.FromId.Value, msg.PeerId.Value);
+
                 }
 
                 //если сообщение НЕ НАЧИНАЕТСЯ С ЭТОГО, то ничо не делаем
