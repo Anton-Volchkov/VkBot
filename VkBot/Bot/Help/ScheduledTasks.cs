@@ -29,6 +29,8 @@ namespace VkBot.Bot.Help
             var grouped = _db.GetWeatherUsers().GroupBy(x => x.City);
             foreach(var group in grouped)
             {
+                var weather = await _weather.GetDailyWeather(group.Key);
+
                 var ids = group.Select(x => x.Vk).ToArray();
                 foreach(var id in ids)
                 {
@@ -39,12 +41,10 @@ namespace VkBot.Bot.Help
                         {
                             RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
                             UserId = id,
-                            Message = await _weather.GetDailyWeather(group.Key)
+                            Message = weather
                         });
                     }
                     catch(Exception) { }
-
-                    await Task.Delay(60);
                 }
             }
         }
@@ -87,8 +87,6 @@ namespace VkBot.Bot.Help
                         });
                     }
                     catch(Exception) { }
-
-                    await Task.Delay(60);
                 }
             }
         }
