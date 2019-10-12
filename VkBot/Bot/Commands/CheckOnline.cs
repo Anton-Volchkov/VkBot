@@ -24,6 +24,11 @@ namespace VkBot.Bot.Commands
         }
         public async Task<string> Execute(Message msg)
         {
+            if (msg.PeerId.Value == msg.FromId.Value)
+            {
+                return "Команда работает только в групповых чатах!";
+            }
+
             var users = _db.ChatRoles.Where(x => x.ChatVkID == msg.PeerId).ToArray();
             StringBuilder userOnline = new StringBuilder();
 
