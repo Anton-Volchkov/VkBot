@@ -19,7 +19,7 @@ namespace VkBot.Bot.Commands
 
         public string[] Alliases { get; set; } = { "стат", "статистика", "стата" };
         public string Description { get; set; } =
-            "Команда !Бот стат + пересланное сообщение скажет вам статистике пользователя, чьё сообщение вы переслали" +
+            "Команда !Бот стат + пересланное сообщение скажет вам о статистике пользователя в этом чате, чьё сообщение вы переслали" +
             "\nПример: !Бот стат + пересланное сообщение";
         public Statistics(MainContext db, IVkApi api, RolesHandler checker)
         {
@@ -55,13 +55,14 @@ namespace VkBot.Bot.Commands
 
             var VkUser = (await _vkApi.Users.GetAsync(new[] { forwardMessage.FromId.Value })).FirstOrDefault();
 
-            var status = string.IsNullOrWhiteSpace(user.Status) ? "Не установлено" : user.Status;
+            var status = string.IsNullOrWhiteSpace(user.Status) ? "Не установлен" : user.Status;
 
             sb.AppendLine($"Статистика для пользователя - {VkUser.FirstName} {VkUser.LastName}");
             sb.AppendLine("_______________");
             sb.AppendLine($"Роль в чате: {await _checker.GetNameByRoles(user.UserRole)}");
             sb.AppendLine($"Отправлено сообщений в этом чате: {user.AmountChatMessages}");
-            sb.AppendLine($"Статус: {status}");
+            sb.AppendLine($"Статус: {status}"); 
+            sb.AppendLine("_______________");
 
             return sb.ToString();
 
