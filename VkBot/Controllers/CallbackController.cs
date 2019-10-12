@@ -28,11 +28,11 @@ namespace VkBot.Controllers
 
         private readonly CommandExecutor commandExec;
 
-        private readonly RolesChecker _checker;
+        private readonly RolesHandler _checker;
 
         //private Random rnd = new Random(); //TODO: почему нигде не используется
 
-        public CallbackController(IVkApi vkApi, IConfiguration configuration, CommandExecutor cmdExec, MainContext db, RolesChecker checker)
+        public CallbackController(IVkApi vkApi, IConfiguration configuration, CommandExecutor cmdExec, MainContext db, RolesHandler checker)
         {
             _vkApi = vkApi;
             _configuration = configuration;

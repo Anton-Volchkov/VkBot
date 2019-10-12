@@ -7,9 +7,11 @@ namespace VkBot.Bot.Help
 {
     public enum Roles
     {
+        GlAdmin = 4,
         Admin = 3,
-        Redactor = 2,
+        Moderator = 2,
         Editor = 1,
-        User = 0
+        User = 0,
+        RoleNotFound = -1
     }
 }
