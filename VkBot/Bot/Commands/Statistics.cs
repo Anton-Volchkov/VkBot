@@ -49,11 +49,13 @@ namespace VkBot.Bot.Commands
 
             var VkUser = (await _vkApi.Users.GetAsync(new[] { forwardMessage.FromId.Value })).FirstOrDefault();
 
+            var status = string.IsNullOrWhiteSpace(user.Status) ? "Не установлено" : user.Status;
+
             sb.AppendLine($"Статистика для пользователя - {VkUser.FirstName} {VkUser.LastName}");
             sb.AppendLine("_______________");
             sb.AppendLine($"Роль в чате: {await _checker.GetNameByRoles(user.UserRole)}");
             sb.AppendLine($"Отправлено сообщений в этом чате: {user.AmountChatMessages}");
-            sb.AppendLine($"Статус: {user.Status}");
+            sb.AppendLine($"Статус: {status}");
 
             return sb.ToString();
 
