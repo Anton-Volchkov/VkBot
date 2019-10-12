@@ -58,7 +58,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.AdminCommands
                 return "Данного пользователя нет или он ещё ничего не написал в этом чате!";
             }
 
-            var role = await _checker.GetRolesByName(split[1].ToLower());
+            var role = _checker.GetRolesByName(split[1].ToLower());
 
             if(role == Roles.RoleNotFound)
             {

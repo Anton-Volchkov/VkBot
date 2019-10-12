@@ -16,7 +16,7 @@ namespace VkBot.Bot
             _db = db;
         }
 
-        public async Task<Roles> GetRolesByName(string name)
+        public Roles GetRolesByName(string name)
         {
             if(name == "админ" || name == "администратор")
             {
@@ -45,7 +45,7 @@ namespace VkBot.Bot
            
         }
 
-        public async Task<string> GetNameByRoles(Roles roles)
+        public string GetNameByRoles(Roles roles)
         {
             if (roles == Roles.Admin)
             {

@@ -68,7 +68,7 @@ namespace VkBot.Bot.Commands
 
             sb.AppendLine($"Статистика для пользователя - {VkUser.FirstName} {VkUser.LastName}");
             sb.AppendLine("_______________").AppendLine();
-            sb.AppendLine($"Роль в чате: {await _checker.GetNameByRoles(user.UserRole)}");
+            sb.AppendLine($"Роль в чате: { _checker.GetNameByRoles(user.UserRole)}");
             sb.AppendLine($"Отправлено сообщений в этом чате: {user.AmountChatMessages}");
             sb.AppendLine($"Статус: {status}");
             sb.AppendLine("_______________");
