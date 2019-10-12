@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,24 +40,21 @@ namespace VkBot.Bot.Commands
             userOnline.AppendLine("Пользователи чата онлайн");
             userOnline.AppendLine("_____________").AppendLine();
 
-            foreach(var user in users)
+            var chat = _vkApi.Messages.GetConversationMembers(msg.PeerId.Value, new List<string> { "online" }).Profiles
+                             .Where(x => x.Online.HasValue).ToArray();
+
+            foreach (var user in chat)
             {
-                var VkUser = (await _vkApi.Users.GetAsync(new[] { (long) user.UserVkID }, ProfileFields.Online)).FirstOrDefault();
 
-                if(!VkUser.Online.HasValue)
+                if(user.Online.Value)
                 {
-                    continue;
-                }
-
-                if(VkUser.Online.Value)
-                {
-                    if(VkUser.OnlineMobile.HasValue)
+                    if(user.OnlineMobile.HasValue)
                     {
-                        userOnline.AppendLine($"{VkUser.FirstName} {VkUser.LastName} (📱)");
+                        userOnline.AppendLine($"{user.FirstName} {user.LastName} (📱)");
                     }
                     else
                     {
-                        userOnline.AppendLine($"{VkUser.FirstName} {VkUser.LastName} (💻)");
+                        userOnline.AppendLine($"{user.FirstName} {user.LastName} (💻)");
                     }
                 }
 

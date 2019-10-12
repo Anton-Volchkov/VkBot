@@ -18,6 +18,11 @@ namespace VkBot.Bot.Commands
         public string[] Alliases { get; set; } = { "получить" };
         public string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        public GetRights(MainContext db, IVkApi api)
+        {
+            _db = db;
+            _vkApi = api;
+        }
         public async Task<string> Execute(Message msg)
         {
             if (msg.PeerId.Value == msg.FromId.Value)
@@ -32,16 +37,19 @@ namespace VkBot.Bot.Commands
                 return "Я не знаю такой команды =(";
             }
 
-            var chat = _vkApi.Messages.GetChat(msg.PeerId.Value - 2000000000);
+            var chat = _vkApi.Messages.GetConversationMembers(msg.PeerId.Value, new List<string> { "is_admin" }).Items.Where(x => x.IsAdmin).Select(x => x.MemberId).ToArray();
 
-            if(chat.AdminId != msg.FromId.Value)
+            if(!chat.Contains(msg.FromId.Value))
             {
-                return "Этой командой может воспользоваться только администратор сообщества!";
+                return "Этой командой может воспользоавться только администратор!";
             }
 
-            var admin = await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == msg.FromId.Value &&
-                                                                     x.ChatVkID == msg.PeerId.Value);
-            admin.UserRole = Roles.GlAdmin;
+            foreach(var item in chat)
+            {
+                var admin = await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == msg.FromId.Value &&
+                                                                         x.ChatVkID == msg.PeerId.Value);
+                admin.UserRole = Roles.GlAdmin;
+            }
 
             await _db.SaveChangesAsync();
 
