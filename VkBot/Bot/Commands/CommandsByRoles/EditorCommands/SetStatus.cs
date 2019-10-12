@@ -24,10 +24,16 @@ namespace VkBot.Bot.Commands.CommandsByRoles.EditorCommands
             _checker = checker;
         }
         public string[] Alliases { get; set; } = { "статус" };
-        public string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
+        public string Description { get; set; } =
+            "Команда !Бот статус устанавливает указанный статус пользователю, чьё сообщение в чате вы переслали.\nПример: !Бот статус Тестовый статус + пересланное сообщение\n" +
+            "ВАЖНО: КОМАНДА РАБОТАЕТ ТОЛЬКО С ПРАВАМИ РЕДАКТОРА И ВЫШЕ !";
         public async Task<string> Execute(Message msg)
         {
+            if (msg.PeerId.Value == msg.FromId.Value)
+            {
+                return "Команда работает только в групповых чатах!";
+            }
+
             var split = msg.Text.Split(' ', 2); // [команда, статус]
 
             if (!await _checker.CheckAccessToCommand(msg.FromId.Value, msg.PeerId.Value, Roles.Editor))
@@ -55,7 +61,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.EditorCommands
             {
                 if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value)).IsBotAdmin)
                 {
-                    return "Вы не можете установить статус этому пользователю, так как он адмминистратор бота!";
+                    return "Вы не можете установить статус этому пользователю, так как он администратор бота!";
                 }
               
             }

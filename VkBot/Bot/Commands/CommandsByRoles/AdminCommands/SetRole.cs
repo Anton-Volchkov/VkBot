@@ -25,11 +25,16 @@ namespace VkBot.Bot.Commands.CommandsByRoles.AdminCommands
 
         public string[] Alliases { get; set; } = { "роль" };
         public string Description { get; set; } =
-            "Команда !Бот роль устанавливает роль пользователю, чьё сообщение в чате вы переслали.\nПример: !Бот кик + пересланное сообщение\n" +
-            "ВАЖНО: КОМАНДА РАБОТАЕТ ТОЛЬКО ДЛЯ АДМИНИСТРАТОРОВ!";
+            "Команда !Бот роль устанавливает роль пользователю, чьё сообщение в чате вы переслали.\nПример: !Бот роль Админ + пересланное сообщение\n" +
+            "ВАЖНО: КОМАНДА РАБОТАЕТ ТОЛЬКО С ПРАВАМИ АДМИНИСТРАТОРА ИЛИ ВЫШЕ!";
 
         public async Task<string> Execute(Message msg)
         {
+            if(msg.PeerId.Value == msg.FromId.Value)
+            {
+                return "Команда работает только в групповых чатах!";
+            }
+
             var split = msg.Text.Split(' ', 2); // [команда, роль]
 
             if (!await _checker.CheckAccessToCommand(msg.FromId.Value, msg.PeerId.Value, Roles.Admin))

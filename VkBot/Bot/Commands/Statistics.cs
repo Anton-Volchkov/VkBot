@@ -18,8 +18,9 @@ namespace VkBot.Bot.Commands
         private readonly RolesHandler _checker;
 
         public string[] Alliases { get; set; } = { "стат", "статистика", "стата" };
-        public string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
+        public string Description { get; set; } =
+            "Команда !Бот стат + пересланное сообщение скажет вам статистике пользователя, чьё сообщение вы переслали" +
+            "\nПример: !Бот стат + пересланное сообщение";
         public Statistics(MainContext db, IVkApi api, RolesHandler checker)
         {
             _db = db;
@@ -29,6 +30,11 @@ namespace VkBot.Bot.Commands
 
         public async Task<string> Execute(Message msg)
         {
+            if (msg.PeerId.Value == msg.FromId.Value)
+            {
+                return "Команда работает только в групповых чатах!";
+            }
+
             var forwardMessage = msg.ForwardedMessages.Count == 0 ? msg.ReplyMessage : msg.ForwardedMessages[0];
 
             if (forwardMessage is null)

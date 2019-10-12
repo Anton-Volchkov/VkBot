@@ -18,7 +18,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
 
         public string Description { get; set; } =
             "Команда !Бот кик кикает того пользоователя, чьё сообщение в чате вы переслали.\nПример: !Бот кик + пересланное сообщение\n" +
-            "ВАЖНО: КОМАНДА РАБОТАЕТ ТОЛЬКО ДЛЯ АДМИНИСТРАТОРОВ!";
+            "ВАЖНО: КОМАНДА РАБОТАЕТ ТОЛЬКО С ПРАВАМИ МОДЕРАТОРА И ВЫШЕ!";
 
         public Kick(MainContext db, IVkApi api, RolesHandler checker)
         {
@@ -29,7 +29,12 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
 
         public async Task<string> Execute(Message msg)
         {
-            if(!await _checker.CheckAccessToCommand(msg.FromId.Value, msg.PeerId.Value, Roles.Moderator))
+            if (msg.PeerId.Value == msg.FromId.Value)
+            { 
+                return "Команда работает только в групповых чатах!";
+            }
+
+            if (!await _checker.CheckAccessToCommand(msg.FromId.Value, msg.PeerId.Value, Roles.Moderator))
             {
                 return "Недосточно прав!";
             }
@@ -52,7 +57,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
 
             if ((await _db.Users.FirstOrDefaultAsync(x => x.Vk == kickedUser.UserVkID)).IsBotAdmin)
             {
-                return "Вы не можете кикнуть этого пользователю, так как он адмминистратор бота!";
+                return "Вы не можете кикнуть этого пользователю, так как он администратор бота!";
             }
 
             if(kickedUser.UserRole >= await _checker.GetUserRole(msg.FromId.Value, msg.PeerId.Value))
