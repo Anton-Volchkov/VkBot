@@ -31,21 +31,16 @@ namespace VkBot.Bot.Help
             {
                 var weather = await _weather.GetDailyWeather(group.Key);
 
-                var ids = group.Select(x => x.Vk).ToArray();
-                foreach(var id in ids)
+                var ids = group.Select(x => x.Vk.Value);
+
+                await _vkApi.Messages.SendToUserIdsAsync(new MessagesSendParams
                 {
-                    //нужен блок try потому что если у человека закрыта личка но он был подписан на рассылку, вылетает ексепшн и для других рассылка не идёт
-                    try
-                    {
-                        await _vkApi.Messages.SendAsync(new MessagesSendParams
-                        {
-                            RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
-                            UserId = id,
-                            Message = weather
-                        });
-                    }
-                    catch(Exception) { }
-                }
+                    RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
+                    UserIds = ids,
+                    Message = weather
+                });
+
+                await Task.Delay(10);
             }
         }
 
@@ -73,21 +68,16 @@ namespace VkBot.Bot.Help
                     continue;
                 }
 
-                var ids = group.Select(x => x.Vk).ToArray();
-                foreach(var id in ids)
+                var ids = group.Select(x => x.Vk.Value).ToArray();
+
+                await _vkApi.Messages.SendToUserIdsAsync(new MessagesSendParams
                 {
-                    //нужен блок try потому что если у человека закрыта личка но он был подписан на рассылку, вылетает ексепшн и для других рассылка не идёт
-                    try
-                    {
-                        await _vkApi.Messages.SendAsync(new MessagesSendParams
-                        {
-                            RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
-                            UserId = id,
-                            Message = schedule.Schedule
-                        });
-                    }
-                    catch(Exception) { }
-                }
+                    RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
+                    UserIds = ids,
+                    Message = schedule.Schedule
+                });
+
+                await Task.Delay(10);
             }
         }
 

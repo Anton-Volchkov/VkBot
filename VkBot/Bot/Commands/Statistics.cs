@@ -56,6 +56,11 @@ namespace VkBot.Bot.Commands
                 user =
                     await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == forwardMessage.FromId.Value &&
                                                                  x.ChatVkID == msg.PeerId.Value);
+                if (user is null)
+                {
+                    return "Данного пользователя нет или он ещё ничего не написал в этом чате!";
+                }
+
                 needUserId = forwardMessage.FromId.Value;
             }
 
