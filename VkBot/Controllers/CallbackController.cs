@@ -66,6 +66,12 @@ namespace VkBot.Controllers
 
                 }
 
+                if (_db.GetUsers().All(x => x.Vk != msg.FromId))
+                {
+                    await _db.Users.AddAsync(new User { Vk = msg.FromId });
+                    await _db.SaveChangesAsync();
+                }
+
                 //если сообщение НЕ НАЧИНАЕТСЯ С ЭТОГО, то ничо не делаем
                 if (!(msg.Text.ToLower().StartsWith("!бот") || msg.Text.ToLower().StartsWith("бот")))
                 {
@@ -75,12 +81,7 @@ namespace VkBot.Controllers
                 //а если начинается, то вот
                 msg.Text = string.Join(' ', msg.Text.Split(' ').Skip(1)); // убираем !бот
 
-                if(_db.GetUsers().All(x => x.Vk != msg.FromId))
-                {
-                    await _db.Users.AddAsync(new User { Vk = msg.FromId });
-                    await _db.SaveChangesAsync();
-                }
-
+                
                 #region Проверка подписки
                 //var subscription = _vkApi.Groups.IsMember("178921904", msg.FromId.Value, null, null).Select(x => x.Member).FirstOrDefault();
                 //var text = subscription == false? "Подпишитесь на сообщество, чтобы пользоваться командами бота! \n \n https://vk.com/kerlibot" : await commandExec.HandleMessage(msg);
