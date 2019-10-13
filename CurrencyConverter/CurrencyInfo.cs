@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CurrencyConverter.Models;
 using Flurl.Http;
 using Newtonsoft.Json;
@@ -10,7 +8,7 @@ namespace CurrencyConverter
     public class CurrencyInfo
     {
         private const string EndPoint = "https://www.nbrb.by/API/ExRates/Rates/";
-        
+
         public async Task<Currency> GetCurrency(int code)
         {
             var response = await EndPoint.AllowAnyHttpStatus()

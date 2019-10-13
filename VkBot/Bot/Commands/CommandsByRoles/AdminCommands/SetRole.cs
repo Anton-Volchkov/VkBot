@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using VkBot.Bot.Help;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
@@ -23,7 +22,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.AdminCommands
             _checker = checker;
         }
 
-        public string[] Alliases { get; set; } = { "роль" };
+        public string[] Aliases { get; set; } = { "роль" };
         public string Description { get; set; } =
             "Команда !Бот роль устанавливает роль пользователю, чьё сообщение в чате вы переслали.\nПример: !Бот роль Админ + пересланное сообщение\n" +
             "ВАЖНО: КОМАНДА РАБОТАЕТ ТОЛЬКО С ПРАВАМИ АДМИНИСТРАТОРА ИЛИ ВЫШЕ!";
@@ -58,7 +57,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.AdminCommands
                 return "Данного пользователя нет или он ещё ничего не написал в этом чате!";
             }
 
-            var role = _checker.GetRolesByName(split[1].ToLower());
+            var role = _checker.GetRoleByName(split[1].ToLower());
 
             if(role == Roles.RoleNotFound)
             {

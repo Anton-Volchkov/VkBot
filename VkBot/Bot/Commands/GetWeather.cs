@@ -14,7 +14,7 @@ namespace VkBot.Bot.Commands
             _weather = weather;
         }
 
-        public string[] Alliases { get; set; } = { "погода" };
+        public string[] Aliases { get; set; } = { "погода" };
 
         public string Description { get; set; } =
             "Команда !Бот погода скажет вам текущую погоду в переданном вами городе." +

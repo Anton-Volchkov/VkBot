@@ -15,7 +15,7 @@ namespace VkBot.Bot.Commands
             _db = db;
         }
 
-        public string[] Alliases { get; set; } = { "запомни" };
+        public string[] Aliases { get; set; } = { "запомни" };
 
         public string Description { get; set; } =
             "Команда !Бот запомни, запоминает пересланное вам сообщение как общее сообщение для всех кто будет его запрашивать." +

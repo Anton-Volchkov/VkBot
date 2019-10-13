@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Flurl.Http;
 using Newtonsoft.Json;
 using YandexTranslator.Models;
@@ -16,7 +14,6 @@ namespace YandexTranslator
         public Translator(string token)
         {
             Token = token;
-
         }
 
         public async Task<string> Translate(string text, string lang)
@@ -35,7 +32,7 @@ namespace YandexTranslator
 
             var translate = JsonConvert.DeserializeObject<TranslateText>(await response.Content.ReadAsStringAsync());
 
-            return string.Join("\n", translate.text);
+            return string.Join("\n", translate.Text);
         }
     }
 }

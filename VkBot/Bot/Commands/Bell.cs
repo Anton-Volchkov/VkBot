@@ -8,12 +8,12 @@ namespace VkBot.Bot.Commands
 {
     public class Bell : IBotCommand
     {
-        public string[] Alliases { get; set; } = { "звонок" };
+        public string[] Aliases { get; set; } = { "звонок" };
 
         public string Description { get; set; } =
             "Команда !Бот звонок скажет вам время до окнчания пары/полупары или перемены.\nПример: !Бот звонок";
 
-        public async Task<string> Execute(Message msg)
+        public Task<string> Execute(Message msg)
         {
             var bells = new[]
             {
@@ -22,8 +22,8 @@ namespace VkBot.Bot.Commands
                 "5) 16:00 - 16:45 / 16:55 - 17:40"
             };
             var dt = DateTime.Now;
-            return $"Сейчас - {dt.ToShortTimeString()}\n\n" +
-                   $"Расписание звонков: \n {string.Join('\n', bells)}\n{dt.GetTime()}";
+            return Task.FromResult($"Сейчас - {dt.ToShortTimeString()}\n\n" +
+                   $"Расписание звонков: \n {string.Join('\n', bells)}\n{dt.GetTime()}");
         }
     }
 }

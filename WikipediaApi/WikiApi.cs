@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Newtonsoft.Json.Linq;
@@ -23,9 +21,6 @@ namespace WikipediaApi
                                  .SetQueryParam("redirects", 1)
                                  .SetQueryParam("titles", titles)
                                  .GetAsync();
-            
-                //await Client.GetAsync(
-                  //                    $"?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles={titles}");
 
             if(!response.IsSuccessStatusCode)
             {

@@ -19,7 +19,7 @@ namespace VkBot.Bot.Commands
             _vkApi = api;
         }
 
-        public string[] Alliases { get; set; } = { "личное" };
+        public string[] Aliases { get; set; } = { "личное" };
 
         public string Description { get; set; } =
             "Команда !Бот личное запомнит текст который вы передадите ТОЛЬКО для вас.Получить его можно через команду !бот память." +

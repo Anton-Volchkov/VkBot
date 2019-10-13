@@ -30,8 +30,6 @@ namespace VkBot.Controllers
 
         private readonly RolesHandler _checker;
 
-        //private Random rnd = new Random(); //TODO: почему нигде не используется
-
         public CallbackController(IVkApi vkApi, IConfiguration configuration, CommandExecutor cmdExec, MainContext db, RolesHandler checker)
         {
             _vkApi = vkApi;
@@ -48,10 +46,8 @@ namespace VkBot.Controllers
             {
                 return Ok("Bad Secret Key");
             }
-            // Проверяем, что находится в поле "type" 
+            
             if(updates.Type == "confirmation")
-
-                // Отправляем строку для подтверждения 
             {
                 return Ok(_configuration["Config:Confirmation"]);
             }

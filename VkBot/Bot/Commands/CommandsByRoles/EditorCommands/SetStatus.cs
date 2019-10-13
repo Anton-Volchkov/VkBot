@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using VkBot.Bot.Help;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
@@ -23,7 +22,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.EditorCommands
             _vkApi = api;
             _checker = checker;
         }
-        public string[] Alliases { get; set; } = { "статус" };
+        public string[] Aliases { get; set; } = { "статус" };
         public string Description { get; set; } =
             "Команда !Бот статус устанавливает указанный статус пользователю, чьё сообщение в чате вы переслали.\nПример: !Бот статус ТЕСТОВЫЙ СТАТУС + пересланное сообщение\n" +
             "ВАЖНО: КОМАНДА РАБОТАЕТ ТОЛЬКО С ПРАВАМИ РЕДАКТОРА И ВЫШЕ!";

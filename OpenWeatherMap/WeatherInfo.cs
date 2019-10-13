@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json;
 using OpenWeatherMap.Models.Daily;
@@ -32,8 +30,6 @@ namespace OpenWeatherMap
         {
             city = char.ToUpper(city[0]) + city.Substring(1); //TODO ?
 
-            //var response = await Client.GetAsync($"weather?q={city}&units=metric&appid={Token}&lang={Lang}");
-
             var response = await GetCurrentWeatherResponse(city);
 
             if(!response.IsSuccessStatusCode)
@@ -42,7 +38,7 @@ namespace OpenWeatherMap
 
                 response = await GetCurrentWeatherResponse(newCity);
 
-                if (!response.IsSuccessStatusCode)
+                if(!response.IsSuccessStatusCode)
                 {
                     return $"Город {city} не найден.";
                 }
@@ -75,7 +71,7 @@ namespace OpenWeatherMap
             const int count = 8;
 
             var response = await GetDailyWeatherResponse(city, count);
-            
+
             if(!response.IsSuccessStatusCode)
             {
                 var newCity = city.Replace("е", "ё");

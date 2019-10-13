@@ -19,7 +19,7 @@ namespace VkBot.Bot.Commands
             _db = db;
         }
 
-        public string[] Alliases { get; set; } = { "память" };
+        public string[] Aliases { get; set; } = { "память" };
 
         public string Description { get; set; } =
             "Команда !Бот память вернёт вам ваши данные, которые вы запомнили при помощи команды !бот личное." +

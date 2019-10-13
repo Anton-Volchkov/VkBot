@@ -5,12 +5,12 @@ namespace YandexTranslator.Models
     internal class TranslateText
     {
         [JsonProperty("code")]
-        public int code;
+        public int Code;
 
         [JsonProperty("lang")]
-        public string lang;
+        public string Lang;
 
         [JsonProperty("text")]
-        public string[] text;
+        public string[] Text;
     }
 }

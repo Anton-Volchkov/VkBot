@@ -19,7 +19,7 @@ namespace VkBot.Bot.Commands
             _translator = translator;
         }
 
-        public string[] Alliases { get; set; } = { "перевод", "переводчик" };
+        public string[] Aliases { get; set; } = { "перевод", "переводчик" };
 
         public string Description { get; set; } =
             "Команда !Бот перевод переведёт ваш текст с выбранного языка на выбранный язык." +

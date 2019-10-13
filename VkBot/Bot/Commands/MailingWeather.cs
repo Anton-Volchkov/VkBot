@@ -19,7 +19,7 @@ namespace VkBot.Bot.Commands
             _vkApi = vkApi;
         }
 
-        public string[] Alliases { get; set; } = { "подписка", "отписка" };
+        public string[] Aliases { get; set; } = { "подписка", "отписка" };
 
         public string Description { get; set; } =
             "Команда !Бот подписка подписывает вас на рассылку погоды по указанному городу." +

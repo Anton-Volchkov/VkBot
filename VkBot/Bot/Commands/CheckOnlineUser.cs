@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
-using VkNet.Enums.Filters;
 using VkNet.Model;
 
 namespace VkBot.Bot.Commands
@@ -15,7 +12,7 @@ namespace VkBot.Bot.Commands
     {
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
-        public string[] Alliases { get; set; } = { "онлайн" };
+        public string[] Aliases { get; set; } = { "онлайн" };
 
         public string Description { get; set; } =
             "Команда !Бот онлайн скажет вам кто онлайн в беседе.\nПример: !Бот онлайн";
@@ -26,43 +23,40 @@ namespace VkBot.Bot.Commands
             _vkApi = api;
         }
 
-        public async Task<string> Execute(Message msg)
+        public Task<string> Execute(Message msg)
         {
-            if (msg.PeerId.Value == msg.FromId.Value)
+            if(msg.PeerId.Value == msg.FromId.Value)
             {
-                return "Команда работает только в групповых чатах!";
+                return Task.FromResult("Команда работает только в групповых чатах!");
             }
 
-            var users = _db.ChatRoles.Where(x => x.ChatVkID == msg.PeerId).ToArray();
-            var userOnline = new StringBuilder();
+            var strBuilder = new StringBuilder();
 
+            strBuilder.AppendLine("Пользователи чата онлайн");
+            strBuilder.AppendLine("_____________").AppendLine();
 
-            userOnline.AppendLine("Пользователи чата онлайн");
-            userOnline.AppendLine("_____________").AppendLine();
-
-            var chat = _vkApi.Messages.GetConversationMembers(msg.PeerId.Value, new List<string> { "online" }).Profiles
+            var chat = _vkApi.Messages.GetConversationMembers(msg.PeerId.Value, new[] { "online" })
+                             .Profiles
                              .Where(x => x.Online.HasValue).ToArray();
 
-            foreach (var user in chat)
+            foreach(var user in chat)
             {
-
-                if(user.Online.Value)
+                if(user.Online.HasValue && user.Online.Value)
                 {
                     if(user.OnlineMobile.HasValue)
                     {
-                        userOnline.AppendLine($"{user.FirstName} {user.LastName} (📱)");
+                        strBuilder.AppendLine($"{user.FirstName} {user.LastName} (📱)");
                     }
                     else
                     {
-                        userOnline.AppendLine($"{user.FirstName} {user.LastName} (💻)");
+                        strBuilder.AppendLine($"{user.FirstName} {user.LastName} (💻)");
                     }
                 }
-
             }
 
-            userOnline.AppendLine("_____________").AppendLine();
+            strBuilder.AppendLine("_____________").AppendLine();
 
-            return userOnline.ToString();
+            return Task.FromResult(strBuilder.ToString());
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using VkBot.Bot.Help;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
@@ -15,7 +14,7 @@ namespace VkBot.Bot.Commands
     {
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
-        public string[] Alliases { get; set; } = { "получить" };
+        public string[] Aliases { get; set; } = { "получить" };
         public string Description { get; set; } =
             "Команда !Бот получить права выдает в боте права главного администратора создателю беседы" +
             "\nПример: !Бот получить права ";

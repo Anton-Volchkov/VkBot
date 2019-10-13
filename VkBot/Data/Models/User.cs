@@ -1,6 +1,4 @@
-﻿
-
-namespace VkBot.Data.Models
+﻿namespace VkBot.Data.Models
 {
     public class User
     {

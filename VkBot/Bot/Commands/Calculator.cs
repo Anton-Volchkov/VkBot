@@ -17,7 +17,7 @@ namespace VkBot.Bot.Commands
             _vkApi = api;
         }
 
-        public string[] Alliases { get; set; } = { "калькулятор", "посчитай" };
+        public string[] Aliases { get; set; } = { "калькулятор", "посчитай" };
 
         public string Description { get; set; } =
             "Команда !Бот калькулятор вернёт вам результат выражения которое вы передадите." +

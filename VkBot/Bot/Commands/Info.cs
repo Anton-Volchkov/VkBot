@@ -15,29 +15,31 @@ namespace VkBot.Bot.Commands
             Commands = commands.ToArray();
         }
 
-        public string[] Alliases { get; set; } = { "инфо", "информация" };
+        public string[] Aliases { get; set; } = { "инфо", "информация" };
 
         public string Description { get; set; } =
             "Команда !Бот инфо возвращает информацию о команде и пример ее использования." +
             "\nПример: !Бот инфо Звонок ";
 
 
-        public async Task<string> Execute(Message msg)
+        public Task<string> Execute(Message msg)
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
 
-            if(Alliases.Contains(split[1].Trim().ToLower()))
+            if(Aliases.Contains(split[1].Trim().ToLower()))
             {
-                return Description;
+                return Task.FromResult(Description);
             }
 
             foreach(var command in Commands)
-                if(command.Alliases.Contains(split[1].Trim().ToLower()))
+            {
+                if(command.Aliases.Contains(split[1].Trim().ToLower()))
                 {
-                    return command.Description;
+                    return Task.FromResult(command.Description);
                 }
+            }
 
-            return $"Комманды {split[1]} не найдено.";
+            return Task.FromResult($"Команда {split[1]} не найдена.");
         }
     }
 }

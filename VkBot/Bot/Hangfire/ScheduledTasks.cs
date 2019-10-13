@@ -7,7 +7,7 @@ using VkBot.Data.Models;
 using VkNet.Abstractions;
 using VkNet.Model.RequestParams;
 
-namespace VkBot.Bot.Help
+namespace VkBot.Bot.Hangfire
 {
     public class ScheduledTask
     {
@@ -58,12 +58,7 @@ namespace VkBot.Bot.Help
             {
                 var schedule = _db.TimeTable.FirstOrDefault(x => x.Group == group.Key);
 
-                if(schedule is null)
-                {
-                    continue;
-                }
-
-                if(string.IsNullOrWhiteSpace(schedule.Schedule))
+                if(schedule is null || string.IsNullOrWhiteSpace(schedule.Schedule))
                 {
                     continue;
                 }

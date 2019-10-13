@@ -19,7 +19,7 @@ namespace VkBot.Bot.Commands
             _wikiApi = wikiApi;
         }
 
-        public string[] Alliases { get; set; } = { "вики", "википедия" };
+        public string[] Aliases { get; set; } = { "вики", "википедия" };
 
         public string Description { get; set; } =
             "Команда !Бот вики вернёт вам информацию по вашему с вопросы, если она там будет, с Википедии." +

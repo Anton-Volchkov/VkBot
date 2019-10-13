@@ -10,8 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenWeatherMap;
-using VkBot.Bot.Help;
+using VkBot.Bot.Hangfire;
 using VkBot.Data.Models;
+using VkBot.Extensions;
 using VkNet;
 using VkNet.Abstractions;
 using VkNet.Model;
@@ -43,11 +44,10 @@ namespace VkBot
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers()
-                    .AddNewtonsoftJson();
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<MainContext>(options => options.UseNpgsql(connectionString));
 
             services.AddSingleton<IVkApi>(sp =>
             {
@@ -65,17 +65,14 @@ namespace VkBot
 
             services.AddSingleton<WikiApi>();
 
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<MainContext>(options => options.UseNpgsql(connectionString));
-
             services.AddBotFeatures();
 
             services.AddHangfire(config => { config.UseMemoryStorage(); });
-
-            services.AddControllers();
+            
+            services.AddControllers()
+                    .AddNewtonsoftJson();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var options = new BackgroundJobServerOptions { WorkerCount = Environment.ProcessorCount * 2 };

@@ -15,7 +15,7 @@ namespace VkBot.Bot.Commands
             _vkApi = api;
         }
 
-        public string[] Alliases { get; set; } = { "бицепсметр", "битка", "бицметр" };
+        public string[] Aliases { get; set; } = { "бицепсметр", "битка", "бицметр" };
 
         public string Description { get; set; } =
             "Команда !Бот бицепсметр является развлекательной командой.Она скажет вам размер вашего бицепса по мнению бота." +

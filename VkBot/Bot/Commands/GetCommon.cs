@@ -15,7 +15,7 @@ namespace VkBot.Bot.Commands
             _db = db;
         }
 
-        public string[] Alliases { get; set; } = { "общее" };
+        public string[] Aliases { get; set; } = { "общее" };
 
         public string Description { get; set; } =
             "Команда !Бот общее вернёт вам общее для все сообщение, которое было установлено при помощи команды(!Бот общее)." +

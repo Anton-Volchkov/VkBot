@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using VkBot.Bot.Help;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
@@ -14,7 +13,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
         private readonly RolesHandler _checker;
-        public string[] Alliases { get; set; } = { "кик", "выгнать" };
+        public string[] Aliases { get; set; } = { "кик", "выгнать" };
 
         public string Description { get; set; } =
             "Команда !Бот кик кикает того пользоователя, чьё сообщение в чате вы переслали.\nПример: !Бот кик + пересланное сообщение\n" +
@@ -72,7 +71,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
             {
                 _vkApi.Messages.RemoveChatUser((ulong)msg.PeerId.Value - 2000000000, kickedUser.UserVkID);
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return "Упс...Что-то пошло не так, возможно у меня недостаточно прав!";
             }

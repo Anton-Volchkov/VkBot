@@ -15,7 +15,7 @@ namespace VkBot.Bot.Commands
             _vkApi = api;
         }
 
-        public string[] Alliases { get; set; } = { "рулетка" };
+        public string[] Aliases { get; set; } = { "рулетка" };
 
         public string Description { get; set; } =
             "Команда !Бот рулетка является развлекательно командой, она скажет вам удалось ли вам выжить в русской рулетке." +

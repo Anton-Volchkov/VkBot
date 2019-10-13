@@ -15,7 +15,7 @@ namespace VkBot.Bot.Commands
             _currencyInfo = currencyInfo;
         }
 
-        public string[] Alliases { get; set; } = { "курс" };
+        public string[] Aliases { get; set; } = { "курс" };
 
         public string Description { get; set; } =
             "Команда !Бот курс вернёт курс переданной вам валюты(По курсу НБ РБ)." +

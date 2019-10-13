@@ -18,7 +18,6 @@ namespace VkBot.Bot
             _info = info;
         }
 
-        // тут вся логика обработки команд
         public async Task<string> HandleMessage(Message msg)
         {
             var result = "";
@@ -26,14 +25,14 @@ namespace VkBot.Bot
             var cmd = split[0].ToLower();
 
             //var cmd = msg.Text.ToLower();
-            if(_info.Alliases.Contains(cmd))
+            if(_info.Aliases.Contains(cmd))
             {
                 return await _info.Execute(msg);
             }
 
             foreach(var command in Commands)
             {
-                if(!command.Alliases.Contains(cmd))
+                if(!command.Aliases.Contains(cmd))
                 {
                     continue;
                 }

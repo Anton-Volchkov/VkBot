@@ -15,7 +15,7 @@ namespace VkBot.Bot.Commands
         private readonly IVkApi _vkApi;
         private readonly RolesHandler _checker;
 
-        public string[] Alliases { get; set; } = { "стат", "статистика", "стата" };
+        public string[] Aliases { get; set; } = { "стат", "статистика", "стата" };
 
         public string Description { get; set; } =
             "Команда !Бот стат + пересланное сообщение скажет вам о статистике пользователя в этом чате, чьё сообщение вы переслали" +
@@ -73,7 +73,7 @@ namespace VkBot.Bot.Commands
 
             sb.AppendLine($"Статистика для пользователя - {VkUser.FirstName} {VkUser.LastName}");
             sb.AppendLine("_______________").AppendLine();
-            sb.AppendLine($"Роль в чате: { _checker.GetNameByRoles(user.UserRole)}");
+            sb.AppendLine($"Роль в чате: { _checker.GetNameByRole(user.UserRole)}");
             sb.AppendLine($"Отправлено сообщений в этом чате: {user.AmountChatMessages}");
             sb.AppendLine($"Статус: {status}");
             sb.AppendLine("_______________");

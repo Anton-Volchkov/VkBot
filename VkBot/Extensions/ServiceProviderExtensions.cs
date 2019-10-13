@@ -6,7 +6,7 @@ using VkBot.Bot.Commands.CommandsByRoles.EditorCommands;
 using VkBot.Bot.Commands.CommandsByRoles.ModerCommands;
 using VkBot.Data.Abstractions;
 
-namespace VkBot
+namespace VkBot.Extensions
 {
     public static class ServiceProviderExtensions
     {

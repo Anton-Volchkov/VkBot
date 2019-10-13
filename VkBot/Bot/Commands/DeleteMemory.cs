@@ -19,7 +19,7 @@ namespace VkBot.Bot.Commands
             _vkApi = api;
         }
 
-        public string[] Alliases { get; set; } = { "забудь" };
+        public string[] Aliases { get; set; } = { "забудь" };
 
         public string Description { get; set; } =
             "Команда !Бот забудь забывает все введённые вами данный(при помощи команды !Бот личное)." +
