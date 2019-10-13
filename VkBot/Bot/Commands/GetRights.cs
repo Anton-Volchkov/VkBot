@@ -16,7 +16,9 @@ namespace VkBot.Bot.Commands
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
         public string[] Alliases { get; set; } = { "получить" };
-        public string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Description { get; set; } =
+            "Команда !Бот получить права выдает в боте права главного администратора создателю беседы" +
+            "\nПример: !Бот получить права ";
 
         public GetRights(MainContext db, IVkApi api)
         {
@@ -41,7 +43,7 @@ namespace VkBot.Bot.Commands
 
             if(!chat.Contains(msg.FromId.Value))
             {
-                return "Этой командой может воспользоавться только администратор!";
+                return "Этой командой может воспользоваться только администратор!";
             }
 
             foreach(var item in chat)
