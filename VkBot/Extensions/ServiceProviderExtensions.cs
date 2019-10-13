@@ -42,6 +42,7 @@ namespace VkBot.Extensions
             services.AddScoped<IBotCommand, Statistics>();
             services.AddScoped<IBotCommand, GetRights>();
             services.AddScoped<IBotCommand, CheckOnlineUser>();
+            services.AddScoped<IBotCommand, CallEveryone>();
 
             services.AddScoped<IInfo, Info>();
         }
