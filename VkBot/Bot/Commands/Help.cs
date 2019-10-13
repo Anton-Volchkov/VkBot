@@ -16,7 +16,7 @@ namespace VkBot.Bot.Commands
         public Task<string> Execute(Message msg)
         {
             return
-                Task.FromResult("Полный перечень команды вы можеьте посмотреть в этой статье.\nvk.com/@kerlibot-komandy");
+                Task.FromResult("Полный перечень команд вы можете посмотреть в этой статье.\nvk.com/@kerlibot-komandy");
         }
     }
 }
