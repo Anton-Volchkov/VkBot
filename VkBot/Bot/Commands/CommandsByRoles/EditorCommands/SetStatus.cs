@@ -44,7 +44,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.EditorCommands
 
             if (forwardMessage is null)
             {
-                return "Нет прикреплённого сообщение пользователя которому вы хотите установить статус!";
+                forwardMessage = msg; //если пересланного сообщения нет, то статус ставится тому кто это писал.
             }
 
             var statusUser =

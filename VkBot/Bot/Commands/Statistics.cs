@@ -35,36 +35,19 @@ namespace VkBot.Bot.Commands
                 return "Команда работает только в групповых чатах!";
             }
 
-            ChatRoles user;
-            long needUserId;
+
             var forwardMessage = msg.ForwardedMessages.Count == 0 ? msg.ReplyMessage : msg.ForwardedMessages[0];
 
             if(forwardMessage is null)
             {
-                user =
-                    await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == msg.FromId.Value &&
-                                                                 x.ChatVkID == msg.PeerId.Value);
-                if(user is null)
-                {
-                    return "Данного пользователя нет или он ещё ничего не написал в этом чате!";
-                }
-
-                needUserId = msg.FromId.Value;
-            }
-            else
-            {
-                user =
-                    await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == forwardMessage.FromId.Value &&
-                                                                 x.ChatVkID == msg.PeerId.Value);
-                if (user is null)
-                {
-                    return "Данного пользователя нет или он ещё ничего не написал в этом чате!";
-                }
-
-                needUserId = forwardMessage.FromId.Value;
+                forwardMessage = msg; //Если пересланного сообщения нет, то работаем с тем, кто написал его.
             }
 
-            var VkUser = (await _vkApi.Users.GetAsync(new[] { needUserId })).FirstOrDefault();
+            var user =
+                await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == forwardMessage.FromId.Value &&
+                                                             x.ChatVkID == forwardMessage.PeerId.Value);
+
+            var VkUser = (await _vkApi.Users.GetAsync(new[] { forwardMessage.FromId.Value })).FirstOrDefault();
 
 
             var sb = new StringBuilder();
@@ -73,7 +56,7 @@ namespace VkBot.Bot.Commands
 
             sb.AppendLine($"Статистика для пользователя - {VkUser.FirstName} {VkUser.LastName}");
             sb.AppendLine("_______________").AppendLine();
-            sb.AppendLine($"Роль в чате: { _checker.GetNameByRole(user.UserRole)}");
+            sb.AppendLine($"Роль в чате: {_checker.GetNameByRole(user.UserRole)}");
             sb.AppendLine($"Отправлено сообщений в этом чате: {user.AmountChatMessages}");
             sb.AppendLine($"Статус: {status}");
             sb.AppendLine("_______________");
