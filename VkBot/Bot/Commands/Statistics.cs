@@ -45,7 +45,7 @@ namespace VkBot.Bot.Commands
 
             var user =
                 await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == forwardMessage.FromId.Value &&
-                                                             x.ChatVkID == forwardMessage.PeerId.Value);
+                                                             x.ChatVkID == msg.PeerId.Value);
 
             var VkUser = (await _vkApi.Users.GetAsync(new[] { forwardMessage.FromId.Value })).FirstOrDefault();
 
