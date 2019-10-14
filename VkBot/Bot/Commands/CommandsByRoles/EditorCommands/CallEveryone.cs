@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Threading.Tasks;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
@@ -16,7 +13,10 @@ namespace VkBot.Bot.Commands.CommandsByRoles.EditorCommands
         private readonly IVkApi _vkApi;
         private readonly RolesHandler _checker;
         public string[] Aliases { get; set; } = { "созвать", "сбор" };
-        public string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public string Description { get; set; } =
+            "Команда !Бот сбор созывает всех пользователей чата.\nПример: !Бот сбор или Бот созвать\n" +
+            "ВАЖНО: КОМАНДА РАБОТАЕТ ТОЛЬКО С ПРАВАМИ РЕДАКТОРА И ВЫШЕ!";
 
         public CallEveryone(MainContext db, IVkApi api, RolesHandler checker)
         {
@@ -24,14 +24,15 @@ namespace VkBot.Bot.Commands.CommandsByRoles.EditorCommands
             _vkApi = api;
             _checker = checker;
         }
+
         public async Task<string> Execute(Message msg)
         {
-            if (msg.PeerId.Value == msg.FromId.Value)
+            if(msg.PeerId.Value == msg.FromId.Value)
             {
                 return "Команда работает только в групповых чатах!";
             }
 
-            if (!await _checker.CheckAccessToCommand(msg.FromId.Value, msg.PeerId.Value, Roles.Editor))
+            if(!await _checker.CheckAccessToCommand(msg.FromId.Value, msg.PeerId.Value, Roles.Editor))
             {
                 return "Недосточно прав!";
             }
@@ -44,13 +45,11 @@ namespace VkBot.Bot.Commands.CommandsByRoles.EditorCommands
             var chat = _vkApi.Messages.GetConversationMembers(msg.PeerId.Value, new[] { "" })
                              .Profiles;
 
-            foreach (var user in chat)
+            foreach(var user in chat)
             {
-                 
                 strBuilder.Append($"@id{user.Id} ({user.FirstName}) ");
-                        
             }
-
+            
             strBuilder.AppendLine();
 
             strBuilder.AppendLine("_____________").AppendLine();
