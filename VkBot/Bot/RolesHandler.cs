@@ -108,7 +108,10 @@ namespace VkBot.Bot
             var roleUser =
                     await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == userId &&
                                                                  x.ChatVkID == chatId);
-
+            if(roleUser is null)
+            {
+                return Roles.User;
+            }
             return roleUser.UserRole;
         }
     }
