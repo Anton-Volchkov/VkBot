@@ -54,6 +54,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
 
                 var screenName = msg.Text.Substring(msg.Text.IndexOf("|") + 1,
                                                     msg.Text.IndexOf(']') - msg.Text.IndexOf('[') - 1);
+                screenName.Replace("@", "");
 
                 kickedUser = (await _vkApi.Users.GetAsync(new[] { screenName })).FirstOrDefault();
             }
