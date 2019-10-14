@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
 using VkNet.Model;
+using User = VkNet.Model.User;
 
 namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
 {
@@ -28,38 +30,50 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
 
         public async Task<string> Execute(Message msg)
         {
-            if (msg.PeerId.Value == msg.FromId.Value)
-            { 
+            if(msg.PeerId.Value == msg.FromId.Value)
+            {
                 return "Команда работает только в групповых чатах!";
             }
 
-            if (!await _checker.CheckAccessToCommand(msg.FromId.Value, msg.PeerId.Value, Roles.Moderator))
+            if(!await _checker.CheckAccessToCommand(msg.FromId.Value, msg.PeerId.Value, Roles.Moderator))
             {
                 return "Недосточно прав!";
             }
 
             var forwardMessage = msg.ForwardedMessages.Count == 0 ? msg.ReplyMessage : msg.ForwardedMessages[0];
 
-            if (forwardMessage is null)
+            User kickedUser;
+            if(forwardMessage is null)
             {
-                return "Нет прикреплённого сообщение пользователя которого нужно кикнуть!";
+                var split = msg.Text.Split(' ', 2); // [команда, параметры]
+
+                if(split.Length < 2)
+                {
+                    return "Указаны не все параметры!";
+                }
+
+                var screenName = split[1].Replace("@", "");
+
+                kickedUser = (await _vkApi.Users.GetAsync(new[] { screenName })).FirstOrDefault();
+            }
+            else
+            {
+                kickedUser = (await _vkApi.Users.GetAsync(new[] { forwardMessage.FromId.Value })).FirstOrDefault();
             }
 
-            var kickedUser =
-                await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == forwardMessage.FromId.Value &&
-                                                             x.ChatVkID == msg.PeerId.Value);
 
             if(kickedUser is null)
             {
                 return "Данного пользователя нет или он ещё ничего не написал в этом чате!";
             }
 
-            if ((await _db.Users.FirstOrDefaultAsync(x => x.Vk == kickedUser.UserVkID)).IsBotAdmin)
+            if((await _db.Users.FirstOrDefaultAsync(x => x.Vk == kickedUser.Id)).IsBotAdmin)
             {
                 return "Вы не можете кикнуть этого пользователю, так как он администратор бота!";
             }
 
-            if(kickedUser.UserRole >= await _checker.GetUserRole(msg.FromId.Value, msg.PeerId.Value))
+            if(await _checker.GetUserRole(kickedUser.Id, msg.PeerId.Value) >=
+               await _checker.GetUserRole(msg.FromId.Value, msg.PeerId.Value))
             {
                 if(!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value)).IsBotAdmin)
                 {
@@ -69,19 +83,18 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
 
             try
             {
-                _vkApi.Messages.RemoveChatUser((ulong)msg.PeerId.Value - 2000000000, kickedUser.UserVkID);
+                _vkApi.Messages.RemoveChatUser((ulong) msg.PeerId.Value - 2000000000, kickedUser.Id);
             }
             catch(Exception)
             {
                 return "Упс...Что-то пошло не так, возможно у меня недостаточно прав!";
             }
 
-            _db.ChatRoles.Remove(kickedUser);
+            _db.ChatRoles.Remove(await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == kickedUser.Id &&
+                                                                              x.ChatVkID == msg.PeerId.Value));
             await _db.SaveChangesAsync();
 
             return "Пользователь исключён!";
-
-
         }
     }
 }
