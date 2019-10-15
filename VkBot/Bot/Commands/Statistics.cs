@@ -49,6 +49,9 @@ namespace VkBot.Bot.Commands
 
             var VkUser = (await _vkApi.Users.GetAsync(new[] { forwardMessage.FromId.Value })).FirstOrDefault();
 
+            var userGroup = (await _db.Users.FirstOrDefaultAsync(x => x.Vk == forwardMessage.FromId.Value))?.Group;
+
+            userGroup = string.IsNullOrWhiteSpace(userGroup) ? "Группа не установлена." : userGroup.ToUpper();
 
             var sb = new StringBuilder();
 
@@ -56,9 +59,11 @@ namespace VkBot.Bot.Commands
 
             sb.AppendLine($"Статистика для пользователя - {VkUser.FirstName} {VkUser.LastName}");
             sb.AppendLine("_______________").AppendLine();
-            sb.AppendLine($"Роль в чате: {_checker.GetNameByRole(user.UserRole)}");
-            sb.AppendLine($"Отправлено сообщений в этом чате: {user.AmountChatMessages}");
-            sb.AppendLine($"Статус: {status}");
+            sb.AppendLine($"Роль в чате: {_checker.GetNameByRole(user.UserRole)}").AppendLine();
+            sb.AppendLine($"Отправлено сообщений в этом чате: {user.AmountChatMessages}").AppendLine();
+            sb.AppendLine($"Статус: {status}").AppendLine();
+            sb.AppendLine($"Группа: {userGroup}").AppendLine();
+
             sb.AppendLine("_______________");
 
             return sb.ToString();
