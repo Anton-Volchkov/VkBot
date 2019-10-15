@@ -40,6 +40,8 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
                 return "Недосточно прав!";
             }
 
+           
+
             var forwardMessage = msg.ForwardedMessages.Count == 0 ? msg.ReplyMessage : msg.ForwardedMessages[0];
 
             User kickedUser;
@@ -52,20 +54,23 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
                     return "Указаны не все параметры!";
                 }
 
-                var screenName = msg.Text.Substring(msg.Text.IndexOf("[") + 3,
-                                                    msg.Text.IndexOf('|') - msg.Text.IndexOf('[') - 3);
-                
-                kickedUser = (await _vkApi.Users.GetAsync(new[] { screenName })).FirstOrDefault();
+                var userID = long.Parse(msg.Text.Substring(msg.Text.IndexOf("[") + 3,
+                                                    msg.Text.IndexOf('|') - msg.Text.IndexOf('[') - 3));
+
+                kickedUser = _vkApi.Messages.GetConversationMembers(msg.PeerId.Value, new[] { "" })
+                                 .Profiles.FirstOrDefault(x => x.Id == userID);
+
             }
             else
             {
-                kickedUser = (await _vkApi.Users.GetAsync(new[] { forwardMessage.FromId.Value })).FirstOrDefault();
+                kickedUser = _vkApi.Messages.GetConversationMembers(msg.PeerId.Value, new[] { "" })
+                                 .Profiles.FirstOrDefault(x => x.Id == forwardMessage.FromId.Value);
             }
 
 
             if(kickedUser is null)
             {
-                return "Данного пользователя нет или он ещё ничего не написал в этом чате!";
+                return "Данного пользователя нет в этом чате!";
             }
 
             if((await _db.Users.FirstOrDefaultAsync(x => x.Vk == kickedUser.Id)).IsBotAdmin)
