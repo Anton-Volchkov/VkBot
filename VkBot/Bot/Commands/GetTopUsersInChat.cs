@@ -35,13 +35,15 @@ namespace VkBot.Bot.Commands
             strBuilder.AppendLine("ТОП-10 участников чата по колличеству сообщений");
             strBuilder.AppendLine("_____________").AppendLine();
 
-            var chat = _db.ChatRoles.Where(x => x.ChatVkID == msg.PeerId.Value).Select(x => x).OrderByDescending(x => x.AmountChatMessages).Take(10).ToArray();
+            var chat = _db.ChatRoles.Where(x => x.ChatVkID == msg.PeerId.Value).Select(x => x).OrderByDescending(x => x.AmountChatMessages).Take(10);
 
-            for(int i = 0; i < chat.Length; i++)
+            int number = 0;
+            foreach(var user in chat)
             {
-                var vKUser = (await _vkApi.Users.GetAsync(new[] { (long)chat[i].UserVkID })).FirstOrDefault();
+                var vKUser = (await _vkApi.Users.GetAsync(new[] { (long)user.UserVkID})).FirstOrDefault();
 
-                strBuilder.AppendLine($"{++i}. {vKUser.FirstName} {vKUser.LastName} - {chat[i].AmountChatMessages}").AppendLine();
+                strBuilder.AppendLine($"{++number}. {vKUser.FirstName} {vKUser.LastName} - {user.AmountChatMessages}").AppendLine();
+
             }
 
             strBuilder.AppendLine("_____________").AppendLine();
