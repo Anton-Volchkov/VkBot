@@ -14,7 +14,9 @@ namespace VkBot.Bot.Commands
         private readonly IVkApi _vkApi;
         private readonly RolesHandler _checker;
         public string[] Aliases { get; set; } = { "топ" };
-        public string Description { get; set; }
+        public string Description { get; set; } =
+            "Команда !Бот топ показывает топ-10 пользователей чата по кол-ву сообщений" +
+            "\nПример: !Бот топ";
 
         public GetTopUsersInChat(MainContext db, IVkApi api, RolesHandler checker)
         {
