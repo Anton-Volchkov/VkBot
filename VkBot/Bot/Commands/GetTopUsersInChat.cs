@@ -41,7 +41,7 @@ namespace VkBot.Bot.Commands
             {
                 var vKUser = (await _vkApi.Users.GetAsync(new[] { (long)user.UserVkID})).FirstOrDefault();
 
-                strBuilder.AppendLine($"{vKUser.FirstName} {vKUser} - {user.AmountChatMessages}").AppendLine();
+                strBuilder.AppendLine($"{vKUser.FirstName} {vKUser.LastName} - {user.AmountChatMessages}").AppendLine();
 
             }
 
