@@ -43,6 +43,7 @@ namespace VkBot.Extensions
             services.AddScoped<IBotCommand, GetRights>();
             services.AddScoped<IBotCommand, CheckOnlineUser>();
             services.AddScoped<IBotCommand, CallEveryone>();
+            services.AddScoped<IBotCommand, GetTopUsersInChat>();
 
             services.AddScoped<IInfo, Info>();
         }
