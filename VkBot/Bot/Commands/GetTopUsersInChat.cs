@@ -37,7 +37,7 @@ namespace VkBot.Bot.Commands
             strBuilder.AppendLine("ТОП-10 участников чата по колличеству сообщений");
             strBuilder.AppendLine("_____________").AppendLine();
 
-            var chat = _db.ChatRoles.Where(x => x.ChatVkID == msg.PeerId.Value).Select(x => x).OrderByDescending(x => x.AmountChatMessages).Take(10);
+            var chat = _db.ChatRoles.Where(x => x.ChatVkID == msg.PeerId.Value).OrderByDescending(x => x.AmountChatMessages).Take(10);
 
             int number = 0;
             foreach(var user in chat)
