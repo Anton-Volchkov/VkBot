@@ -16,7 +16,7 @@ namespace VkBot.Bot.Commands
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
 
-        public string[] Aliases { get; set; } = { "пары", "занятия" };
+        public string[] Aliases { get; set; } = { "", "" };
         public string Description { get; set; } = "Команда !Бот пары скажет вам расписание для установленной группы\n" +
                                                   "Пример: !Бот пары";
         public GetSchedule(MainContext db, IVkApi api)

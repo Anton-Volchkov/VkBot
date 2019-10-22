@@ -83,8 +83,8 @@ namespace VkBot.Bot.Hangfire
             RecurringJob.AddOrUpdate<ScheduledTask>("SendWeather", x => x.SendWeather(),
                                                     "5 6 * * *", TimeZoneInfo.Local);
 
-            RecurringJob.AddOrUpdate<ScheduledTask>("SendSchedule", x => x.SendSchedule(),
-                                                    "10 6 * * *", TimeZoneInfo.Local);
+                //  RecurringJob.AddOrUpdate<ScheduledTask>("SendSchedule", x => x.SendSchedule(),
+                //                                    "10 6 * * *", TimeZoneInfo.Local);
         }
     }
 }
