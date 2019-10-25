@@ -47,6 +47,11 @@ namespace VkBot.Bot.Commands
                 await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == forwardMessage.FromId.Value &&
                                                              x.ChatVkID == msg.PeerId.Value);
 
+            if(user is null)
+            {
+                return "Данный пользователь ещё ничего не написал в этом чате!";
+            }
+
             var VkUser = (await _vkApi.Users.GetAsync(new[] { forwardMessage.FromId.Value })).FirstOrDefault();
 
             var userGroup = (await _db.Users.FirstOrDefaultAsync(x => x.Vk == forwardMessage.FromId.Value))?.Group;
