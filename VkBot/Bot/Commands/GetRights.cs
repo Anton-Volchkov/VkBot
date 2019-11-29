@@ -38,8 +38,18 @@ namespace VkBot.Bot.Commands
                 return "Я не знаю такой команды =(";
             }
 
-            var chat = _vkApi.Messages.GetConversationMembers(msg.PeerId.Value, new List<string> { "is_admin" }).Items.Where(x => x.IsAdmin).Select(x => x.MemberId).ToArray();
+            long[] chat;
+            try
+            {
+                 chat = _vkApi.Messages.GetConversationMembers(msg.PeerId.Value, new List<string> { "is_admin" }).Items.Where(x => x.IsAdmin).Select(x => x.MemberId).ToArray();
 
+            }
+            catch (Exception e)
+            {
+                return
+                    "Что-то пошло не так, возможно у меня не хвататет прав. Установите мне права администратора и попробуйте снова.";
+            }
+           
             if(!chat.Contains(msg.FromId.Value))
             {
                 return "Этой командой может воспользоваться только администратор!";
