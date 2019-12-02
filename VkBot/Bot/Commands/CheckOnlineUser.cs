@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VkBot.Data.Abstractions;
 using VkBot.Data.Models;
 using VkNet.Abstractions;
 using VkNet.Model;
+using User = VkNet.Model.User;
 
 namespace VkBot.Bot.Commands
 {
@@ -30,14 +32,24 @@ namespace VkBot.Bot.Commands
                 return Task.FromResult("Команда работает только в групповых чатах!");
             }
 
+            User[] chat;
+            try
+            {
+                chat = _vkApi.Messages.GetConversationMembers(msg.PeerId.Value, new[] { "online" })
+                             .Profiles
+                             .Where(x => x.Online.HasValue).ToArray();
+            }
+            catch (Exception e)
+            {
+                return Task.FromResult("Что-то пошло не так, возможно у меня не хвататет прав. Установите мне права администратора и попробуйте снова.");
+
+            }
+
             var strBuilder = new StringBuilder();
 
             strBuilder.AppendLine("Пользователи чата онлайн");
             strBuilder.AppendLine("_____________").AppendLine();
 
-            var chat = _vkApi.Messages.GetConversationMembers(msg.PeerId.Value, new[] { "online" })
-                             .Profiles
-                             .Where(x => x.Online.HasValue).ToArray();
 
             foreach(var user in chat)
             {
