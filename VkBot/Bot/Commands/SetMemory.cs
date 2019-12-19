@@ -27,6 +27,10 @@ namespace VkBot.Bot.Commands
 
         public async Task<string> Execute(Message msg)
         {
+            if(!(msg.Text.Contains('[') && msg.Text.Contains(']')))
+            {
+                return "Не все параметры указаны!";
+            }
             var textMemory = msg.Text.Substring(msg.Text.IndexOf("[") + 1,
                                                 msg.Text.IndexOf(']') - msg.Text.IndexOf('[') - 1);
             var userMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
