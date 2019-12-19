@@ -86,13 +86,13 @@ namespace VkBot.Controllers
                 var text = await commandExec.HandleMessage(msg);
 
                 // Отправим в ответ полученный от пользователя текст
-                _vkApi.Messages.Send(new MessagesSendParams
-                {
+               await _vkApi.Messages.SendAsync(new MessagesSendParams
+               {
                     //TODO: плохой рандом ид
                     RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
                     PeerId = msg.PeerId.Value,
                     Message = text
-                });
+               });
             }
 
             // Возвращаем "ok" серверу Callback API
