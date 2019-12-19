@@ -29,6 +29,11 @@ namespace VkBot.Bot.Commands
         {
             var split = msg.Text.Split(' ', 3); // [команда, параметры, текст]
 
+            if (split.Length < 3)
+            {
+                return "Не все параметры указаны!";
+            }
+
             var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
             if(split.Length != 3)

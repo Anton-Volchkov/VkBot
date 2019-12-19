@@ -28,6 +28,12 @@ namespace VkBot.Bot.Commands
             var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
+
+            if (split.Length < 2)
+            {
+                return "Не все параметры указаны!";
+            }
+
             var expression = split[1].Trim();
 
             var a = new DataTable();

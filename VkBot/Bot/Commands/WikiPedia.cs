@@ -31,6 +31,11 @@ namespace VkBot.Bot.Commands
 
             var split = msg.Text.Split(' ', 2);
 
+            if (split.Length < 2)
+            {
+                return "Не все параметры указаны!";
+            }
+
             var titles = split[1];
 
             return $"{user.FirstName} {user.LastName}, {await _wikiApi.GetWikiAnswerAsync(titles)}";

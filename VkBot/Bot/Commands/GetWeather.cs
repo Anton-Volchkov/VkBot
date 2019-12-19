@@ -23,6 +23,12 @@ namespace VkBot.Bot.Commands
         public async Task<string> Execute(Message msg)
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
+
+            if (split.Length < 2)
+            {
+                return "Не все параметры указаны!";
+            }
+
             var city = split[1].Trim().ToLower();
             return await _weather.GetWeather(city);
         }

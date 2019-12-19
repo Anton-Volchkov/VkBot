@@ -26,7 +26,12 @@ namespace VkBot.Bot.Commands
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
 
-            if(Aliases.Contains(split[1].Trim().ToLower()))
+            if (split.Length < 2)
+            {
+                return Task.FromResult("Не все параметры указаны!");
+            }
+
+            if (Aliases.Contains(split[1].Trim().ToLower()))
             {
                 return Task.FromResult(Description);
             }

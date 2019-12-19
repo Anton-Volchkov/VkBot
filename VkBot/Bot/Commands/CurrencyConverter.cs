@@ -25,7 +25,12 @@ namespace VkBot.Bot.Commands
         {
             var split = msg.Text.Split(' ', 3); // [команда, параметры]
 
-            if(!int.TryParse(split[2], out var inputMoney))
+            if (split.Length < 3)
+            {
+                return "Не все параметры указаны!";
+            }
+
+            if (!int.TryParse(split[2], out var inputMoney))
             {
                 return "Конвертация не удалась.";
             }
