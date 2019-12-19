@@ -20,6 +20,10 @@ namespace VkBot.Bot
 
         public async Task<string> HandleMessage(Message msg)
         {
+            if(string.IsNullOrWhiteSpace(msg.Text))
+            {
+                return "❌Вы не указали команду!❌";
+            }
             var result = "";
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
             var cmd = split[0].ToLower();
