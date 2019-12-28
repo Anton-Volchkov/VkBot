@@ -96,7 +96,7 @@ namespace VkBot
 
         private void ConfigureJobs()
         {
-            BackgroundJob.Enqueue<ScheduledTask>(x => x.Dummy()); //TODO:
+            BackgroundJob.Enqueue<ScheduledTask>(x => x.InitJobs()); //TODO:
         }
     }
 }

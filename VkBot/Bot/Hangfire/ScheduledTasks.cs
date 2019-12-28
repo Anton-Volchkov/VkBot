@@ -20,8 +20,6 @@ namespace VkBot.Bot.Hangfire
             _db = db;
             _vkApi = vkApi;
             _weather = weather;
-
-            InitJobs();
         }
 
         public async Task SendWeather()
@@ -76,9 +74,7 @@ namespace VkBot.Bot.Hangfire
             }
         }
 
-        public void Dummy() { }
-
-        private void InitJobs()
+        public void InitJobs()
         {
             RecurringJob.AddOrUpdate<ScheduledTask>("SendWeather", x => x.SendWeather(),
                                                     "5 6 * * *", TimeZoneInfo.Local);
