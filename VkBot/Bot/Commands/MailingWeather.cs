@@ -29,11 +29,6 @@ namespace VkBot.Bot.Commands
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
 
-            if (split.Length < 2)
-            {
-                return "Не все параметры указаны!";
-            }
-
             var command = split[0].Trim();
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value);
             var vkUser = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
@@ -45,6 +40,12 @@ namespace VkBot.Bot.Commands
 
                 return $"{vkUser.FirstName} {vkUser.LastName}, вы отписались от рассылки погоды!";
             }
+
+            if (split.Length < 2)
+            {
+                return "Не все параметры указаны!";
+            }
+
 
             var city = split[1].Trim().ToLower();
             city = char.ToUpper(city[0]) + city.Substring(1);
