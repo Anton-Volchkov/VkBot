@@ -1,7 +1,9 @@
 ﻿using System;
-using System.Data;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using VkBot.Bot.Commands.CalculatorCommand;
 using VkBot.Data.Abstractions;
 using VkNet.Abstractions;
 using VkNet.Model;
@@ -11,9 +13,14 @@ namespace VkBot.Bot.Commands
     public class Calculator : IBotCommand
     {
         private readonly IVkApi _vkApi;
+        private readonly HttpClient _client;
 
         public Calculator(IVkApi api)
         {
+            _client = new HttpClient
+            {
+                BaseAddress = new Uri("https://newton.now.sh/simplify/")
+            };
             _vkApi = api;
         }
 
@@ -29,23 +36,28 @@ namespace VkBot.Bot.Commands
 
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
 
-            if (split.Length < 2)
+            if(split.Length < 2)
             {
                 return "Не все параметры указаны!";
             }
 
             var expression = split[1].Trim();
 
-            var a = new DataTable();
-            try
-            {
-                var answer = Convert.ToString(a.Compute(expression, ""));
-                return $"{user.FirstName} {user.LastName}, ответ вашего выражения = {answer}";
-            }
-            catch(Exception)
+            var query = await _client.GetAsync(expression);
+
+            if(!query.IsSuccessStatusCode)
             {
                 return $"{user.FirstName} {user.LastName}, я не смог посчитать это... =(";
             }
+
+            var answer = JsonConvert.DeserializeObject<CalculatorAnswerModel>(await query.Content.ReadAsStringAsync()).Result;
+
+            if(!int.TryParse(answer,out int result))
+            {
+                return $"{user.FirstName} {user.LastName}, я не смог посчитать это... =(";
+            }
+
+            return $"{user.FirstName} {user.LastName}, ответ вашего выражения = {result}";
         }
     }
 }
