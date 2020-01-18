@@ -13,6 +13,7 @@ using OpenWeatherMap;
 using VkBot.Bot.Hangfire;
 using VkBot.Data.Models;
 using VkBot.Extensions;
+using VkBot.HostedServices;
 using VkNet;
 using VkNet.Abstractions;
 using VkNet.Model;
@@ -64,6 +65,8 @@ namespace VkBot
             services.AddSingleton<CurrencyInfo>();
 
             services.AddSingleton<WikiApi>();
+
+            services.AddHostedService<MigrationHostedService>();
 
             services.AddBotFeatures();
 
