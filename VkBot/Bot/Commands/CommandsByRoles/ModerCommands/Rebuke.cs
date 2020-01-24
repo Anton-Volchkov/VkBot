@@ -14,7 +14,9 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
     public class Rebuke : IBotCommand
     {
         public string[] Aliases { get; set; } = { "варн", "выговор", "пред", "предупреждение" };
-        public string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Description { get; set; } =
+            "Команда !Бот выговор выдаёт предупреждение тому пользоователю, чьё сообщение в чате вы переслали, или тому пользователю, к которому вы обратились по тегу.\nПример: !Бот выговор + пересланное сообщение\n" +
+            "ВАЖНО: КОМАНДА РАБОТАЕТ ТОЛЬКО С ПРАВАМИ МОДЕРАТОРА И ВЫШЕ!";
 
         private readonly IVkApi _vkApi;
         private readonly RolesHandler _checker;

@@ -18,7 +18,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
         public string[] Aliases { get; set; } = { "кик", "выгнать" };
 
         public string Description { get; set; } =
-            "Команда !Бот кик кикает того пользоователя, чьё сообщение в чате вы переслали.\nПример: !Бот кик + пересланное сообщение\n" +
+            "Команда !Бот кик кикает того пользоователя, чьё сообщение в чате вы переслали, или тому пользователю, к которому вы обратились по тегу.\nПример: !Бот кик + пересланное сообщение\n" +
             "ВАЖНО: КОМАНДА РАБОТАЕТ ТОЛЬКО С ПРАВАМИ МОДЕРАТОРА И ВЫШЕ!";
 
         public Kick(MainContext db, IVkApi api, RolesHandler checker)
