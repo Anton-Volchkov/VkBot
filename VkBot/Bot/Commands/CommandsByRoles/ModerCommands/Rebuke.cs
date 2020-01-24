@@ -113,7 +113,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
             await _db.SaveChangesAsync();
 
             return $"{rebukeUser.FirstName} {rebukeUser.LastName} вы получили выговор!\n" +
-                   $"Всего выговоров: {chatRebukeUser.Rebuke}/3";
+                   $"Всего предупреждений: {chatRebukeUser.Rebuke}/3";
         }
     }
 }

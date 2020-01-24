@@ -68,7 +68,7 @@ namespace VkBot.Bot.Commands
             sb.AppendLine($"Отправлено сообщений в этом чате: {userInChat.AmountChatMessages}").AppendLine();
             sb.AppendLine($"Статус: {status}").AppendLine();
             sb.AppendLine($"Группа: {nameUserGroup}").AppendLine();
-            sb.AppendLine($"Выговоров: {userInChat.Rebuke}/3").AppendLine();
+            sb.AppendLine($"Предупреждений: {userInChat.Rebuke}/3").AppendLine();
 
             sb.AppendLine("_______________");
 
