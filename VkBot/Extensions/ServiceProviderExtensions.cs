@@ -46,7 +46,7 @@ namespace VkBot.Extensions
             services.AddScoped<IBotCommand, GetTopUsersInChat>();
             services.AddScoped<Kick>();
             services.AddScoped<IBotCommand, Rebuke>();
-
+            services.AddScoped<Amnesty>();
 
             services.AddScoped<IInfo, Info>();
         }
