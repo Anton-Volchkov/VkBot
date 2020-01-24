@@ -7,6 +7,7 @@
         public long? ChatVkID { get; set; }
         public int AmountChatMessages { get; set; }
         public string Status { get; set; }
+        public byte Rebuke { get; set; }
         public Roles UserRole { get; set; }
     }
 }
