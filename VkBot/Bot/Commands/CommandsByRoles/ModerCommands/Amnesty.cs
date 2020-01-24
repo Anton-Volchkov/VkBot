@@ -79,7 +79,8 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
                 }
             }
 
-            var chatAmnestyUser = await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == amnestyUser.Id);
+            var chatAmnestyUser = await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == amnestyUser.Id &&
+                                                                               x.ChatVkID == msg.PeerId.Value);
             chatAmnestyUser.Rebuke = 0;
             
             await _db.SaveChangesAsync();

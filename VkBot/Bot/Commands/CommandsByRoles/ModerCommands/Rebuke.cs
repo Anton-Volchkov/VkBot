@@ -88,7 +88,8 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
                 }
             }
 
-            var chatRebukeUser = await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == rebukeUser.Id);
+            var chatRebukeUser = await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == rebukeUser.Id &&
+                                                                              x.ChatVkID == msg.PeerId.Value);
             chatRebukeUser.Rebuke += 1;
 
             if ( chatRebukeUser.Rebuke >= 3)
