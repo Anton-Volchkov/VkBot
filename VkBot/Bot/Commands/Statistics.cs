@@ -43,31 +43,32 @@ namespace VkBot.Bot.Commands
                 forwardMessage = msg; //Если пересланного сообщения нет, то работаем с тем, кто написал его.
             }
 
-            var user =
+            var userInChat =
                 await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == forwardMessage.FromId.Value &&
                                                              x.ChatVkID == msg.PeerId.Value);
 
-            if(user is null)
+            if(userInChat is null)
             {
                 return "Данный пользователь ещё ничего не написал в этом чате!";
             }
 
             var VkUser = (await _vkApi.Users.GetAsync(new[] { forwardMessage.FromId.Value })).FirstOrDefault();
 
-            var userGroup = (await _db.Users.FirstOrDefaultAsync(x => x.Vk == forwardMessage.FromId.Value))?.Group;
+            var botUser = await _db.Users.FirstOrDefaultAsync(x => x.Vk == forwardMessage.FromId.Value);
 
-            userGroup = string.IsNullOrWhiteSpace(userGroup) ? "Группа не установлена." : userGroup.ToUpper();
+            var nameUserGroup = string.IsNullOrWhiteSpace(botUser.Group) ? "Группа не установлена." : botUser.Group.ToUpper();
 
             var sb = new StringBuilder();
 
-            var status = string.IsNullOrWhiteSpace(user.Status) ? "Не установлен" : user.Status;
+            var status = string.IsNullOrWhiteSpace(userInChat.Status) ? "Не установлен" : userInChat.Status;
 
             sb.AppendLine($"Статистика для пользователя - {VkUser.FirstName} {VkUser.LastName}");
             sb.AppendLine("_______________").AppendLine();
-            sb.AppendLine($"Роль в чате: {_checker.GetNameByRole(user.UserRole)}").AppendLine();
-            sb.AppendLine($"Отправлено сообщений в этом чате: {user.AmountChatMessages}").AppendLine();
+            sb.AppendLine($"Роль в чате: {_checker.GetNameByRole(userInChat.UserRole)}").AppendLine();
+            sb.AppendLine($"Отправлено сообщений в этом чате: {userInChat.AmountChatMessages}").AppendLine();
             sb.AppendLine($"Статус: {status}").AppendLine();
-            sb.AppendLine($"Группа: {userGroup}").AppendLine();
+            sb.AppendLine($"Группа: {nameUserGroup}").AppendLine();
+            sb.AppendLine($"Выговоров {userInChat.Rebuke}/3").AppendLine();
 
             sb.AppendLine("_______________");
 
