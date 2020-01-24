@@ -20,14 +20,12 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
 
         private readonly IVkApi _vkApi;
         private readonly RolesHandler _checker;
-        private readonly Kick _kick;
         private readonly MainContext _db;
         
-        public Rebuke(IVkApi api, RolesHandler checker, Kick kick, MainContext db)
+        public Rebuke(IVkApi api, RolesHandler checker, MainContext db)
         {
             _vkApi = api;
             _checker = checker;
-            _kick = kick;
             _db = db;
 
         }
@@ -107,7 +105,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
                                                                                   x.ChatVkID == msg.PeerId.Value));
                 await _db.SaveChangesAsync();
 
-                return "Пользователь исключён!";
+                return "Пользователь набрал 3/3 предупреждений и был исключён!";
             }
 
             await _db.SaveChangesAsync();
