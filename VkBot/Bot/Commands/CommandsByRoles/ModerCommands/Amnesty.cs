@@ -85,7 +85,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
             
             await _db.SaveChangesAsync();
 
-            return $"{amnestyUser.FirstName} {amnestyUser.LastName} с вас сняли все выговоры!\n" +
+            return $"{amnestyUser.FirstName} {amnestyUser.LastName}, с вас сняли все предупреждения!\n" +
                    $"Всего предупреждений: 0/3";
         }
     }
