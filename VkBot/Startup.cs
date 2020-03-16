@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using CurrencyConverter;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Builder;
@@ -17,7 +16,6 @@ using VkBot.HostedServices;
 using VkNet;
 using VkNet.Abstractions;
 using VkNet.Model;
-using WikipediaApi;
 using YandexTranslator;
 
 namespace VkBot
@@ -58,15 +56,11 @@ namespace VkBot
                 return api;
             });
 
+            services.AddHostedService<MigrationHostedService>();
+
             services.AddSingleton(x => new WeatherInfo(Configuration["Config:OWM_Token"]));
 
             services.AddSingleton(x => new Translator(Configuration["Config:YT_Token"]));
-
-            services.AddSingleton<CurrencyInfo>();
-
-            services.AddSingleton<WikiApi>();
-
-            services.AddHostedService<MigrationHostedService>();
 
             services.AddBotFeatures();
 

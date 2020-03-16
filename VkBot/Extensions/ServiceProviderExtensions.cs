@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CoronaVirus;
+using CurrencyConverter;
+using Microsoft.Extensions.DependencyInjection;
 using VkBot.Bot;
 using VkBot.Bot.Commands;
 using VkBot.Bot.Commands.CommandsByRoles.AdminCommands;
 using VkBot.Bot.Commands.CommandsByRoles.EditorCommands;
 using VkBot.Bot.Commands.CommandsByRoles.ModerCommands;
 using VkBot.Data.Abstractions;
+using WikipediaApi;
 
 namespace VkBot.Extensions
 {
@@ -12,6 +15,10 @@ namespace VkBot.Extensions
     {
         public static void AddBotFeatures(this IServiceCollection services)
         {
+            services.AddSingleton<CurrencyInfo>();
+            services.AddSingleton<WikiApi>();
+            services.AddSingleton<CoronaInfo>();
+
             services.AddScoped<CommandExecutor>();
             services.AddScoped<RolesHandler>();
 
@@ -46,6 +53,7 @@ namespace VkBot.Extensions
             services.AddScoped<IBotCommand, GetTopUsersInChat>();
             services.AddScoped<IBotCommand, Rebuke>();
             services.AddScoped<IBotCommand,Amnesty>();
+            services.AddScoped<IBotCommand, COVID19>();
 
             services.AddScoped<IInfo, Info>();
         }

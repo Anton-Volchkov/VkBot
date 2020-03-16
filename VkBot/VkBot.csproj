@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CoronaVirus\CoronaVirus.csproj" />
     <ProjectReference Include="..\CurrencyConverter\CurrencyConverter.csproj" />
     <ProjectReference Include="..\OpenWeatherMap\OpenWeatherMap.csproj" />
     <ProjectReference Include="..\WikipediaApi\WikipediaApi.csproj" />
