@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace CoronaVirus.Models
 {
-    public class CityInfo
+    public class CountryInfo
     {
         [JsonProperty("country")]
         public string Country { get; set; }

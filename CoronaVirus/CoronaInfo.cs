@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using CoronaVirus.Models;
-using HtmlAgilityPack;
 using Newtonsoft.Json;
 using YandexTranslator;
 
@@ -50,7 +48,7 @@ namespace CoronaVirus
             }
             else
             {
-                var countries = JsonConvert.DeserializeObject<List<CityInfo>>(await response.Content.ReadAsStringAsync());
+                var countries = JsonConvert.DeserializeObject<List<CountryInfo>>(await response.Content.ReadAsStringAsync());
                 var countryOnEnglish = await _translator.Translate(country, "ru-en");
 
                 var needCountry =
