@@ -62,7 +62,7 @@ namespace CoronaVirus
                     return "Информации по COVID-19 в этой стране не найдено!";
                 }
 
-                sb.AppendLine($"Страна: { char.ToUpper(country[0]) + country.Substring(1).ToLower()}").AppendLine();
+                sb.AppendLine($"Страна: {country.ToUpper()}").AppendLine();
                 sb.AppendLine($"Всего было заражено: {needCountry.Cases}").AppendLine();
                 sb.AppendLine($"Заражено на текущий момент: {needCountry.Active}").AppendLine();
                 sb.AppendLine($"Вылечено: {needCountry.Recovered}").AppendLine();
