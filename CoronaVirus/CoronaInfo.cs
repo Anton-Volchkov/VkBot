@@ -19,7 +19,7 @@ namespace CoronaVirus
         {
             _translator = translator;
         }
-        public async Task<string> GetCoronaVIrusInfo(string country = "")
+        public async Task<string> GetCoronaVirusInfo(string country = "")
         {
             string url = "https://coronavirus-19-api.herokuapp.com/";
 
@@ -36,7 +36,7 @@ namespace CoronaVirus
             }
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("информация по COVID-19").AppendLine();
+            sb.AppendLine("Статистика по COVID-19").AppendLine();
             sb.AppendLine("________________").AppendLine();
 
             if(string.IsNullOrWhiteSpace(country))
@@ -61,7 +61,7 @@ namespace CoronaVirus
                     return "Информации по COVID-19 в этой стране не найдено!";
                 }
 
-                sb.AppendLine($"Страна: {country}").AppendLine();
+                sb.AppendLine($"Страна: { char.ToUpper(country[0]) + country.Substring(1)}").AppendLine();
                 sb.AppendLine($"Заражено: {needCountry.Cases}").AppendLine();
                 sb.AppendLine($"Смертей: {needCountry.Deaths}").AppendLine();
                 sb.AppendLine($"Вылечено: {needCountry.Recovered}").AppendLine();

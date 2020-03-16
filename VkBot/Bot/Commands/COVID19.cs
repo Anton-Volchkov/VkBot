@@ -11,7 +11,7 @@ namespace VkBot.Bot.Commands
     public class COVID19 : IBotCommand
     {
         private readonly CoronaInfo _coronaInfo;
-        public string[] Aliases { get; set; } = { "вирус" };
+        public string[] Aliases { get; set; } = { "вирус", "коронавирус" };
         public string Description { get; set; } = "Команда !Бот вирус расскажет вам общую ситуацию или ситуацию в конкретной стране связанной с COVID-19" +
         "\nПример: !Бот вирус ИЛИ Бот вирус + Страна";
 
@@ -23,7 +23,7 @@ namespace VkBot.Bot.Commands
         {
             var split = msg.Text.Split(' ', 2); // [команда, параметры]
 
-            return split.Length <2 ? await _coronaInfo.GetCoronaVIrusInfo() : await _coronaInfo.GetCoronaVIrusInfo(split[1]);
+            return split.Length <2 ? await _coronaInfo.GetCoronaVirusInfo() : await _coronaInfo.GetCoronaVirusInfo(split[1]);
 
         }
     }
