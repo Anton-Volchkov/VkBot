@@ -44,9 +44,9 @@ namespace CoronaVirus
                 var answer = JsonConvert.DeserializeObject<FullInfo>(await response.Content.ReadAsStringAsync());
 
                 sb.AppendLine($"Всего было заражено: {answer.Cases}").AppendLine();
-                sb.AppendLine($"Зараженных сейчас: {answer.Cases - answer.Recovered}");
+                sb.AppendLine($"Зараженных сейчас: {answer.Cases - answer.Recovered}").AppendLine();
                 sb.AppendLine($"Смертей: {answer.Deaths}").AppendLine();
-                sb.AppendLine($"Вылечено: {answer.Recovered}");
+                sb.AppendLine($"Вылечено: {answer.Recovered}").AppendLine();
             }
             else
             {
