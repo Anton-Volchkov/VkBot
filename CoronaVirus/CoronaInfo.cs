@@ -63,7 +63,9 @@ namespace CoronaVirus
                 sb.AppendLine($"Страна: {country.ToUpper()}").AppendLine();
                 sb.AppendLine($"Всего было заражено: {needCountry.Cases}").AppendLine();
                 sb.AppendLine($"Заражено на текущий момент: {needCountry.Active}").AppendLine();
+                sb.AppendLine($"Всего проведено тестов: {needCountry.TotalTests}").AppendLine();
                 sb.AppendLine($"Вылечено: {needCountry.Recovered}").AppendLine();
+                sb.AppendLine($"В критическом состоянии: {needCountry.Critical}").AppendLine();
                 sb.AppendLine($"Смертей: {needCountry.Deaths}").AppendLine();
 
             }

@@ -23,12 +23,15 @@ namespace CoronaVirus.Models
         public long TodayDeaths { get; set; }
 
         [JsonProperty("recovered")]
-        public long Recovered { get; set; }
+        public long? Recovered { get; set; }
 
         [JsonProperty("active")]
         public long Active { get; set; }
 
         [JsonProperty("critical")]
         public long Critical { get; set; }
+
+        [JsonProperty("totalTests")]
+        public long TotalTests { get; set; }
     }
 }
