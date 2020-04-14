@@ -40,9 +40,6 @@ namespace VkBot.Extensions
             services.AddScoped<IBotCommand, MailingWeather>();
             services.AddScoped<IBotCommand, WikiPedia>();
             services.AddScoped<IBotCommand, Translate>();
-            services.AddScoped<IBotCommand, SetGroup>();
-            services.AddScoped<IBotCommand, SetTimeTable>();
-            services.AddScoped<IBotCommand, GetSchedule>();
             services.AddScoped<IBotCommand, Kick>();
             services.AddScoped<IBotCommand, SetStatus>();
             services.AddScoped<IBotCommand, SetRole>();
@@ -56,6 +53,10 @@ namespace VkBot.Extensions
             services.AddScoped<IBotCommand, COVID19>();
 
             services.AddScoped<IInfo, Info>();
+
+            //services.AddScoped<IBotCommand, SetTimeTable>();
+            //services.AddScoped<IBotCommand, GetSchedule>();
+            //services.AddScoped<IBotCommand, SetGroup>();
         }
     }
 }
