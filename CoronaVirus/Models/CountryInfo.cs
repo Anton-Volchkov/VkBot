@@ -11,27 +11,27 @@ namespace CoronaVirus.Models
         public string Country { get; set; }
 
         [JsonProperty("cases")]
-        public long Cases { get; set; }
+        public long? Cases { get; set; }
 
         [JsonProperty("todayCases")]
-        public long TodayCases { get; set; }
+        public long? TodayCases { get; set; }
 
         [JsonProperty("deaths")]
-        public long Deaths { get; set; }
+        public long? Deaths { get; set; }
 
         [JsonProperty("todayDeaths")]
-        public long TodayDeaths { get; set; }
+        public long? TodayDeaths { get; set; }
 
         [JsonProperty("recovered")]
         public long? Recovered { get; set; }
 
         [JsonProperty("active")]
-        public long Active { get; set; }
+        public long? Active { get; set; }
 
         [JsonProperty("critical")]
-        public long Critical { get; set; }
+        public long? Critical { get; set; }
 
         [JsonProperty("totalTests")]
-        public long TotalTests { get; set; }
+        public long? TotalTests { get; set; }
     }
 }
