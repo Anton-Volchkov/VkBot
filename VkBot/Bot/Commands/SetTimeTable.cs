@@ -15,7 +15,7 @@ namespace VkBot.Bot.Commands
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
 
-        public string[] Aliases { get; set; } = { "" };
+        public string[] Aliases { get; set; }
         public string Description { get; set; } = "Команда !Бот расписание устанавливает рассписание для указанной группы\n" +
                                                   "Пример: !Бот расписание ПЗ-50 1)Физ-ра 2) Математика...";
         public SetTimeTable(MainContext db, IVkApi api)

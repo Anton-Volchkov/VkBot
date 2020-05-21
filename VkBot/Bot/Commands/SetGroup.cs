@@ -15,7 +15,7 @@ namespace VkBot.Bot.Commands
         private readonly MainContext _db;
         private readonly IVkApi _vkApi;
 
-        public string[] Aliases { get; set; } = { "" };
+        public string[] Aliases { get; set; } = { "группа" };
         public string Description { get; set; } = "Команда !Бот группа устанавливает группу пользователя\n" +
                                                   "Пример: !Бот группа ПЗ-50";
 

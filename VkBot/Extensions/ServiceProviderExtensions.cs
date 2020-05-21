@@ -51,12 +51,13 @@ namespace VkBot.Extensions
             services.AddScoped<IBotCommand, Rebuke>();
             services.AddScoped<IBotCommand,Amnesty>();
             services.AddScoped<IBotCommand, COVID19>();
-
+            services.AddScoped<IBotCommand, SetGroup>();
+            
             services.AddScoped<IInfo, Info>();
 
             //services.AddScoped<IBotCommand, SetTimeTable>();
             //services.AddScoped<IBotCommand, GetSchedule>();
-            //services.AddScoped<IBotCommand, SetGroup>();
+            
         }
     }
 }

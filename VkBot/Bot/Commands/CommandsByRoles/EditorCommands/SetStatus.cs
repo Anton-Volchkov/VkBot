@@ -35,6 +35,11 @@ namespace VkBot.Bot.Commands.CommandsByRoles.EditorCommands
 
             var split = msg.Text.Split(' ', 2); // [команда, статус]
 
+            if (split.Length < 2)
+            {
+                return "Не все параметры указаны!";
+            }
+            
             if (!await _checker.CheckAccessToCommand(msg.FromId.Value, msg.PeerId.Value, Roles.Editor))
             {
                 return "Недосточно прав!";
