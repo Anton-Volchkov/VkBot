@@ -7,6 +7,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using ImageFinder;
+using Microsoft.Extensions.Logging;
+using VkBot.Controllers;
 using VkBot.Data.Abstractions;
 using VkNet.Abstractions;
 using VkNet.Model;
@@ -25,11 +27,13 @@ namespace VkBot.Bot.Commands
 
         private readonly IVkApi _vkApi;
         private readonly ImageProvider _provider;
+        private readonly ILogger<CallbackController> _logger;
 
-        public GetImage(IVkApi vkApi, ImageProvider provider)
+        public GetImage(IVkApi vkApi, ImageProvider provider, ILogger<CallbackController> logger)
         {
             _vkApi = vkApi;
             _provider = provider;
+            _logger = logger;
         }
 
         public async Task<string> Execute(Message msg)
@@ -42,9 +46,13 @@ namespace VkBot.Bot.Commands
             }
 
             var url = _provider.GetImagesUrl(split[1]);
+            _logger.LogCritical("пОЛУЧИЛ URL");
+            _logger.LogCritical(url[0]);
 
             // Получить адрес сервера для загрузки картинок в сообщении
             var uploadServer = _vkApi.Photo.GetMessagesUploadServer(msg.PeerId.Value);
+
+            _logger.LogCritical("пОЛУЧИЛ Адрес аплод сервера - " + " " + uploadServer.UploadUrl);
 
             // Загрузить картинки на сервер VK.
             var imagePath = new List<string>();
