@@ -1,5 +1,6 @@
 ﻿using CoronaVirus;
 using CurrencyConverter;
+using ImageFinder;
 using Microsoft.Extensions.DependencyInjection;
 using VkBot.Bot;
 using VkBot.Bot.Commands;
@@ -18,6 +19,7 @@ namespace VkBot.Extensions
             services.AddSingleton<CurrencyInfo>();
             services.AddSingleton<WikiApi>();
             services.AddSingleton<CoronaInfo>();
+            services.AddSingleton<ImageProvider>();
 
             services.AddScoped<CommandExecutor>();
             services.AddScoped<RolesHandler>();
@@ -52,6 +54,7 @@ namespace VkBot.Extensions
             services.AddScoped<IBotCommand,Amnesty>();
             services.AddScoped<IBotCommand, COVID19>();
             services.AddScoped<IBotCommand, SetGroup>();
+            services.AddScoped<IBotCommand, GetImage>();
             
             services.AddScoped<IInfo, Info>();
 
