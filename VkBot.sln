@@ -13,7 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YandexTranslator", "YandexT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikipediaApi", "WikipediaApi\WikipediaApi.csproj", "{CCEE3B75-CDC4-497A-AE80-754F618BAEA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoronaVirus", "CoronaVirus\CoronaVirus.csproj", "{9ADD78A7-8D49-4D99-862F-F9F7D1780DB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoronaVirus", "CoronaVirus\CoronaVirus.csproj", "{9ADD78A7-8D49-4D99-862F-F9F7D1780DB8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageFinder", "ImageFinder\ImageFinder.csproj", "{EB6CED8E-EFE2-4DD2-AB8B-3B119C443F84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VkBot.Extensions", "VkBot.Extensions\VkBot.Extensions.csproj", "{65819617-C9F4-475C-915D-549DAF7F6463}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{9ADD78A7-8D49-4D99-862F-F9F7D1780DB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ADD78A7-8D49-4D99-862F-F9F7D1780DB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9ADD78A7-8D49-4D99-862F-F9F7D1780DB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB6CED8E-EFE2-4DD2-AB8B-3B119C443F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB6CED8E-EFE2-4DD2-AB8B-3B119C443F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB6CED8E-EFE2-4DD2-AB8B-3B119C443F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB6CED8E-EFE2-4DD2-AB8B-3B119C443F84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65819617-C9F4-475C-915D-549DAF7F6463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65819617-C9F4-475C-915D-549DAF7F6463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65819617-C9F4-475C-915D-549DAF7F6463}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65819617-C9F4-475C-915D-549DAF7F6463}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
