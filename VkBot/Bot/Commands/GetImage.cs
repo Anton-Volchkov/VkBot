@@ -45,7 +45,7 @@ namespace VkBot.Bot.Commands
                 return "Не все параметры указаны!";
             }
 
-            var url = _provider.GetImagesUrl(split[1]);
+            var url =await  _provider.GetImagesUrl(split[1]);
             _logger.LogCritical("пОЛУЧИЛ URL");
             _logger.LogCritical(url[0]);
 
