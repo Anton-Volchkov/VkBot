@@ -44,7 +44,7 @@ namespace VkBot.Bot.Commands
             var url = _provider.GetImagesUrl(split[1]);
 
             // Получить адрес сервера для загрузки картинок в сообщении
-            var uploadServer = _vkApi.Photo.GetMessagesUploadServer(msg.FromId.Value);
+            var uploadServer = _vkApi.Photo.GetMessagesUploadServer(msg.PeerId.Value);
 
             // Загрузить картинки на сервер VK.
             var imagePath = new List<string>();
@@ -64,7 +64,7 @@ namespace VkBot.Bot.Commands
                
                 _vkApi.Messages.Send(new MessagesSendParams
                 {
-                    UserId = msg.PeerId.Value, 
+                    PeerId = msg.PeerId.Value, 
                     Message = "", 
                     Attachments = attachment.SelectMany(x => x), //Вложение
                     RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x)
