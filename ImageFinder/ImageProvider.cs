@@ -13,17 +13,20 @@ namespace ImageFinder
         public List<string> GetImagesUrl(string category)
         {
             var listUrl = new List<string>();
-            var EndPoint = @$"https://imgur.com/search/score?q={category}";
+            var EndPoint = @$"https://yandex.by/images/search?text={category}";
 
             var web = new HtmlWeb();
 
             var htmlDoc = web.Load(EndPoint);
 
-            var node = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class, 'post')]/a/img");
+            var node = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class, 'serp-item__preview')]/a/img");
 
             if(node != null)
             {
-                foreach (var link in node.Take(20).ToList().TakeRandomElements(3)) listUrl.Add(link.Attributes["src"].Value.Replace("//", "https://"));
+                foreach(var link in node.Take(20).ToList().TakeRandomElements(3))
+                    listUrl.Add(link.Attributes["src"].Value
+                                    .Replace("//", "https://")
+                                    .Replace("amp;", ""));
 
             }
 
