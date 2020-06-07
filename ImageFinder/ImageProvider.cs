@@ -23,7 +23,7 @@ namespace ImageFinder
             var EndPoint = @$"https://yandex.by/images/search?text={category.Trim().Replace(" ","+")}";
 
             var response = await EndPoint.WithClient(fc)
-                                         .WithTimeout(3)
+                                         .WithTimeout(TimeSpan.FromSeconds(7))
                                          .AllowAnyHttpStatus()
                                          .GetStreamAsync();
 
