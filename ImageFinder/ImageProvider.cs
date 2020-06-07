@@ -15,12 +15,15 @@ namespace ImageFinder
         public async Task<List<string>> GetImagesUrl(string category)
         {
 
-            using var fc = new FlurlClient().WithHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36");
+            using var fc = new FlurlClient()
+                           .EnableCookies()
+                           .WithHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36");
           
             var listUrl = new List<string>();
             var EndPoint = @$"https://yandex.by/images/search?text={category.Trim().Replace(" ","+")}";
 
             var response = await EndPoint.WithClient(fc)
+                                         .WithTimeout(3)
                                          .AllowAnyHttpStatus()
                                          .GetStreamAsync();
 
