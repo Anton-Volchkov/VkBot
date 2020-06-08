@@ -63,7 +63,7 @@ namespace VkBot
 
             services.AddSingleton(x => new Translator(Configuration["Config:YT_Token"]));
             services.AddSingleton(new ImageProvider(Configuration["Config:PathToChromeDriver"]));
-
+            
             services.AddBotFeatures();
 
             services.AddHangfire(config => { config.UseMemoryStorage(); });

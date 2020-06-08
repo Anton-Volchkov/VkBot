@@ -32,7 +32,7 @@ namespace ImageFinder
 
 
             using IWebDriver driver = new ChromeDriver(PathToChromeDriver, options);
-            driver.Url = $"https://yandex.by/images/search?text={category}";
+            driver.Url = $"https://yandex.by/images/search?text={category.Trim().Replace(" ","+")}";
 
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
 
