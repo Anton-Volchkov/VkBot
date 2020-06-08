@@ -30,8 +30,8 @@ namespace ImageFinder
             options.AddArguments("-disable-gpu");
             options.AddArguments("--headless");
 
-
-            using IWebDriver driver = new ChromeDriver(PathToChromeDriver, options);
+            
+            IWebDriver driver = new ChromeDriver(PathToChromeDriver, options);
 
             driver.Url = $"https://yandex.by/images/search?text={category.Trim().Replace(" ","+")}";
 
@@ -42,14 +42,16 @@ namespace ImageFinder
            
             var listUrl = new List<string>();
 
-            driver.Quit();
+           
 
             foreach (var iElement in elements.ToList().TakeRandomElements(3))
             {
                 listUrl.Add(iElement.GetAttribute("src"));
             }
 
-           
+            driver.Quit();
+
+
             return listUrl;
            
         }
