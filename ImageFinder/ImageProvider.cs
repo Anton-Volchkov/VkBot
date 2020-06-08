@@ -39,8 +39,7 @@ namespace ImageFinder
 
             var elements = driver.FindElements(By.XPath("//div[contains(@class, 'serp-item__preview')]/a/img"));
 
-            driver.Close();
-
+           
             var listUrl = new List<string>();
 
             foreach (var iElement in elements.ToList().TakeRandomElements(3))
@@ -49,6 +48,7 @@ namespace ImageFinder
             }
 
             driver.Close();
+
             return listUrl;
            
         }
