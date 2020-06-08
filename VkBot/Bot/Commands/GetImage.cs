@@ -58,37 +58,43 @@ namespace VkBot.Bot.Commands
         
 
             // Получить адрес сервера для загрузки картинок в сообщении
-            var uploadServer = _vkApi.Photo.GetMessagesUploadServer(msg.PeerId.Value);
-
-            _logger.LogCritical("Адрес для загрузки получен");
-
-            // Загрузить картинки на сервер VK.
-            var imagePath = new List<string>();
-
-            foreach(var item in url)
-                imagePath.Add(await UploadFile(uploadServer.UploadUrl,
-                                               item, "jpg"));
-
-            var attachment = new List<IReadOnlyCollection<Photo>>();
-
-            if(imagePath.Count > 0)
+            try
             {
-                // Сохранить загруженный файл
-                foreach(var path in imagePath) attachment.Add(_vkApi.Photo.SaveMessagesPhoto(path));
+                var uploadServer = _vkApi.Photo.GetMessagesUploadServer(msg.PeerId.Value);
 
+                _logger.LogCritical("Адрес для загрузки получен");
+
+                // Загрузить картинки на сервер VK.
+                var imagePath = new List<string>();
+
+                foreach(var item in url)
+                    imagePath.Add(await UploadFile(uploadServer.UploadUrl,
+                                                   item, "jpg"));
+
+                var attachment = new List<IReadOnlyCollection<Photo>>();
+
+                if(imagePath.Count > 0)
+                {
+                    // Сохранить загруженный файл
+                    foreach(var path in imagePath) attachment.Add(_vkApi.Photo.SaveMessagesPhoto(path));
 
                
-                _vkApi.Messages.Send(new MessagesSendParams
-                {
-                    PeerId = msg.PeerId.Value, 
-                    Message = "", 
-                    Attachments = attachment.SelectMany(x => x), //Вложение
-                    RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x)
-                });
-                return $"Картинки по запросу: \"{split[1]}\"";
-            }
+                    _vkApi.Messages.Send(new MessagesSendParams
+                    {
+                        PeerId = msg.PeerId.Value, 
+                        Message = "", 
+                        Attachments = attachment.SelectMany(x => x), //Вложение
+                        RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x)
+                    });
+                    return $"Картинки по запросу: \"{split[1]}\"";
+                }
 
-            return $"Картинок по запросу \"{split[1]}\" не найдено";
+                return $"Картинок по запросу \"{split[1]}\" не найдено";
+            }
+            catch(Exception e)
+            {
+                return $"Упс... При поиске картинок по запросу: \"{split[1]}\" что-то пошло не так...";
+            }
         }
 
         private async Task<string> UploadFile(string serverUrl, string file, string fileExtension)
