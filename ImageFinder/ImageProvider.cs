@@ -31,7 +31,7 @@ namespace ImageFinder
             options.AddArguments("--headless");
 
             
-            IWebDriver driver = new ChromeDriver(PathToChromeDriver, options);
+            using IWebDriver driver = new ChromeDriver(PathToChromeDriver, options);
 
             driver.Url = $"https://yandex.by/images/search?text={category.Trim().Replace(" ","+")}";
 
