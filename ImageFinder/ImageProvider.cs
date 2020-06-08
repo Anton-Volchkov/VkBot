@@ -42,13 +42,14 @@ namespace ImageFinder
            
             var listUrl = new List<string>();
 
+            driver.Quit();
+
             foreach (var iElement in elements.ToList().TakeRandomElements(3))
             {
                 listUrl.Add(iElement.GetAttribute("src"));
             }
 
-            driver.Close();
-
+           
             return listUrl;
            
         }
