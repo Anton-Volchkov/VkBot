@@ -32,11 +32,14 @@ namespace ImageFinder
 
 
             using IWebDriver driver = new ChromeDriver(PathToChromeDriver, options);
+
             driver.Url = $"https://yandex.by/images/search?text={category.Trim().Replace(" ","+")}";
 
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
 
             var elements = driver.FindElements(By.XPath("//div[contains(@class, 'serp-item__preview')]/a/img"));
+
+            driver.Close();
 
             var listUrl = new List<string>();
 
@@ -45,6 +48,7 @@ namespace ImageFinder
                 listUrl.Add(iElement.GetAttribute("src"));
             }
 
+            driver.Close();
             return listUrl;
            
         }
