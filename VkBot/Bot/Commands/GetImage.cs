@@ -93,6 +93,7 @@ namespace VkBot.Bot.Commands
             }
             catch(Exception e)
             {
+                _logger.LogCritical($"Произошла ошибка: {e.Message}");
                 return $"Упс... При поиске картинок по запросу: \"{split[1]}\" что-то пошло не так...";
             }
         }

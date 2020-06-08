@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
-using HtmlAgilityPack;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using VkBot.Extensions;

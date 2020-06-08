@@ -44,7 +44,7 @@ namespace VkBot.Bot.Commands
                  chat = _vkApi.Messages.GetConversationMembers(msg.PeerId.Value, new List<string> { "is_admin" }).Items.Where(x => x.IsAdmin).Select(x => x.MemberId).ToArray();
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return
                     "Что-то пошло не так, возможно у меня не хвататет прав. Установите мне права администратора и попробуйте снова.";

@@ -39,7 +39,7 @@ namespace VkBot.Bot.Commands
                              .Profiles
                              .Where(x => x.Online.HasValue).ToArray();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Task.FromResult("Что-то пошло не так, возможно у меня не хвататет прав. Установите мне права администратора и попробуйте снова.");
 
