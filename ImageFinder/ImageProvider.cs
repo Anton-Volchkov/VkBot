@@ -14,32 +14,34 @@ using VkBot.Extensions;
 
 namespace ImageFinder
 {
-    public class ImageProvider
+    public class ImageProvider : IDisposable
     {
         public string PathToChromeDriver{ get; set; }
         public object Locker { get; set; } = new object();
+        private IWebDriver Browser { get; set; }
 
         public ImageProvider(string pathToChromeDriver)
         {
             PathToChromeDriver = pathToChromeDriver;
-        }
-        public List<string> GetImagesUrl(string category)
-        {
+            
             var options = new ChromeOptions();
           
             options.AddArguments("--no-sandbox");
             options.AddArguments("-disable-gpu");
             options.AddArguments("--headless");
-
+            
+            Browser = new ChromeDriver(PathToChromeDriver, options);
+        }
+        public List<string> GetImagesUrl(string category)
+        {
+            
             lock(Locker)
             {
-                using IWebDriver driver = new ChromeDriver(PathToChromeDriver, options);
+                Browser.Url = $"https://yandex.by/images/search?text={category.Trim().Replace(" ","+")}";
 
-                driver.Url = $"https://yandex.by/images/search?text={category.Trim().Replace(" ","+")}";
+                Browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
 
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
-
-                var elements = driver.FindElements(By.XPath("//div[contains(@class, 'serp-item__preview')]/a/img"));
+                var elements = Browser.FindElements(By.XPath("//div[contains(@class, 'serp-item__preview')]/a/img"));
 
            
                 var listUrl = new List<string>();
@@ -51,10 +53,18 @@ namespace ImageFinder
                     listUrl.Add(iElement.GetAttribute("src"));
                 }
 
-                driver.Quit();
+                Browser.Close();
+                
                 return listUrl;
             }
 
+        }
+        
+        public void Dispose()
+        {
+            Browser?.Quit();
+            Browser?.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
