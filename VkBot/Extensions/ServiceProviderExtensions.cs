@@ -19,7 +19,7 @@ namespace VkBot.Extensions
             services.AddSingleton<CurrencyInfo>();
             services.AddSingleton<WikiApi>();
             services.AddSingleton<CoronaInfo>();
-            services.AddSingleton<ImageProvider>();
+           
 
             services.AddScoped<CommandExecutor>();
             services.AddScoped<RolesHandler>();

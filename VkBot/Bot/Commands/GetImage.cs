@@ -45,14 +45,22 @@ namespace VkBot.Bot.Commands
                 return "Не все параметры указаны!";
             }
 
-            var url =await  _provider.GetImagesUrl(split[1]);
-            _logger.LogCritical("пОЛУЧИЛ URL");
-            _logger.LogCritical(url[0]);
+            var url =  _provider.GetImagesUrl(split[1]);
+
+            if(url.Count == 0)
+            {
+                _logger.LogCritical($"Неудалось получить картинки");
+            }
+            else
+            {
+                _logger.LogCritical($"URL картинок получены, одна из них");
+            }
+        
 
             // Получить адрес сервера для загрузки картинок в сообщении
             var uploadServer = _vkApi.Photo.GetMessagesUploadServer(msg.PeerId.Value);
 
-            _logger.LogCritical("пОЛУЧИЛ Адрес аплод сервера - " + " " + uploadServer.UploadUrl);
+            _logger.LogCritical("Адрес для загрузки получен");
 
             // Загрузить картинки на сервер VK.
             var imagePath = new List<string>();

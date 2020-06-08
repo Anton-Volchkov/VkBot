@@ -16,8 +16,13 @@ namespace ImageFinder
 {
     public class ImageProvider
     {
-      
-        public async Task<List<string>> GetImagesUrl(string category)
+        public string PathToChromeDriver{ get; set; }
+
+        public ImageProvider(string pathToChromeDriver)
+        {
+            PathToChromeDriver = pathToChromeDriver;
+        }
+        public List<string> GetImagesUrl(string category)
         {
             var options = new ChromeOptions();
           
@@ -25,51 +30,23 @@ namespace ImageFinder
             options.AddArguments("-disable-gpu");
             options.AddArguments("--headless");
 
-          
-            using (IWebDriver driver = new ChromeDriver(@"/app/ImageFinder/bin/Release/netcoreapp3.1",options))
+
+            using IWebDriver driver = new ChromeDriver(PathToChromeDriver, options);
+            driver.Url = $"https://yandex.by/images/search?text={category}";
+
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
+
+            var elements = driver.FindElements(By.XPath("//div[contains(@class, 'serp-item__preview')]/a/img"));
+
+            var listUrl = new List<string>();
+
+            foreach (var iElement in elements.ToList().TakeRandomElements(3))
             {
-                driver.Url = "https://yandex.by/images/search?text=котики}";
-
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
-
-                var s =  driver.FindElements(By.XPath("//div[contains(@class, 'serp-item__preview')]/a/img"));
-            
-                var listUrl = new List<string>();
-
-                foreach (var iElement in s.ToList().TakeRandomElements(3))
-                {
-                    listUrl.Add(iElement.GetAttribute("src"));
-                }
-
-                return listUrl;
+                listUrl.Add(iElement.GetAttribute("src"));
             }
-            //using var fc = new FlurlClient()
-            //               .EnableCookies()
-            //               .WithHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36");
-          
-            
-            //var EndPoint = @$"https://yandex.by/images/search?text={category.Trim().Replace(" ","+")}";
 
-            //var response = await EndPoint.WithClient(fc)
-            //                             .WithTimeout(TimeSpan.FromSeconds(7))
-            //                             .AllowAnyHttpStatus()
-            //                             .GetStreamAsync();
-
-            //var htmlDoc = new HtmlDocument();
-            //htmlDoc.Load(response);
-            //var node = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class, 'serp-item__preview')]/a/img");
-
-            //if (node != null)
-            //{
-            //    foreach (var link in node.Take(20).ToList().TakeRandomElements(3))
-            //        listUrl.Add(link.Attributes["src"].Value
-            //                        .Replace("//", "https://")
-            //                        .Replace("amp;", ""));
-
-            //}
-
-            //return listUrl;
-
+            return listUrl;
+           
         }
     }
 }

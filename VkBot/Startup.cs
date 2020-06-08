@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Hangfire;
 using Hangfire.MemoryStorage;
+using ImageFinder;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -61,6 +62,7 @@ namespace VkBot
             services.AddSingleton(x => new WeatherInfo(Configuration["Config:OWM_Token"]));
 
             services.AddSingleton(x => new Translator(Configuration["Config:YT_Token"]));
+            services.AddSingleton(new ImageProvider(Configuration["Config:PathToChromeDriver"]));
 
             services.AddBotFeatures();
 
