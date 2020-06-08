@@ -40,20 +40,15 @@ namespace ImageFinder
                 Browser.Url = $"https://yandex.by/images/search?text={category.Trim().Replace(" ","+")}";
 
                 Browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
-
+                
                 var elements = Browser.FindElements(By.XPath("//div[contains(@class, 'serp-item__preview')]/a/img"));
-
-           
+                
                 var listUrl = new List<string>();
-
-           
 
                 foreach (var iElement in elements.ToList().TakeRandomElements(3))
                 {
                     listUrl.Add(iElement.GetAttribute("src"));
                 }
-
-                Browser.Close();
                 
                 return listUrl;
             }
