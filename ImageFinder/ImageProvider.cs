@@ -19,16 +19,18 @@ namespace ImageFinder
       
         public async Task<List<string>> GetImagesUrl(string category)
         {
-            Console.WriteLine("Тест селениума на хероку");
-            using (IWebDriver driver = new ChromeDriver(@"/app/.chromedriver/bin/chromedriver"))
+            var options = new ChromeOptions();
+          
+            options.AddArguments("--no-sandbox");
+            options.AddArguments("-disable-gpu");
+            options.AddArguments("--headless");
+
+          
+            using (IWebDriver driver = new ChromeDriver(@"/app/ImageFinder/bin/Release/netcoreapp3.1",options))
             {
-                Console.WriteLine("Браузер запущен");
-
                 driver.Url = "https://yandex.by/images/search?text=котики}";
-                
-                driver.Manage().Window.Maximize();
 
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
 
                 var s =  driver.FindElements(By.XPath("//div[contains(@class, 'serp-item__preview')]/a/img"));
             
