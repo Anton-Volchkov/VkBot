@@ -27,9 +27,9 @@ namespace VkBot.Bot.Commands
 
         private readonly IVkApi _vkApi;
         private readonly ImageProvider _provider;
-        private readonly ILogger<CallbackController> _logger;
+        private readonly ILogger<GetImage> _logger;
 
-        public GetImage(IVkApi vkApi, ImageProvider provider, ILogger<CallbackController> logger)
+        public GetImage(IVkApi vkApi, ImageProvider provider, ILogger<GetImage> logger)
         {
             _vkApi = vkApi;
             _provider = provider;
@@ -53,7 +53,7 @@ namespace VkBot.Bot.Commands
             }
             else
             {
-                _logger.LogCritical($"URL картинок получены, одна из них");
+                _logger.LogCritical($"URL картинок получены, одна из них: {url[0]}");
             }
         
 
