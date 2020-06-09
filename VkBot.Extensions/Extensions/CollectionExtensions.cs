@@ -9,6 +9,11 @@ namespace VkBot.Extensions
     {
         public static List<T> TakeRandomElements<T>(this List<T> collection, int count)
         {
+            if(collection.Count <= count)
+            {
+                return collection;
+            }
+
             var randomNumbers = new int[count];
             var outputArray = new List<T>();
 
