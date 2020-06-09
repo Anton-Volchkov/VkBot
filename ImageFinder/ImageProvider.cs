@@ -49,17 +49,18 @@ namespace ImageFinder
 
                 using IWebDriver browser = new ChromeDriver(PathToChromeDriver,_options);
 
-                browser.Url = $"https://yandex.by/images/search?text={category.Trim().Replace(" ","+")}";
+                
+                browser.Url = $"https://duckduckgo.com/?q={category.Trim().Replace(" ","+")}&t=h_&iax=images&ia=images";
 
                 browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
                 
-                var elements = browser.FindElements(By.XPath("//div[contains(@class, 'serp-item__preview')]/a/img"));
+                var elements = browser.FindElements(By.XPath("//div[contains(@class, 'tile--img__media')]/span[contains(@class, 'tile--img__media__i')]/img"));
                 
                 var listUrl = new List<string>();
 
-                foreach (var iElement in elements.ToList().TakeRandomElements(3))
+                foreach (var iElement in elements.Take(35).ToList().TakeRandomElements(3))
                 {
-                    listUrl.Add(iElement.GetAttribute("src"));
+                    listUrl.Add(iElement.GetAttribute("src").Replace("//","https://"));
                 }
 
                 browser.Quit();
