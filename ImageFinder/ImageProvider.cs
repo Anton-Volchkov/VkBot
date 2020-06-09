@@ -60,7 +60,7 @@ namespace ImageFinder
 
                 foreach (var iElement in elements.Take(35).ToList().TakeRandomElements(3))
                 {
-                    listUrl.Add(iElement.GetAttribute("src").Replace("//","https://"));
+                    listUrl.Add(iElement.GetAttribute("src"));
                 }
 
                 browser.Quit();
