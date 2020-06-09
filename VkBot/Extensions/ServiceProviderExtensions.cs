@@ -8,6 +8,7 @@ using VkBot.Bot.Commands.CommandsByRoles.AdminCommands;
 using VkBot.Bot.Commands.CommandsByRoles.EditorCommands;
 using VkBot.Bot.Commands.CommandsByRoles.ModerCommands;
 using VkBot.Data.Abstractions;
+using VkBot.Proxy.Logic;
 using WikipediaApi;
 
 namespace VkBot.Extensions
@@ -19,6 +20,7 @@ namespace VkBot.Extensions
             services.AddSingleton<CurrencyInfo>();
             services.AddSingleton<WikiApi>();
             services.AddSingleton<CoronaInfo>();
+            services.AddSingleton<ProxyProvider>();
            
 
             services.AddScoped<CommandExecutor>();

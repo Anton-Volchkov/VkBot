@@ -9,38 +9,51 @@ using Flurl.Http;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using VkBot.Extensions;
+using VkBot.Proxy.Logic;
 
 
 namespace ImageFinder
 {
-    public class ImageProvider : IDisposable
+    public class ImageProvider 
     {
         public string PathToChromeDriver{ get; set; }
         public object Locker { get; set; } = new object();
-        private IWebDriver Browser { get; set; }
+        private readonly ChromeOptions _options = new ChromeOptions();
+        private readonly ProxyProvider _proxyProvider;
 
-        public ImageProvider(string pathToChromeDriver)
+        public ImageProvider(string pathToChromeDriver, ProxyProvider proxyProvider)
         {
             PathToChromeDriver = pathToChromeDriver;
+            _proxyProvider = proxyProvider;
             
-            var options = new ChromeOptions();
-          
-            options.AddArguments("--no-sandbox");
-            options.AddArguments("-disable-gpu");
-            options.AddArguments("--headless");
-            
-            Browser = new ChromeDriver(PathToChromeDriver, options);
+            _options.AddArguments("--no-sandbox");
+            _options.AddArguments("-disable-gpu");
+            _options.AddArguments("--headless");
+       
         }
-        public List<string> GetImagesUrl(string category)
+        public async Task<List<string>> GetImagesUrl(string category)
         {
-            
-            lock(Locker)
+            var proxyAddress = await _proxyProvider.GetRandomProxy();
+          
+            lock (Locker)
             {
-                Browser.Url = $"https://yandex.by/images/search?text={category.Trim().Replace(" ","+")}";
+                if(!string.IsNullOrWhiteSpace(proxyAddress))
+                {
+                    var proxy = new Proxy
+                    {
+                        HttpProxy = proxyAddress
+                    };
 
-                Browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
+                    _options.Proxy = proxy;
+                }
+
+                using IWebDriver browser = new ChromeDriver(PathToChromeDriver,_options);
+
+                browser.Url = $"https://yandex.by/images/search?text={category.Trim().Replace(" ","+")}";
+
+                browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
                 
-                var elements = Browser.FindElements(By.XPath("//div[contains(@class, 'serp-item__preview')]/a/img"));
+                var elements = browser.FindElements(By.XPath("//div[contains(@class, 'serp-item__preview')]/a/img"));
                 
                 var listUrl = new List<string>();
 
@@ -48,17 +61,14 @@ namespace ImageFinder
                 {
                     listUrl.Add(iElement.GetAttribute("src"));
                 }
+
+                browser.Quit();
                 
                 return listUrl;
             }
 
         }
         
-        public void Dispose()
-        {
-            Browser?.Quit();
-            Browser?.Dispose();
-            GC.SuppressFinalize(this);
-        }
+       
     }
 }

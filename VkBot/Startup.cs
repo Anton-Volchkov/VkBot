@@ -14,6 +14,7 @@ using VkBot.Bot.Hangfire;
 using VkBot.Data.Models;
 using VkBot.Extensions;
 using VkBot.HostedServices;
+using VkBot.Proxy.Logic;
 using VkNet;
 using VkNet.Abstractions;
 using VkNet.Model;
@@ -62,9 +63,13 @@ namespace VkBot
             services.AddSingleton(x => new WeatherInfo(Configuration["Config:OWM_Token"]));
 
             services.AddSingleton(x => new Translator(Configuration["Config:YT_Token"]));
-            services.AddSingleton(new ImageProvider(Configuration["Config:PathToChromeDriver"]));
-            
+
             services.AddBotFeatures();
+
+            services.AddSingleton(sp =>
+            {
+                return new ImageProvider(Configuration["Config:PathToChromeDriver"],sp.GetService<ProxyProvider>() );
+            });
 
             services.AddHangfire(config => { config.UseMemoryStorage(); });
             

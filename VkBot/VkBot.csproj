@@ -27,6 +27,7 @@
     <ProjectReference Include="..\ImageFinder\ImageFinder.csproj" />
     <ProjectReference Include="..\OpenWeatherMap\OpenWeatherMap.csproj" />
     <ProjectReference Include="..\VkBot.Extensions\VkBot.Extensions.csproj" />
+    <ProjectReference Include="..\VkBot.Proxy\VkBot.Proxy.csproj" />
     <ProjectReference Include="..\WikipediaApi\WikipediaApi.csproj" />
     <ProjectReference Include="..\YandexTranslator\YandexTranslator.csproj" />
   </ItemGroup>
