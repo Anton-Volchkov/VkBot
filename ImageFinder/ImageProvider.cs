@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using ImageFinder.Models;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using VkBot.Extensions;
@@ -25,13 +27,15 @@ namespace ImageFinder
             _options.AddArguments("--headless");
         }
 
-        public async Task<List<string>> GetImagesUrl(string category)
+        public async Task<List<string>> GetImagesUrl(string category, Browser nameBrowser)
         {
             var proxyAddress = await _proxyProvider.GetRandomProxy();
-
-            lock(Locker)
+            var currentQueryUrl = "";
+            var currentXPath = "";
+            
+            lock (Locker)
             {
-                if(!string.IsNullOrWhiteSpace(proxyAddress))
+                if (!string.IsNullOrWhiteSpace(proxyAddress))
                 {
                     var proxy = new Proxy
                     {
@@ -41,18 +45,32 @@ namespace ImageFinder
                     _options.Proxy = proxy;
                 }
 
+                if (nameBrowser == Browser.Yandex)
+                {
+                    currentQueryUrl = $"https://yandex.by/images/search?text={category.Trim().Replace(" ", "+")}";
+                    currentXPath = "//div[contains(@class, 'serp-item__preview')]/a/img";
+                }
+                else if (nameBrowser == Browser.DuckDuckGo)
+                {
+                    currentQueryUrl =
+                        $"https://duckduckgo.com/?q={category.Trim().Replace(" ", "+")}&t=h_&iax=images&ia=images";
+                    currentXPath =
+                        "//div[contains(@class, 'tile--img__media')]/span[contains(@class, 'tile--img__media__i')]/img";
+                }
+
                 using IWebDriver browser = new ChromeDriver(PathToChromeDriver, _options);
 
 
-                browser.Url = $"https://yandex.by/images/search?text={category.Trim().Replace(" ", "+")}";
+                browser.Url = currentQueryUrl;
 
                 browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
 
-                var elements = browser.FindElements(By.XPath("//div[contains(@class, 'serp-item__preview')]/a/img"));
+                var elements = browser.FindElements(By.XPath(currentXPath));
 
                 var listUrl = new List<string>();
 
-                foreach(var iElement in elements.TakeRandomElements(3))
+                foreach (var iElement in elements.Take(nameBrowser == Browser.Yandex ? elements.Count : 10)
+                    .TakeRandomElements(3))
                     listUrl.Add(iElement.GetAttribute("src"));
 
                 browser.Quit();

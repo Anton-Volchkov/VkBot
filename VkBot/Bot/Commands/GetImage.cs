@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using ImageFinder;
+using ImageFinder.Models;
 using Microsoft.Extensions.Logging;
 using VkBot.Controllers;
 using VkBot.Data.Abstractions;
@@ -45,11 +46,17 @@ namespace VkBot.Bot.Commands
                 return "Не все параметры указаны!";
             }
 
-            var url = await _provider.GetImagesUrl(split[1]);
+            var url = await _provider.GetImagesUrl(split[1],Browser.Yandex);
 
             if(url.Count == 0)
             {
-                _logger.LogCritical($"Неудалось получить картинки");
+                _logger.LogCritical($"Неудалось получить картинки через Yandex, пробуем получить через DuckDuckGo");
+                url = await _provider.GetImagesUrl(split[1], Browser.DuckDuckGo);
+
+                if (url.Count == 0)
+                {
+                    _logger.LogCritical($"Неудалось получить картинки через DuckDuckGo");
+                }
             }
             else
             {
