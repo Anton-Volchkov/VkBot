@@ -124,7 +124,7 @@ namespace OpenWeatherMap
 
         private async Task<HttpResponseMessage> GetDailyWeatherResponse(string city)
         {
-            var coordinatesByCity = await GetCoordsByCity(city);
+            var coordinatesByCity = await GetСoordinatesByCity(city);
 
             return await BuildRequest()
                          .AppendPathSegment("onecall")
@@ -142,7 +142,7 @@ namespace OpenWeatherMap
                            .SetQueryParam("lang", Lang);
         }
 
-        private async Task<(string lat, string lon)> GetCoordsByCity(string city)
+        private async Task<(string lat, string lon)> GetСoordinatesByCity(string city)
         {
             var response = await "https://geocode.xyz/"
                       .AllowAnyHttpStatus()
