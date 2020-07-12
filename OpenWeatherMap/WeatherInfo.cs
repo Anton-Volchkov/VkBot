@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json;
+using OpenWeatherMap.Models;
 using OpenWeatherMap.Models.Daily;
 
 namespace OpenWeatherMap
@@ -68,14 +71,13 @@ namespace OpenWeatherMap
         {
             city = char.ToUpper(city[0]) + city.Substring(1); //TODO ?
             var date = DateTime.Now;
-            const int count = 8;
-
-            var response = await GetDailyWeatherResponse(city, count);
+            
+            var response = await GetDailyWeatherResponse(city);
 
             if(!response.IsSuccessStatusCode)
             {
                 var newCity = city.Replace("е", "ё");
-                response = await GetDailyWeatherResponse(city, count);
+                response = await GetDailyWeatherResponse(city);
 
                 if(!response.IsSuccessStatusCode)
                 {
@@ -85,7 +87,7 @@ namespace OpenWeatherMap
                 city = newCity;
             }
 
-            var weatherToday = JsonConvert.DeserializeObject<DailyWeather>(await response.Content.ReadAsStringAsync());
+            var weatherToday = JsonConvert.DeserializeObject<DailyWeather>(await response.Content.ReadAsStringAsync()).Daily.First();
 
             if(weatherToday is null)
             {
@@ -93,19 +95,21 @@ namespace OpenWeatherMap
             }
 
             var strBuilder = new StringBuilder();
-            strBuilder.AppendFormat("Погода в городе {0} на сегодня ({1:dddd, d MMMM}):", city, date).AppendLine()
-                      .AppendLine();
-            foreach(var weatherHourly in weatherToday.List)
-            {
-                strBuilder.AppendFormat("Время: {0:HH:mm (dd.MM.yyyy)}", weatherHourly.DtTxt).AppendLine();
-                strBuilder.AppendFormat("Температура: {0:+#;-#;0}°С", weatherHourly.Main.Temp).AppendLine();
-                strBuilder.AppendFormat("Описание погоды: {0}", weatherHourly.Weather[0].Description).AppendLine();
-                strBuilder.AppendFormat("Влажность: {0}%", weatherHourly.Main.Humidity).AppendLine();
-                strBuilder.AppendFormat("Ветер: {0:N0} м/с", weatherHourly.Wind.Speed).AppendLine();
-                strBuilder.AppendFormat("Давление: {0:N0} мм.рт.ст", weatherHourly.Main.Pressure * PressureConvert)
+            
+            strBuilder.AppendFormat("Погода в городе {0} на сегодня ({1:dddd, d MMMM}):", city, date).AppendLine();
+            strBuilder.AppendLine("_____________").AppendLine();
+            strBuilder.AppendFormat("Температура: от {0:+#;-#;0}°С до {1:+#;-#;0}°С", weatherToday.Temp.Min, weatherToday.Temp.Max).AppendLine();
+            strBuilder.AppendFormat("Температура утром: {0:+#;-#;0}°С", weatherToday.Temp.Morn).AppendLine(); 
+            strBuilder.AppendFormat("Температура днем: {0:+#;-#;0}°С", weatherToday.Temp.Day).AppendLine();
+            strBuilder.AppendFormat("Температура вечером: {0:+#;-#;0}°С", weatherToday.Temp.Eve).AppendLine();
+            strBuilder.AppendFormat("Температура ночью: {0:+#;-#;0}°С", weatherToday.Temp.Night).AppendLine();
+            strBuilder.AppendFormat("Описание погоды: {0}", weatherToday.Weather[0].Description).AppendLine();
+            strBuilder.AppendFormat("Влажность: {0}%", weatherToday.Humidity).AppendLine();
+            strBuilder.AppendFormat("Ветер: {0:N0} м/с", weatherToday.WindSpeed).AppendLine();
+            strBuilder.AppendFormat("Давление: {0:N0} мм.рт.ст", weatherToday.Pressure * PressureConvert)
                           .AppendLine();
-                strBuilder.AppendFormat("Облачность: {0}%", weatherHourly.Clouds.All).AppendLine().AppendLine();
-            }
+            strBuilder.AppendFormat("Облачность: {0}%", weatherToday.Clouds).AppendLine().AppendLine();
+            strBuilder.AppendLine("_____________");
 
             return strBuilder.ToString();
         }
@@ -118,12 +122,15 @@ namespace OpenWeatherMap
                          .GetAsync();
         }
 
-        private async Task<HttpResponseMessage> GetDailyWeatherResponse(string city, int count)
+        private async Task<HttpResponseMessage> GetDailyWeatherResponse(string city)
         {
+            var coordinatesByCity = await GetCoordsByCity(city);
+
             return await BuildRequest()
-                         .AppendPathSegment("forecast")
-                         .SetQueryParam("q", city)
-                         .SetQueryParam("cnt", count)
+                         .AppendPathSegment("onecall")
+                         .SetQueryParam("lat", coordinatesByCity.lat)
+                         .SetQueryParam("lon", coordinatesByCity.lon)
+                         .SetQueryParam("exclude","hourly,current")
                          .GetAsync();
         }
 
@@ -133,6 +140,24 @@ namespace OpenWeatherMap
                            .SetQueryParam("units", "metric")
                            .SetQueryParam("appid", Token)
                            .SetQueryParam("lang", Lang);
+        }
+
+        private async Task<(string lat, string lon)> GetCoordsByCity(string city)
+        {
+            var response = await "https://geocode.xyz/"
+                      .AllowAnyHttpStatus()
+                      .AppendPathSegment(city)
+                      .SetQueryParam("json", "1")
+                      .GetAsync();
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ArgumentException("Погоды по данному городу не найдено!");
+            }
+
+            var cityInfo = JsonConvert.DeserializeObject<CityInfo>(await response.Content.ReadAsStringAsync());
+
+            return (lat: cityInfo.Latt, lon: cityInfo.Longt);
         }
 
         internal DateTime UnixToDateTime(double unixTimeStamp)
