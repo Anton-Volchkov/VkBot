@@ -5,7 +5,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using CoronaVirus.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using VkBot.Domain;
+using VkBot.Domain.Models;
 using YandexTranslator;
 
 namespace CoronaVirus
@@ -13,9 +16,11 @@ namespace CoronaVirus
     public class CoronaInfo
     {
         private readonly Translator _translator;
-        public CoronaInfo(Translator translator)
+        private readonly MainContext _db;
+        public CoronaInfo(Translator translator, MainContext dbContext)
         {
             _translator = translator;
+            _db = dbContext;
         }
         public async Task<string> GetCoronaVirusInfo(string country = "")
         {
@@ -48,8 +53,20 @@ namespace CoronaVirus
             }
             else
             {
+                string countryOnEnglish = string.Empty;
                 var countries = JsonConvert.DeserializeObject<List<CountryInfo>>(await response.Content.ReadAsStringAsync());
-                var countryOnEnglish = await _translator.Translate(country, "ru-en");
+
+                var countryData =  await _db.Countries.FirstOrDefaultAsync(x => x.RussianName == country.ToLower());
+
+                if(countryData is null)
+                {
+                    countryOnEnglish = await _translator.Translate(country, "ru-en");
+                }
+                else
+                {
+                    countryOnEnglish = countryData.EnglishName;
+                }
+                 
 
                 var needCountry =
                      countries.FirstOrDefault(x => x.Country.Equals(countryOnEnglish,
@@ -58,6 +75,17 @@ namespace CoronaVirus
                 if(needCountry is null)
                 {
                     return "Информации по COVID-19 в этой стране не найдено!";
+                }
+
+                if(countryData is null)
+                {
+                    await _db.Countries.AddAsync(new Country()
+                    {
+                        RussianName = country.ToLower(),
+                        EnglishName = countryOnEnglish
+                    });
+
+                    await _db.SaveChangesAsync();
                 }
 
                 sb.AppendLine($"Страна: {country.ToUpper()}").AppendLine();

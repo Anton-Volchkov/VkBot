@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VkBot.Domain\VkBot.Domain.csproj" />
     <ProjectReference Include="..\YandexTranslator\YandexTranslator.csproj" />
   </ItemGroup>
 

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VkBot.Data.Abstractions;
-using VkBot.Data.Models;
+using VkBot.Domain;
 using VkNet.Abstractions;
 using VkNet.Model;
 using User = VkNet.Model.User;

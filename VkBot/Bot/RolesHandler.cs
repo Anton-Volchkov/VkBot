@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using VkBot.Data.Models;
+using VkBot.Domain;
+using VkBot.Domain.Models;
 
 namespace VkBot.Bot
 {

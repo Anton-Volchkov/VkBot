@@ -27,7 +27,7 @@ namespace YandexTranslator
 
             if(!response.IsSuccessStatusCode)
             {
-                return "по вашему запросу ничего не найдено";
+                return "По вашему запросу ничего не найдено";
             }
 
             var translate = JsonConvert.DeserializeObject<TranslateText>(await response.Content.ReadAsStringAsync());

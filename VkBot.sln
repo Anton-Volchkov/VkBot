@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageFinder", "ImageFinder\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot.Extensions", "VkBot.Extensions\VkBot.Extensions.csproj", "{65819617-C9F4-475C-915D-549DAF7F6463}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VkBot.Proxy", "VkBot.Proxy\VkBot.Proxy.csproj", "{67C22149-F492-4042-9FD2-6BA70AACCA5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot.Proxy", "VkBot.Proxy\VkBot.Proxy.csproj", "{67C22149-F492-4042-9FD2-6BA70AACCA5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VkBot.Domain", "VkBot.Domain\VkBot.Domain.csproj", "{65C4FF32-73D3-4F5C-82C0-8F76477655B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{67C22149-F492-4042-9FD2-6BA70AACCA5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67C22149-F492-4042-9FD2-6BA70AACCA5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67C22149-F492-4042-9FD2-6BA70AACCA5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65C4FF32-73D3-4F5C-82C0-8F76477655B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65C4FF32-73D3-4F5C-82C0-8F76477655B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65C4FF32-73D3-4F5C-82C0-8F76477655B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65C4FF32-73D3-4F5C-82C0-8F76477655B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using VkBot.Bot;
-using VkBot.Data.Models;
+using VkBot.Domain;
+using VkBot.Domain.Models;
 using VkNet.Abstractions;
 using VkNet.Model;
 using VkNet.Model.RequestParams;
 using VkNet.Utils;
-using User = VkBot.Data.Models.User;
+using User = VkBot.Domain.Models.User;
 
 namespace VkBot.Controllers
 {

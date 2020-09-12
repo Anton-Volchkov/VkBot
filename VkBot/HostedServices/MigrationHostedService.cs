@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VkBot.Data.Models;
+using VkBot.Domain;
 
 namespace VkBot.HostedServices
 {

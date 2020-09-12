@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenWeatherMap;
 using VkBot.Bot.Hangfire;
-using VkBot.Data.Models;
+using VkBot.Domain;
 using VkBot.Extensions;
 using VkBot.HostedServices;
 using VkBot.Proxy.Logic;

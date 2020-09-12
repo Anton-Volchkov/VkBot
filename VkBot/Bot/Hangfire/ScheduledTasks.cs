@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hangfire;
 using OpenWeatherMap;
-using VkBot.Data.Models;
+using VkBot.Domain;
 using VkNet.Abstractions;
 using VkNet.Model.RequestParams;
 

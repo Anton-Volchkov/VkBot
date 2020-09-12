@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using VkBot.Data.Abstractions;
-using VkBot.Data.Models;
+using VkBot.Domain;
 using VkNet.Abstractions;
 using VkNet.Model;
-using User = VkBot.Data.Models.User;
+using User = VkBot.Domain.Models.User;
 
 namespace VkBot.Bot.Commands
 {

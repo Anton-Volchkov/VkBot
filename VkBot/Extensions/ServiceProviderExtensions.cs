@@ -19,13 +19,13 @@ namespace VkBot.Extensions
         {
             services.AddSingleton<CurrencyInfo>();
             services.AddSingleton<WikiApi>();
-            services.AddSingleton<CoronaInfo>();
             services.AddSingleton<ProxyProvider>();
            
 
             services.AddScoped<CommandExecutor>();
             services.AddScoped<RolesHandler>();
 
+            services.AddScoped<CoronaInfo>();
             services.AddScoped<IBotCommand, Help>();
             services.AddScoped<IBotCommand, Roulette>();
             services.AddScoped<IBotCommand, SetCommon>();
