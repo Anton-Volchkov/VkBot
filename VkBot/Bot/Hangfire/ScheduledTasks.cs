@@ -24,21 +24,28 @@ namespace VkBot.Bot.Hangfire
 
         public async Task SendWeather()
         {
-            var grouped = _db.GetWeatherUsers().GroupBy(x => x.City);
-            foreach(var group in grouped)
+            try
             {
-                var weather = await _weather.GetDailyWeather(group.Key);
-
-                var ids = group.Select(x => x.Vk.Value);
-
-                await _vkApi.Messages.SendToUserIdsAsync(new MessagesSendParams
+                var grouped = _db.GetWeatherUsers().GroupBy(x => x.City);
+                foreach(var group in grouped)
                 {
-                    RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
-                    UserIds = ids,
-                    Message = weather
-                });
+                    var weather = await _weather.GetDailyWeather(group.Key);
 
-                await Task.Delay(10);
+                    var ids = group.Select(x => x.Vk.Value);
+
+                    await _vkApi.Messages.SendToUserIdsAsync(new MessagesSendParams
+                    {
+                        RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
+                        UserIds = ids,
+                        Message = weather
+                    });
+
+                    await Task.Delay(10);
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
 
