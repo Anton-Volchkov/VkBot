@@ -69,7 +69,7 @@ namespace VkBot.Bot.Commands
             {
                 var uploadServer = _vkApi.Photo.GetMessagesUploadServer(0);
 
-                _logger.LogCritical("Адрес для загрузки получен");
+                _logger.LogCritical("Адресс для загрузки получен");
 
                 // Загрузить картинки на сервер VK.
                 var imagePath = new List<string>();
