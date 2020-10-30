@@ -67,7 +67,7 @@ namespace VkBot.Bot.Commands
             // Получить адрес сервера для загрузки картинок в сообщении
             try
             {
-                var uploadServer = _vkApi.Photo.GetMessagesUploadServer(msg.PeerId.Value);
+                var uploadServer = _vkApi.Photo.GetMessagesUploadServer(0);
 
                 _logger.LogCritical("Адрес для загрузки получен");
 
