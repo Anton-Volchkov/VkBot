@@ -13,7 +13,7 @@ namespace OpenWeatherMap.Models
         [JsonProperty("longt")]
         public string Longt { get; set; }
 
-        [JsonProperty("alt")]
+        [JsonIgnore]
         public Alt Alt { get; set; }
 
         [JsonProperty("latt")]
@@ -22,7 +22,6 @@ namespace OpenWeatherMap.Models
 
     public class Alt
     {
-        [JsonProperty("loc")]
         public Loc Loc { get; set; }
     }
 
