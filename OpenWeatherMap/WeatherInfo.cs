@@ -164,7 +164,7 @@ namespace OpenWeatherMap
             {
                 cityInfo.Alt = new Alt()
                 {
-                    Loc = ja.First().ToObject<Loc>()
+                    Loc = ja.FirstOrDefault()?.ToObject<Loc>()
                 };
             }
             else if (jo["alt"]?["loc"] is JObject jObject)
