@@ -156,25 +156,17 @@ namespace OpenWeatherMap
                 throw new ArgumentException("Погоды по данному городу не найдено!");
             }
 
-            var cityInfo = JsonConvert.DeserializeObject<CityInfo>(await response.Content.ReadAsStringAsync());
-
             var jo = JObject.Parse(await response.Content.ReadAsStringAsync());
 
-            if(jo["alt"]?["loc"] is JArray ja)
+            if (jo["alt"]?["loc"] is JObject jObject)
             {
-                cityInfo.Alt = new Alt()
-                {
-                    Loc = ja.FirstOrDefault()?.ToObject<Loc>()
-                };
+                JArray newJArray = new JArray { jObject };
+                jo["alt"]?["loc"].Replace(newJArray);
+
             }
-            else if (jo["alt"]?["loc"] is JObject jObject)
-            {
-                cityInfo.Alt = new Alt()
-                {
-                    Loc = jObject.ToObject<Loc>()
-                };
-            }
-           
+
+            var cityInfo = JsonConvert.DeserializeObject<CityInfo>(jo.ToString());
+
             return (lat: cityInfo.Latt, lon: cityInfo.Longt);
         }
 
