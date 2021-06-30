@@ -29,7 +29,20 @@ namespace VkBot.Bot.Hangfire
                 var grouped = _db.GetWeatherUsers().GroupBy(x => x.City);
                 foreach(var group in grouped)
                 {
-                    var weather = await _weather.GetDailyWeather(group.Key);
+                    string weather = string.Empty;
+                    try
+                    {
+                        weather = await _weather.GetDailyWeather(group.Key);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                   
+                    if(string.IsNullOrWhiteSpace(weather))
+                    {
+                        continue;
+                    }
 
                     var ids = group.Select(x => x.Vk.Value);
 
