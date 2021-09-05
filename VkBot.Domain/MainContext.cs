@@ -8,8 +8,7 @@ namespace VkBot.Domain
     {
         public MainContext(DbContextOptions<MainContext> options) : base(options)
         {
-            //TODO: это не нужно вообще здесь
-            //Database.EnsureCreated();
+         
         }
 
         public DbSet<Common> Commons { get; set; }

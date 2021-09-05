@@ -1,6 +1,5 @@
 ﻿using CoronaVirus;
 using CurrencyConverter;
-using ImageFinder;
 using Microsoft.Extensions.DependencyInjection;
 using VkBot.Bot;
 using VkBot.Bot.Commands;
@@ -59,6 +58,9 @@ namespace VkBot.Extensions
             services.AddScoped<IBotCommand, GetImage>();
             
             services.AddScoped<IInfo, Info>();
+
+
+            services.AddScoped<ICommandHandler, CommandHandler>();
 
             //services.AddScoped<IBotCommand, SetTimeTable>();
             //services.AddScoped<IBotCommand, GetSchedule>();
