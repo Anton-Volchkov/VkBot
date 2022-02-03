@@ -54,7 +54,6 @@ namespace VkBot
             {
                 var api = new VkApi();
                 api.Authorize(new ApiAuthParams { AccessToken = Configuration["Config:AccessToken"] });
-                api.RequestsPerSecond = 20;
                 return api;
             });
 

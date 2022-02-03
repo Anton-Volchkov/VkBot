@@ -53,7 +53,6 @@ namespace VkBot.Bot.Hangfire
                         Message = weather
                     });
 
-                    await Task.Delay(10);
                 }
             }
             catch(Exception e)
@@ -90,7 +89,6 @@ namespace VkBot.Bot.Hangfire
                     Message = schedule.Schedule
                 });
 
-                await Task.Delay(10);
             }
         }
 
