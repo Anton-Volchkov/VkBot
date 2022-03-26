@@ -1,6 +1,7 @@
 ﻿using CoronaVirus;
 using CurrencyConverter;
 using Microsoft.Extensions.DependencyInjection;
+using Scrutor;
 using VkBot.Bot;
 using VkBot.Bot.Commands;
 using VkBot.Data.Abstractions;
@@ -28,6 +29,7 @@ namespace VkBot.Extensions
             {
                 scan.FromAssembliesOf(typeof(Help))
                     .AddClasses(classes => classes.AssignableTo(typeof(IBotCommand)).NotInNamespaceOf<Info>())
+                    .UsingRegistrationStrategy(RegistrationStrategy.Append)
                     .AsImplementedInterfaces()
                     .WithScopedLifetime();
             });
@@ -37,6 +39,7 @@ namespace VkBot.Extensions
             {
                 scan.FromAssembliesOf(typeof(Help))
                     .AddClasses(classes => classes.AssignableTo(typeof(ICommandPreprocessor)))
+                    .UsingRegistrationStrategy(RegistrationStrategy.Append)
                     .AsImplementedInterfaces()
                     .WithScopedLifetime();
             });
