@@ -21,10 +21,13 @@ namespace VkBot.PreProcessors
 
         public async Task<bool> ProcessAsync(Message msg, CancellationToken cancellationToken = default)
         {
-            long? userId = msg.Action.MemberId ?? msg.FromId;
-            long? peerId = msg.PeerId;
+            long? userId = msg?.Action?.MemberId ?? msg?.FromId;
+            long? peerId = msg?.PeerId;
 
-           
+            if(userId == null || peerId == null)
+            {
+                return true;
+            }
 
             var isBlockedUser = await _mainContext.BlackList
                                                   .AnyAsync(x => x.ChatVkId == peerId.Value && x.UserVkId == userId.Value, cancellationToken);
