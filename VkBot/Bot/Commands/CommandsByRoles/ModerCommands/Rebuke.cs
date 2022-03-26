@@ -39,7 +39,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.ModerCommands
 
             if (!await _checker.CheckAccessToCommand(msg.FromId.Value, msg.PeerId.Value, Roles.Moderator))
             {
-                return "Недосточно прав!";
+                return "Недостаточно прав!";
             }
 
             var forwardMessage = msg.ForwardedMessages.Count == 0 ? msg.ReplyMessage : msg.ForwardedMessages[0];

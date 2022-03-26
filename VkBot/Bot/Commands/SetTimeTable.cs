@@ -1,53 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using VkBot.Data.Abstractions;
-using VkBot.Domain;
-using VkBot.Domain.Models;
-using VkNet.Abstractions;
-using VkNet.Model;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Threading.Tasks;
+//using Microsoft.EntityFrameworkCore;
+//using VkBot.Data.Abstractions;
+//using VkBot.Domain;
+//using VkBot.Domain.Models;
+//using VkNet.Abstractions;
+//using VkNet.Model;
 
-namespace VkBot.Bot.Commands
-{
-    public class SetTimeTable : IBotCommand
-    {
-        private readonly MainContext _db;
-        private readonly IVkApi _vkApi;
+//namespace VkBot.Bot.Commands
+//{
+//    public class SetTimeTable : IBotCommand
+//    {
+//        private readonly MainContext _db;
+//        private readonly IVkApi _vkApi;
 
-        public string[] Aliases { get; set; }
-        public string Description { get; set; } = "Команда !Бот расписание устанавливает рассписание для указанной группы\n" +
-                                                  "Пример: !Бот расписание ПЗ-50 1)Физ-ра 2) Математика...";
-        public SetTimeTable(MainContext db, IVkApi api)
-        {
-            _db = db;
-            _vkApi = api;
-        }
+//        public string[] Aliases { get; set; }
+//        public string Description { get; set; } = "Команда !Бот расписание устанавливает рассписание для указанной группы\n" +
+//                                                  "Пример: !Бот расписание ПЗ-50 1)Физ-ра 2) Математика...";
+//        public SetTimeTable(MainContext db, IVkApi api)
+//        {
+//            _db = db;
+//            _vkApi = api;
+//        }
 
-        public async Task<string> Execute(Message msg)
-        {
-            var split = msg.Text.Split(new char[]{' ','\n'},3); // [команда, группа, параметры]
+//        public async Task<string> Execute(Message msg)
+//        {
+//            var split = msg.Text.Split(new char[]{' ','\n'},3); // [команда, группа, параметры]
 
-            var group = await _db.TimeTable.FirstOrDefaultAsync(x => x.Group == split[1].ToLower());
+//            var group = await _db.TimeTable.FirstOrDefaultAsync(x => x.Group == split[1].ToLower());
 
-            if(group is null)
-            {
-                await _db.TimeTable.AddAsync(new TimeTable
-                {
-                    Group = split[1].ToLower(),
-                    Schedule = split[2]
-                });
+//            if(group is null)
+//            {
+//                await _db.TimeTable.AddAsync(new TimeTable
+//                {
+//                    Group = split[1].ToLower(),
+//                    Schedule = split[2]
+//                });
 
-            }
-            else
-            {
-                group.Schedule = split[2];
-            }
+//            }
+//            else
+//            {
+//                group.Schedule = split[2];
+//            }
 
-            await _db.SaveChangesAsync();
+//            await _db.SaveChangesAsync();
 
-            return $"Расписание для группы {split[1]} установлено!";
-        }
-    }
-}
+//            return $"Расписание для группы {split[1]} установлено!";
+//        }
+//    }
+//}

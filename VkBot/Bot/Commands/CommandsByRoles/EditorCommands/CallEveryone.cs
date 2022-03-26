@@ -38,7 +38,7 @@ namespace VkBot.Bot.Commands.CommandsByRoles.EditorCommands
 
             if(!await _checker.CheckAccessToCommand(msg.FromId.Value, msg.PeerId.Value, Roles.Editor))
             {
-                return "Недосточно прав!";
+                return "Недостаточно прав!";
             }
 
             var strBuilder = new StringBuilder();

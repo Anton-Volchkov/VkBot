@@ -65,10 +65,7 @@ namespace VkBot
 
             services.AddBotFeatures();
 
-            services.AddSingleton(sp =>
-            {
-                return new ImageProvider(Configuration["Config:PathToChromeDriver"],sp.GetService<ProxyProvider>() );
-            });
+            services.AddSingleton(sp => new ImageProvider(Configuration["Config:PathToChromeDriver"],sp.GetService<ProxyProvider>() ));
 
             services.AddHangfire(config => { config.UseMemoryStorage(); });
             

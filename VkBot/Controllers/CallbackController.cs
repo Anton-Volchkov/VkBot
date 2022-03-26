@@ -1,10 +1,13 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using VkBot.Bot;
 using VkBot.Domain.Models;
+using VkBot.PreProcessors.Abstractions;
+using VkNet.Enums.SafetyEnums;
 using VkNet.Model;
 using VkNet.Utils;
 
@@ -14,17 +17,16 @@ namespace VkBot.Controllers
     [ApiController]
     public class CallbackController : ControllerBase
     {
-        /// <summary>
-        ///     Конфигурация приложения
-        /// </summary>
+        private readonly IEnumerable<ICommandPreprocessor> commandPreprocessors;
         private readonly IConfiguration _configuration;
 
         private readonly ICommandHandler _commandHandler;
 
-        public CallbackController( IConfiguration configuration, ICommandHandler commandHandler)
+        public CallbackController( IConfiguration configuration, ICommandHandler commandHandler, IEnumerable<ICommandPreprocessor> commandPreprocessors)
         {
             _configuration = configuration;
             _commandHandler = commandHandler;
+            this.commandPreprocessors = commandPreprocessors;
         }
 
         [HttpPost]
@@ -44,8 +46,21 @@ namespace VkBot.Controllers
             {
                 var msg = Message.FromJson(new VkResponse(updates.Object));
 
+                bool canProceed = true;
+                foreach(var commandPreprocessor in commandPreprocessors)
+                {
+                    var result = await commandPreprocessor.ProcessAsync(msg, cancellationToken);
 
-                BackgroundJob.Enqueue(() => _commandHandler.HandleAsync(msg, cancellationToken));
+                    if(!result)
+                    {
+                        canProceed = false;
+                    }
+                }
+
+                if(canProceed)
+                {
+                    BackgroundJob.Enqueue(() => _commandHandler.HandleAsync(msg, cancellationToken));
+                }
             }
 
             // Возвращаем "ok" серверу Callback API

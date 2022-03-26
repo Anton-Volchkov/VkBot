@@ -17,6 +17,7 @@ namespace VkBot.Domain
         public DbSet<TimeTable> TimeTable { get; set; }
         public DbSet<ChatRoles> ChatRoles { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<BlackList> BlackList { get; set; }
 
         public User[] GetUsers()
         {
