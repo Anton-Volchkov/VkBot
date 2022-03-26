@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using ImageFinder;
 using ImageFinder.Models;
 using Microsoft.Extensions.Logging;
-using VkBot.Controllers;
 using VkBot.Data.Abstractions;
 using VkNet.Abstractions;
 using VkNet.Model;

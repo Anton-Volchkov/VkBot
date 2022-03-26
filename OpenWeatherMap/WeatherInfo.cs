@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -30,17 +29,17 @@ namespace OpenWeatherMap
             Token = token;
         }
 
-        public async Task<string> GetWeather(string city)
+        public async Task<string> GetWeatherAsync(string city)
         {
             city = char.ToUpper(city[0]) + city.Substring(1); //TODO ?
 
-            var response = await GetCurrentWeatherResponse(city);
+            var response = await GetCurrentWeatherResponseAsync(city);
 
             if(!response.IsSuccessStatusCode)
             {
                 var newCity = city.Replace("е", "ё");
 
-                response = await GetCurrentWeatherResponse(newCity);
+                response = await GetCurrentWeatherResponseAsync(newCity);
 
                 if(!response.IsSuccessStatusCode)
                 {
@@ -68,17 +67,17 @@ namespace OpenWeatherMap
             return strBuilder.ToString();
         }
 
-        public async Task<string> GetDailyWeather(string city)
+        public async Task<string> GetDailyWeatherAsync(string city)
         {
             city = char.ToUpper(city[0]) + city.Substring(1); //TODO ?
             var date = DateTime.Now;
             
-            var response = await GetDailyWeatherResponse(city);
+            var response = await GetDailyWeatherResponseAsync(city);
 
             if(!response.IsSuccessStatusCode)
             {
                 var newCity = city.Replace("е", "ё");
-                response = await GetDailyWeatherResponse(city);
+                response = await GetDailyWeatherResponseAsync(city);
 
                 if(!response.IsSuccessStatusCode)
                 {
@@ -115,7 +114,7 @@ namespace OpenWeatherMap
             return strBuilder.ToString();
         }
 
-        private async Task<HttpResponseMessage> GetCurrentWeatherResponse(string city)
+        private async Task<HttpResponseMessage> GetCurrentWeatherResponseAsync(string city)
         {
             return await BuildRequest()
                          .AppendPathSegment("weather")
@@ -123,9 +122,9 @@ namespace OpenWeatherMap
                          .GetAsync();
         }
 
-        private async Task<HttpResponseMessage> GetDailyWeatherResponse(string city)
+        private async Task<HttpResponseMessage> GetDailyWeatherResponseAsync(string city)
         {
-            var coordinatesByCity = await GetСoordinatesByCity(city);
+            var coordinatesByCity = await GetСoordinatesByCityAsync(city);
 
             return await BuildRequest()
                          .AppendPathSegment("onecall")
@@ -143,7 +142,7 @@ namespace OpenWeatherMap
                            .SetQueryParam("lang", Lang);
         }
 
-        private async Task<(string lat, string lon)> GetСoordinatesByCity(string city)
+        private async Task<(string lat, string lon)> GetСoordinatesByCityAsync(string city)
         {
             var response = await "https://geocode.xyz/"
                       .AllowAnyHttpStatus()

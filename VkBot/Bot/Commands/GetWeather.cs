@@ -30,7 +30,7 @@ namespace VkBot.Bot.Commands
             }
 
             var city = split[1].Trim().ToLower();
-            return await _weather.GetWeather(city);
+            return await _weather.GetWeatherAsync(city);
         }
     }
 }

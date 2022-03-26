@@ -29,30 +29,31 @@ namespace VkBot.Bot.Hangfire
                 var grouped = _db.GetWeatherUsers().GroupBy(x => x.City);
                 foreach(var group in grouped)
                 {
-                    string weather = string.Empty;
                     try
                     {
-                        weather = await _weather.GetDailyWeather(group.Key);
+                        string weather = await _weather.GetDailyWeatherAsync(group.Key);
+                   
+                        if (string.IsNullOrWhiteSpace(weather))
+                        {
+                            continue;
+                        }
+
+                        var ids = group.Select(x => x.Vk.Value);
+
+                        foreach(var id in ids)
+                        {
+                            await _vkApi.Messages.SendAsync(new MessagesSendParams
+                            {
+                                RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
+                                UserId = id,
+                                Message = weather
+                            });
+                        }
                     }
                     catch (Exception)
                     {
                         continue;
                     }
-                   
-                    if(string.IsNullOrWhiteSpace(weather))
-                    {
-                        continue;
-                    }
-
-                    var ids = group.Select(x => x.Vk.Value);
-
-                    await _vkApi.Messages.SendToUserIdsAsync(new MessagesSendParams
-                    {
-                        RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
-                        UserIds = ids,
-                        Message = weather
-                    });
-
                 }
             }
             catch(Exception e)
@@ -61,44 +62,10 @@ namespace VkBot.Bot.Hangfire
             }
         }
 
-        public async Task SendSchedule()
-        {
-            var day = DateTime.Now.DayOfWeek;
-
-            if(day == DayOfWeek.Sunday || day == DayOfWeek.Saturday)
-            {
-                return;
-            }
-
-            var grouped = _db.GetScheduleUsers().GroupBy(x => x.Group);
-            foreach(var group in grouped)
-            {
-                var schedule = _db.TimeTable.FirstOrDefault(x => x.Group == group.Key);
-
-                if(schedule is null || string.IsNullOrWhiteSpace(schedule.Schedule))
-                {
-                    continue;
-                }
-
-                var ids = group.Select(x => x.Vk.Value).ToArray();
-
-                await _vkApi.Messages.SendToUserIdsAsync(new MessagesSendParams
-                {
-                    RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
-                    UserIds = ids,
-                    Message = schedule.Schedule
-                });
-
-            }
-        }
-
         public void InitJobs()
         {
             RecurringJob.AddOrUpdate<ScheduledTask>("SendWeather", x => x.SendWeather(),
                                                     "5 6 * * *", TimeZoneInfo.Local);
-
-                //  RecurringJob.AddOrUpdate<ScheduledTask>("SendSchedule", x => x.SendSchedule(),
-                //                                    "10 6 * * *", TimeZoneInfo.Local);
         }
     }
 }

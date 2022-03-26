@@ -36,8 +36,8 @@ namespace VkBot.Bot
           
             if (_db.GetUsers().All(x => x.Vk != msg.FromId))
             {
-                await _db.Users.AddAsync(new User { Vk = msg.FromId });
-                await _db.SaveChangesAsync();
+                await _db.Users.AddAsync(new User { Vk = msg.FromId }, cancellationToken);
+                await _db.SaveChangesAsync(cancellationToken);
             }
 
             if (msg.FromId.Value != msg.PeerId.Value)
@@ -58,10 +58,10 @@ namespace VkBot.Bot
 
             #region Проверка подписки
             //var subscription = _vkApi.Groups.IsMember("178921904", msg.FromId.Value, null, null).Select(x => x.Member).FirstOrDefault();
-            //var text = subscription == false? "Подпишитесь на сообщество, чтобы пользоваться командами бота! \n \n https://vk.com/kerlibot" : await commandExec.HandleMessage(msg);
+            //var text = subscription == false? "Подпишитесь на сообщество, чтобы пользоваться командами бота! \n \n https://vk.com/kerlibot" : await commandExec.HandleMessageAsync(msg);
             #endregion
 
-            var text = await _commandExecutor.HandleMessage(msg);
+            var text = await _commandExecutor.HandleMessageAsync(msg);
 
             // Отправим в ответ полученный от пользователя текст
             await _vkApi.Messages.SendAsync(new MessagesSendParams

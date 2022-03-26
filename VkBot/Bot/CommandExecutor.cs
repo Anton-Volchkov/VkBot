@@ -18,7 +18,7 @@ namespace VkBot.Bot
             _info = info;
         }
 
-        public async Task<string> HandleMessage(Message msg)
+        public async Task<string> HandleMessageAsync(Message msg)
         {
             if(string.IsNullOrWhiteSpace(msg.Text))
             {
