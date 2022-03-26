@@ -28,7 +28,7 @@ namespace VkBot.Extensions
             services.Scan(scan =>
             {
                 scan.FromAssembliesOf(typeof(Help))
-                    .AddClasses(classes => classes.AssignableTo(typeof(IBotCommand)).NotInNamespaceOf<Info>())
+                    .AddClasses(classes => classes.AssignableTo(typeof(IBotCommand)).Where(x => x.FullName != typeof(Info).FullName))
                     .UsingRegistrationStrategy(RegistrationStrategy.Append)
                     .AsImplementedInterfaces()
                     .WithScopedLifetime();
