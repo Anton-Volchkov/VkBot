@@ -24,23 +24,23 @@ namespace VkBot.Bot.Hangfire
 
         public async Task SendWeather()
         {
-            try
+            var grouped = _db.GetWeatherUsers().GroupBy(x => x.City);
+            foreach (var group in grouped)
             {
-                var grouped = _db.GetWeatherUsers().GroupBy(x => x.City);
-                foreach(var group in grouped)
+                try
                 {
-                    try
+                    string weather = await _weather.GetDailyWeatherAsync(group.Key);
+
+                    if (string.IsNullOrWhiteSpace(weather))
                     {
-                        string weather = await _weather.GetDailyWeatherAsync(group.Key);
-                   
-                        if (string.IsNullOrWhiteSpace(weather))
-                        {
-                            continue;
-                        }
+                        continue;
+                    }
 
-                        var ids = group.Select(x => x.Vk.Value);
+                    var ids = group.Where(x => x.Vk.HasValue).Select(x => x.Vk.Value).ToArray();
 
-                        foreach(var id in ids)
+                    foreach (var id in ids)
+                    {
+                        try
                         {
                             await _vkApi.Messages.SendAsync(new MessagesSendParams
                             {
@@ -48,17 +48,20 @@ namespace VkBot.Bot.Hangfire
                                 UserId = id,
                                 Message = weather
                             });
+
+                            throw new Exception();
                         }
-                    }
-                    catch (Exception)
-                    {
-                        continue;
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+
                     }
                 }
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e);
+                catch (Exception)
+                {
+                    continue;
+                }
             }
         }
 
