@@ -49,7 +49,6 @@ namespace VkBot.Bot.Hangfire
                                 Message = weather
                             });
 
-                            throw new Exception();
                         }
                         catch (Exception)
                         {
