@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hangfire;
 using OpenWeatherMap;
+using Polly;
 using VkBot.Domain;
 using VkNet.Abstractions;
 using VkNet.Model.RequestParams;
@@ -29,8 +30,17 @@ namespace VkBot.Bot.Hangfire
             {
                 try
                 {
-                    string weather = await _weather.GetDailyWeatherAsync(group.Key);
+                    string weather = string.Empty;
 
+                   var retryPolicy = Policy
+                        .Handle<Exception>()
+                        .WaitAndRetryAsync(new TimeSpan[] {TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(5) });
+
+                    await retryPolicy.ExecuteAsync(async () =>
+                    {
+                        weather = await _weather.GetDailyWeatherAsync(group.Key);
+                    });
+                  
                     if (string.IsNullOrWhiteSpace(weather))
                     {
                         continue;

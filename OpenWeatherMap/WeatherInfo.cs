@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Flurl.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using OpenWeatherMap.Models;
 using OpenWeatherMap.Models.Daily;
 
 namespace OpenWeatherMap
@@ -157,16 +156,10 @@ namespace OpenWeatherMap
 
             var jo = JObject.Parse(await response.Content.ReadAsStringAsync());
 
-            if (jo["alt"]?["loc"] is JObject jObject)
-            {
-                JArray newJArray = new JArray { jObject };
-                jo["alt"]?["loc"].Replace(newJArray);
+            var latt = jo.Properties()?.FirstOrDefault(x => x.Name == "latt")?.Value.ToString();
+            var lon = jo.Properties()?.FirstOrDefault(x => x.Name == "longt")?.Value.ToString();
 
-            }
-
-            var cityInfo = JsonConvert.DeserializeObject<CityInfo>(jo.ToString());
-
-            return (lat: cityInfo.Latt, lon: cityInfo.Longt);
+            return (lat: latt, lon: lon);
         }
 
         internal DateTime UnixToDateTime(double unixTimeStamp)
