@@ -18,11 +18,9 @@ namespace VkBot.Extensions
             services.AddSingleton<CurrencyInfo>();
             services.AddSingleton<WikiApi>();
             services.AddSingleton<ProxyProvider>();
-           
-
+            
             services.AddScoped<CommandExecutor>();
             services.AddScoped<RolesHandler>();
-
             services.AddScoped<CoronaInfo>();
 
             services.Scan(scan =>
@@ -33,7 +31,6 @@ namespace VkBot.Extensions
                     .AsImplementedInterfaces()
                     .WithScopedLifetime();
             });
-
 
             services.Scan(scan =>
             {
@@ -46,12 +43,7 @@ namespace VkBot.Extensions
 
             services.AddScoped<IInfo, Info>();
 
-
             services.AddScoped<ICommandHandler, CommandHandler>();
-
-            //services.AddScoped<IBotCommand, SetTimeTable>();
-            //services.AddScoped<IBotCommand, GetSchedule>();
-            
         }
     }
 }
