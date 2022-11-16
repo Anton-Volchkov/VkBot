@@ -57,7 +57,7 @@ namespace ImageFinder
                         "//div[contains(@class, 'tile--img__media')]/span[contains(@class, 'tile--img__media__i')]/img";
                 }
 
-                //Docker container required if run without docker compose(docker run --name selenium -d -p 4444:4444 selenium/standalone-chrome selenium)
+                //Docker container required if run without docker compose(docker run --name selenium -d -p 4444:4444 selenium/standalone-chrome)
                 using IWebDriver browser = new RemoteWebDriver(new Uri("http://selenium:4444"), _options);
 
                 browser.Url = currentQueryUrl;
@@ -68,9 +68,11 @@ namespace ImageFinder
 
                 var listUrl = new List<string>();
 
-                foreach (var iElement in elements.Take(nameBrowser == Browser.Yandex ? elements.Count : 10)
+                foreach (var iElement in elements.Take(nameBrowser == Browser.Yandex ? elements.Count : 15)
                     .TakeRandomElements(3))
+                {
                     listUrl.Add(iElement.GetAttribute("src"));
+                }
 
                 browser.Quit();
 

@@ -57,7 +57,7 @@ namespace VkBot.Bot.Commands
             }
             else
             {
-                _logger.LogCritical($"URL картинок получены, одна из них: {urls[0]}");
+                _logger.LogInformation($"URL картинок получены, одна из них: {urls[0]}");
             }
 
 
@@ -66,7 +66,7 @@ namespace VkBot.Bot.Commands
             {
                 var uploadServer = _vkApi.Photo.GetMessagesUploadServer(0);
 
-                _logger.LogCritical("Адресс для загрузки получен");
+                _logger.LogInformation("Адресс для загрузки получен");
 
 
 
