@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.3'
 
 services:
   postgres:
@@ -10,6 +10,13 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: vkBot
+    networks:
+      - vkBot_network
+  selenium:
+    hostname: selenium
+    image: selenium/standalone-chrome
+    ports:
+      - "4444:4444"
     networks:
       - vkBot_network
   vk-bot:

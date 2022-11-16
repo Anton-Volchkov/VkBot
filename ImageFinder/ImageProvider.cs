@@ -59,8 +59,8 @@ namespace ImageFinder
                         "//div[contains(@class, 'tile--img__media')]/span[contains(@class, 'tile--img__media__i')]/img";
                 }
 
-                //Docker container required (docker run -d -p 4444:4444 selenium/standalone-chrome)
-                using IWebDriver browser = new RemoteWebDriver(new Uri("http://127.0.0.1:4444"), _options);
+                //Docker container required if run without docker compose(docker run --name selenium -d -p 4444:4444 selenium/standalone-chrome selenium)
+                using IWebDriver browser = new RemoteWebDriver(new Uri("http://selenium:4444"), _options);
 
                 browser.Url = currentQueryUrl;
 
