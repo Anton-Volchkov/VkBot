@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ImageFinder.Models;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 using VkBot.Extensions;
 using VkBot.Proxy.Logic;
 
@@ -58,8 +59,8 @@ namespace ImageFinder
                         "//div[contains(@class, 'tile--img__media')]/span[contains(@class, 'tile--img__media__i')]/img";
                 }
 
-                using IWebDriver browser = new ChromeDriver(PathToChromeDriver, _options);
-
+                //Docker container required (docker run -d -p 4444:4444 selenium/standalone-chrome)
+                using IWebDriver browser = new RemoteWebDriver(new Uri("http://127.0.0.1:4444"), _options);
 
                 browser.Url = currentQueryUrl;
 
