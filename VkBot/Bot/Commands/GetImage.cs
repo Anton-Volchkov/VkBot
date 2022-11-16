@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -12,7 +11,6 @@ using Microsoft.Extensions.Logging;
 using VkBot.Data.Abstractions;
 using VkNet.Abstractions;
 using VkNet.Model;
-using VkNet.Model.Attachments;
 using VkNet.Model.RequestParams;
 
 namespace VkBot.Bot.Commands
@@ -45,21 +43,21 @@ namespace VkBot.Bot.Commands
                 return "Не все параметры указаны!";
             }
 
-            var url = await _provider.GetImagesUrl(split[1], Browser.Yandex);
+            var urls = await _provider.GetImagesUrl(split[1], Browser.Yandex);
 
-            if (url.Count == 0)
+            if (urls.Count == 0)
             {
                 _logger.LogCritical($"Неудалось получить картинки через Yandex, пробуем получить через DuckDuckGo");
-                url = await _provider.GetImagesUrl(split[1], Browser.DuckDuckGo);
+                urls = await _provider.GetImagesUrl(split[1], Browser.DuckDuckGo);
 
-                if (url.Count == 0)
+                if (urls.Count == 0)
                 {
                     _logger.LogCritical($"Неудалось получить картинки через DuckDuckGo");
                 }
             }
             else
             {
-                _logger.LogCritical($"URL картинок получены, одна из них: {url[0]}");
+                _logger.LogCritical($"URL картинок получены, одна из них: {urls[0]}");
             }
 
 
@@ -70,32 +68,29 @@ namespace VkBot.Bot.Commands
 
                 _logger.LogCritical("Адресс для загрузки получен");
 
-                // Загрузить картинки на сервер VK.
-                var imagePath = new List<string>();
 
-                foreach (var item in url)
-                    imagePath.Add(await UploadFile(uploadServer.UploadUrl,
-                                                   item, "jpg"));
 
-                var attachment = new List<IReadOnlyCollection<Photo>>();
+                var imagePaths = await Task.WhenAll(urls.Select(x => UploadFile(uploadServer.UploadUrl,
+                     x, "jpg")));
 
-                if (imagePath.Count > 0)
+
+                if (!imagePaths.Any()) return $"Картинок по запросу \"{split[1]}\" не найдено";
+
+                // Сохранить загруженный файл
+
+                var attachments = await Task.WhenAll(imagePaths.Select(x => Task.Run(() => _vkApi.Photo.SaveMessagesPhoto(x))));
+
+                _vkApi.Messages.Send(new MessagesSendParams
+
                 {
-                    // Сохранить загруженный файл
-                    foreach (var path in imagePath) attachment.Add(_vkApi.Photo.SaveMessagesPhoto(path));
 
+                    PeerId = msg.PeerId.Value,
 
-                    _vkApi.Messages.Send(new MessagesSendParams
-                    {
-                        PeerId = msg.PeerId.Value,
-                        Message = "",
-                        Attachments = attachment.SelectMany(x => x), //Вложение
-                        RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x)
-                    });
-                    return $"Картинки по запросу: \"{split[1]}\"";
-                }
-
-                return $"Картинок по запросу \"{split[1]}\" не найдено";
+                    Message = "",
+                    Attachments = attachments.SelectMany(x => x), //Вложение
+                    RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x)
+                });
+                return $"Картинки по запросу: \"{split[1]}\"";
             }
             catch (Exception e)
             {
@@ -110,24 +105,20 @@ namespace VkBot.Bot.Commands
             var data = GetBytes(file);
 
             // Создание запроса на загрузку файла на сервер
-            using (var client = new HttpClient())
-            {
-                var requestContent = new MultipartFormDataContent();
-                var content = new ByteArrayContent(data);
-                content.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
-                requestContent.Add(content, "file", $"file.{fileExtension}");
+            using var client = new HttpClient();
+            var requestContent = new MultipartFormDataContent();
+            var content = new ByteArrayContent(data);
+            content.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
+            requestContent.Add(content, "file", $"file.{fileExtension}");
 
-                var response = client.PostAsync(serverUrl, requestContent).Result;
-                return Encoding.Default.GetString(await response.Content.ReadAsByteArrayAsync());
-            }
+            var response = client.PostAsync(serverUrl, requestContent).Result;
+            return Encoding.Default.GetString(await response.Content.ReadAsByteArrayAsync());
         }
 
         private byte[] GetBytes(string fileUrl)
         {
-            using (var webClient = new WebClient())
-            {
-                return webClient.DownloadData(fileUrl);
-            }
+            using var webClient = new WebClient();
+            return webClient.DownloadData(fileUrl);
         }
     }
 }
