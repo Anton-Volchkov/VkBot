@@ -68,7 +68,7 @@ namespace ImageFinder
 
                 var listUrl = new List<string>();
 
-                foreach (var iElement in elements.Take(nameBrowser == Browser.Yandex ? elements.Count : 15)
+                foreach (var iElement in elements.Take(nameBrowser == Browser.Yandex ? elements.Count : 10)
                     .TakeRandomElements(3))
                 {
                     listUrl.Add(iElement.GetAttribute("src"));
