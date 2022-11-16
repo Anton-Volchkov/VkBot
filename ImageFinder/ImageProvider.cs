@@ -13,14 +13,12 @@ namespace ImageFinder
 {
     public class ImageProvider
     {
-        public string PathToChromeDriver { get; set; }
         public object Locker { get; set; } = new object();
         private readonly ChromeOptions _options = new ChromeOptions();
         private readonly ProxyProvider _proxyProvider;
 
-        public ImageProvider(string pathToChromeDriver, ProxyProvider proxyProvider)
+        public ImageProvider(ProxyProvider proxyProvider)
         {
-            PathToChromeDriver = pathToChromeDriver;
             _proxyProvider = proxyProvider;
 
             _options.AddArguments("--no-sandbox");
