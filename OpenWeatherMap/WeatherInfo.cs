@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Flurl.Http;
@@ -34,13 +33,13 @@ namespace OpenWeatherMap
 
             var response = await GetCurrentWeatherResponseAsync(city);
 
-            if(!response.IsSuccessStatusCode)
+            if(!response.ResponseMessage.IsSuccessStatusCode)
             {
                 var newCity = city.Replace("е", "ё");
 
                 response = await GetCurrentWeatherResponseAsync(newCity);
 
-                if(!response.IsSuccessStatusCode)
+                if(!response.ResponseMessage.IsSuccessStatusCode)
                 {
                     return $"Город {city} не найден.";
                 }
@@ -48,7 +47,7 @@ namespace OpenWeatherMap
                 city = newCity;
             }
 
-            var w = JsonConvert.DeserializeObject<Models.WeatherInfo>(await response.Content.ReadAsStringAsync());
+            var w = JsonConvert.DeserializeObject<Models.WeatherInfo>(await response.GetStringAsync());
 
             var strBuilder = new StringBuilder();
             strBuilder.AppendFormat("Погода {0} на данный момент", city).AppendLine();
@@ -73,12 +72,12 @@ namespace OpenWeatherMap
             
             var response = await GetDailyWeatherResponseAsync(city);
 
-            if(!response.IsSuccessStatusCode)
+            if(!response.ResponseMessage.IsSuccessStatusCode)
             {
                 var newCity = city.Replace("е", "ё");
                 response = await GetDailyWeatherResponseAsync(city);
 
-                if(!response.IsSuccessStatusCode)
+                if(!response.ResponseMessage.IsSuccessStatusCode)
                 {
                     return $"Город {city} не найден. Проверьте введённые данные.";
                 }
@@ -86,7 +85,7 @@ namespace OpenWeatherMap
                 city = newCity;
             }
 
-            var weatherToday = JsonConvert.DeserializeObject<DailyWeather>(await response.Content.ReadAsStringAsync()).Daily.First();
+            var weatherToday = JsonConvert.DeserializeObject<DailyWeather>(await response.GetStringAsync()).Daily.First();
 
             if(weatherToday is null)
             {
@@ -113,7 +112,7 @@ namespace OpenWeatherMap
             return strBuilder.ToString();
         }
 
-        private async Task<HttpResponseMessage> GetCurrentWeatherResponseAsync(string city)
+        private async Task<IFlurlResponse> GetCurrentWeatherResponseAsync(string city)
         {
             return await BuildRequest()
                          .AppendPathSegment("weather")
@@ -121,7 +120,7 @@ namespace OpenWeatherMap
                          .GetAsync();
         }
 
-        private async Task<HttpResponseMessage> GetDailyWeatherResponseAsync(string city)
+        private async Task<IFlurlResponse> GetDailyWeatherResponseAsync(string city)
         {
             var coordinatesByCity = await GetСoordinatesByCityAsync(city);
 
@@ -149,12 +148,12 @@ namespace OpenWeatherMap
                       .SetQueryParam("json", "1")
                       .GetAsync();
             
-            if (!response.IsSuccessStatusCode)
+            if (!response.ResponseMessage.IsSuccessStatusCode)
             {
                 throw new ArgumentException("Погоды по данному городу не найдено!");
             }
 
-            var jo = JObject.Parse(await response.Content.ReadAsStringAsync());
+            var jo = JObject.Parse(await response.GetStringAsync());
 
             var latt = jo.Properties()?.FirstOrDefault(x => x.Name == "latt")?.Value.ToString();
             var lon = jo.Properties()?.FirstOrDefault(x => x.Name == "longt")?.Value.ToString();

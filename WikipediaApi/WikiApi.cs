@@ -22,12 +22,12 @@ namespace WikipediaApi
                                  .SetQueryParam("titles", titles)
                                  .GetAsync();
 
-            if(!response.IsSuccessStatusCode)
+            if(!response.ResponseMessage.IsSuccessStatusCode)
             {
                 return "по вашему запросу ничего не найдено";
             }
 
-            var jo = JObject.Parse(await response.Content.ReadAsStringAsync());
+            var jo = JObject.Parse(await response.GetStringAsync());
             JToken token = jo["query"] as JObject;
             token = token["pages"] as JObject;
             token = token.FirstOrDefault();

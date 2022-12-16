@@ -25,12 +25,12 @@ namespace YandexTranslator
                                  .SetQueryParam("lang", lang)
                                  .GetAsync();
 
-            if(!response.IsSuccessStatusCode)
+            if(!response.ResponseMessage.IsSuccessStatusCode)
             {
                 return "По вашему запросу ничего не найдено";
             }
 
-            var translate = JsonConvert.DeserializeObject<TranslateText>(await response.Content.ReadAsStringAsync());
+            var translate = JsonConvert.DeserializeObject<TranslateText>(await response.GetStringAsync());
 
             return string.Join("\n", translate.Text);
         }

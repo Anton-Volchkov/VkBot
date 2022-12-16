@@ -13,12 +13,12 @@ namespace VkBot.Proxy.Logic
         {
             var response = await EndPoint.AllowAnyHttpStatus().GetAsync();
 
-            if(!response.IsSuccessStatusCode)
+            if(!response.ResponseMessage.IsSuccessStatusCode)
             {
                 return "";
             }
 
-            var proxy = JsonConvert.DeserializeObject<ProxyModel>(await response.Content.ReadAsStringAsync());
+            var proxy = JsonConvert.DeserializeObject<ProxyModel>(await response.GetStringAsync());
 
             return proxy.Data.First().IpPort;
         }

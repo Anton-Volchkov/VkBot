@@ -15,12 +15,12 @@ namespace CurrencyConverter
                                          .AppendPathSegment(code)
                                          .GetAsync();
 
-            if(!response.IsSuccessStatusCode)
+            if(!response.ResponseMessage.IsSuccessStatusCode)
             {
                 return null;
             }
 
-            return JsonConvert.DeserializeObject<Currency>(await response.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<Currency>(await response.GetStringAsync());
         }
 
         public (int Code, string Name) GetCodeByName(string name)
