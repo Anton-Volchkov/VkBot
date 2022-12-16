@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29324.140
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot", "VkBot\VkBot.csproj", "{43214B61-8EA0-415F-B7BF-4BFE049A9B10}"
 EndProject
@@ -21,7 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot.Extensions", "VkBot.E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot.Proxy", "VkBot.Proxy\VkBot.Proxy.csproj", "{67C22149-F492-4042-9FD2-6BA70AACCA5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VkBot.Domain", "VkBot.Domain\VkBot.Domain.csproj", "{65C4FF32-73D3-4F5C-82C0-8F76477655B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot.Domain", "VkBot.Domain\VkBot.Domain.csproj", "{65C4FF32-73D3-4F5C-82C0-8F76477655B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{B2089606-C657-4318-B8D6-2B6A82981D13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{2E85DF24-4556-4BA9-874B-579C43D1F171}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +73,14 @@ Global
 		{65C4FF32-73D3-4F5C-82C0-8F76477655B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65C4FF32-73D3-4F5C-82C0-8F76477655B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65C4FF32-73D3-4F5C-82C0-8F76477655B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2089606-C657-4318-B8D6-2B6A82981D13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2089606-C657-4318-B8D6-2B6A82981D13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2089606-C657-4318-B8D6-2B6A82981D13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2089606-C657-4318-B8D6-2B6A82981D13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E85DF24-4556-4BA9-874B-579C43D1F171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E85DF24-4556-4BA9-874B-579C43D1F171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E85DF24-4556-4BA9-874B-579C43D1F171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E85DF24-4556-4BA9-874B-579C43D1F171}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

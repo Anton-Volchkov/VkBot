@@ -1,10 +1,10 @@
 using System.Reflection;
+using Application.Hangfire;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using ImageFinder;
 using Microsoft.EntityFrameworkCore;
 using OpenWeatherMap;
-using VkBot.Bot.Hangfire;
 using VkBot.Domain;
 using VkBot.Extensions;
 using VkBot.HostedServices;
@@ -64,7 +64,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-
-BackgroundJob.Enqueue<ScheduledTask>(x => x.InitJobs());
+BackgroundJob.Enqueue<ScheduledTasks>(x => x.InitJobs());
 
 await app.RunAsync();

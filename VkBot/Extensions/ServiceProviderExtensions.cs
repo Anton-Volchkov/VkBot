@@ -1,10 +1,11 @@
-﻿using CoronaVirus;
+﻿using Application;
+using Application.Commands;
+using Application.Commands.Abstractions;
+using Application.PreProcessors.Abstractions;
+using CoronaVirus;
 using CurrencyConverter;
 using Scrutor;
-using VkBot.Bot;
-using VkBot.Bot.Commands;
-using VkBot.Data.Abstractions;
-using VkBot.PreProcessors.Abstractions;
+using Services.Helpers;
 using VkBot.Proxy.Logic;
 using WikipediaApi;
 
@@ -18,8 +19,8 @@ public static class ServiceProviderExtensions
         services.AddSingleton<WikiApi>();
         services.AddSingleton<ProxyProvider>();
 
-        services.AddScoped<CommandExecutor>();
-        services.AddScoped<RolesHandler>();
+        services.AddScoped<ICommandExecutor, CommandExecutor>();
+        services.AddScoped<IRolesHelper, RolesHelper>();
         services.AddScoped<CoronaInfo>();
 
         services.Scan(scan =>

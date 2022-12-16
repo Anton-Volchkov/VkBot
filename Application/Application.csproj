@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hangfire.Core" Version="1.8.0-rc2" />
+    <PackageReference Include="Polly" Version="7.2.3" />
+    <PackageReference Include="VkNet" Version="1.72.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoronaVirus\CoronaVirus.csproj" />
+    <ProjectReference Include="..\CurrencyConverter\CurrencyConverter.csproj" />
+    <ProjectReference Include="..\ImageFinder\ImageFinder.csproj" />
+    <ProjectReference Include="..\OpenWeatherMap\OpenWeatherMap.csproj" />
+    <ProjectReference Include="..\Services\Services.csproj" />
+    <ProjectReference Include="..\VkBot.Domain\VkBot.Domain.csproj" />
+    <ProjectReference Include="..\VkBot.Extensions\VkBot.Extensions.csproj" />
+    <ProjectReference Include="..\WikipediaApi\WikipediaApi.csproj" />
+  </ItemGroup>
+
+</Project>
