@@ -1,7 +1,6 @@
-﻿namespace VkBot.Data.Abstractions
+﻿namespace VkBot.Data.Abstractions;
+
+public interface IInfo : IBotCommand
 {
-    public interface IInfo : IBotCommand
-    {
-        //Вспомогательный класс для INFO для избежания рекурсии
-    }
+    //Вспомогательный класс для INFO для избежания рекурсии
 }

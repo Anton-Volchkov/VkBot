@@ -4,23 +4,20 @@ using Flurl.Http;
 using Newtonsoft.Json;
 using VkBot.Proxy.Models;
 
-namespace VkBot.Proxy.Logic
+namespace VkBot.Proxy.Logic;
+
+public class ProxyProvider
 {
-    public class ProxyProvider
+    private readonly string EndPoint = "http://pubproxy.com/api/proxy";
+
+    public async Task<string> GetRandomProxy()
     {
-        private readonly string EndPoint = "http://pubproxy.com/api/proxy";
-        public async Task<string> GetRandomProxy()
-        {
-            var response = await EndPoint.AllowAnyHttpStatus().GetAsync();
+        var response = await EndPoint.AllowAnyHttpStatus().GetAsync();
 
-            if(!response.ResponseMessage.IsSuccessStatusCode)
-            {
-                return "";
-            }
+        if (!response.ResponseMessage.IsSuccessStatusCode) return "";
 
-            var proxy = JsonConvert.DeserializeObject<ProxyModel>(await response.GetStringAsync());
+        var proxy = JsonConvert.DeserializeObject<ProxyModel>(await response.GetStringAsync());
 
-            return proxy.Data.First().IpPort;
-        }
+        return proxy.Data.First().IpPort;
     }
 }

@@ -1,16 +1,12 @@
 ﻿using Newtonsoft.Json;
 
-namespace YandexTranslator.Models
+namespace YandexTranslator.Models;
+
+internal class TranslateText
 {
-    internal class TranslateText
-    {
-        [JsonProperty("code")]
-        public int Code;
+    [JsonProperty("code")] public int Code;
 
-        [JsonProperty("lang")]
-        public string Lang;
+    [JsonProperty("lang")] public string Lang;
 
-        [JsonProperty("text")]
-        public string[] Text;
-    }
+    [JsonProperty("text")] public string[] Text;
 }

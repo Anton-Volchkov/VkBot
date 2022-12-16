@@ -1,12 +1,11 @@
-﻿namespace VkBot.Domain.Models
+﻿namespace VkBot.Domain.Models;
+
+public enum Roles
 {
-    public enum Roles
-    {
-        GlAdmin = 4,
-        Admin = 3,
-        Moderator = 2,
-        Editor = 1,
-        User = 0,
-        RoleNotFound = -1
-    }
+    GlAdmin = 4,
+    Admin = 3,
+    Moderator = 2,
+    Editor = 1,
+    User = 0,
+    RoleNotFound = -1
 }

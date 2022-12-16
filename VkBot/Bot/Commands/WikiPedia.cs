@@ -1,44 +1,38 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using VkBot.Data.Abstractions;
+﻿using VkBot.Data.Abstractions;
 using VkNet.Abstractions;
 using VkNet.Model;
 using WikipediaApi;
 
-namespace VkBot.Bot.Commands
+namespace VkBot.Bot.Commands;
+
+public class WikiPedia : IBotCommand
 {
-    public class WikiPedia : IBotCommand
+    private readonly IVkApi _vkApi;
+
+    private readonly WikiApi _wikiApi;
+
+    public WikiPedia(IVkApi vkApi, WikiApi wikiApi)
     {
-        private readonly IVkApi _vkApi;
+        _vkApi = vkApi;
+        _wikiApi = wikiApi;
+    }
 
-        private readonly WikiApi _wikiApi;
+    public string[] Aliases { get; set; } = { "вики", "википедия" };
 
-        public WikiPedia(IVkApi vkApi, WikiApi wikiApi)
-        {
-            _vkApi = vkApi;
-            _wikiApi = wikiApi;
-        }
+    public string Description { get; set; } =
+        "Команда !Бот вики вернёт вам информацию по вашему с вопросы, если она там будет, с Википедии." +
+        "\nПример: !Бот вики Компьютер ";
 
-        public string[] Aliases { get; set; } = { "вики", "википедия" };
+    public async Task<string> Execute(Message msg)
+    {
+        var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
-        public string Description { get; set; } =
-            "Команда !Бот вики вернёт вам информацию по вашему с вопросы, если она там будет, с Википедии." +
-            "\nПример: !Бот вики Компьютер ";
+        var split = msg.Text.Split(' ', 2);
 
-        public async Task<string> Execute(Message msg)
-        {
-            var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
+        if (split.Length < 2) return "Не все параметры указаны!";
 
-            var split = msg.Text.Split(' ', 2);
+        var titles = split[1];
 
-            if (split.Length < 2)
-            {
-                return "Не все параметры указаны!";
-            }
-
-            var titles = split[1];
-
-            return $"{user.FirstName} {user.LastName}, {await _wikiApi.GetWikiAnswerAsync(titles)}";
-        }
+        return $"{user.FirstName} {user.LastName}, {await _wikiApi.GetWikiAnswerAsync(titles)}";
     }
 }

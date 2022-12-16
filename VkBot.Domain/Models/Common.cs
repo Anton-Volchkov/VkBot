@@ -1,8 +1,7 @@
-﻿namespace VkBot.Domain.Models
+﻿namespace VkBot.Domain.Models;
+
+public class Common
 {
-    public class Common
-    {
-        public int Id { get; set; }
-        public string СommonInfo { get; set; }
-    }
+    public int Id { get; set; }
+    public string СommonInfo { get; set; }
 }

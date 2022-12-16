@@ -3,36 +3,32 @@ using Flurl.Http;
 using Newtonsoft.Json;
 using YandexTranslator.Models;
 
-namespace YandexTranslator
+namespace YandexTranslator;
+
+public class Translator
 {
-    public class Translator
+    private const string EndPoint = "https://translate.yandex.net/api/v1.5/tr.json/translate";
+
+    private readonly string Token;
+
+    public Translator(string token)
     {
-        private const string EndPoint = "https://translate.yandex.net/api/v1.5/tr.json/translate";
+        Token = token;
+    }
 
-        private readonly string Token;
+    public async Task<string> Translate(string text, string lang)
+    {
+        var response = await EndPoint
+            .AllowAnyHttpStatus()
+            .SetQueryParam("key", Token)
+            .SetQueryParam("text", text)
+            .SetQueryParam("lang", lang)
+            .GetAsync();
 
-        public Translator(string token)
-        {
-            Token = token;
-        }
+        if (!response.ResponseMessage.IsSuccessStatusCode) return "По вашему запросу ничего не найдено";
 
-        public async Task<string> Translate(string text, string lang)
-        {
-            var response = await EndPoint
-                                 .AllowAnyHttpStatus()
-                                 .SetQueryParam("key", Token)
-                                 .SetQueryParam("text", text)
-                                 .SetQueryParam("lang", lang)
-                                 .GetAsync();
+        var translate = JsonConvert.DeserializeObject<TranslateText>(await response.GetStringAsync());
 
-            if(!response.ResponseMessage.IsSuccessStatusCode)
-            {
-                return "По вашему запросу ничего не найдено";
-            }
-
-            var translate = JsonConvert.DeserializeObject<TranslateText>(await response.GetStringAsync());
-
-            return string.Join("\n", translate.Text);
-        }
+        return string.Join("\n", translate.Text);
     }
 }

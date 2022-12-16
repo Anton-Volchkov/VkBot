@@ -1,8 +1,7 @@
-namespace ImageFinder.Models
+namespace ImageFinder.Models;
+
+public enum Browser
 {
-    public enum Browser
-    {
-        Yandex,
-        DuckDuckGo 
-    }
+    Yandex,
+    DuckDuckGo
 }

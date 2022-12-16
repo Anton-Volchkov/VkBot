@@ -1,70 +1,52 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Hangfire;
+﻿using Hangfire;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using VkBot.Bot;
 using VkBot.Domain.Models;
 using VkBot.PreProcessors.Abstractions;
-using VkNet.Enums.SafetyEnums;
 using VkNet.Model;
 using VkNet.Utils;
 
-namespace VkBot.Controllers
+namespace VkBot.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class CallbackController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CallbackController : ControllerBase
+    private readonly ICommandHandler _commandHandler;
+    private readonly IConfiguration _configuration;
+    private readonly IEnumerable<ICommandPreprocessor> commandPreprocessors;
+
+    public CallbackController(IConfiguration configuration, ICommandHandler commandHandler,
+        IEnumerable<ICommandPreprocessor> commandPreprocessors)
     {
-        private readonly IEnumerable<ICommandPreprocessor> commandPreprocessors;
-        private readonly IConfiguration _configuration;
+        _configuration = configuration;
+        _commandHandler = commandHandler;
+        this.commandPreprocessors = commandPreprocessors;
+    }
 
-        private readonly ICommandHandler _commandHandler;
+    [HttpPost]
+    public async Task<IActionResult> Callback([FromBody] Updates updates, CancellationToken cancellationToken)
+    {
+        if (updates.Secret != _configuration["secret"]) return Ok("Bad Secret Key");
 
-        public CallbackController( IConfiguration configuration, ICommandHandler commandHandler, IEnumerable<ICommandPreprocessor> commandPreprocessors)
+        if (updates.Type == "confirmation") return Ok(_configuration["Config:Confirmation"]);
+
+        if (updates.Type == "message_new")
         {
-            _configuration = configuration;
-            _commandHandler = commandHandler;
-            this.commandPreprocessors = commandPreprocessors;
+            var msg = Message.FromJson(new VkResponse(updates.Object));
+
+            var canProceed = true;
+            foreach (var commandPreprocessor in commandPreprocessors)
+            {
+                var result = await commandPreprocessor.ProcessAsync(msg, cancellationToken);
+
+                if (!result) canProceed = false;
+            }
+
+            if (canProceed) BackgroundJob.Enqueue(() => _commandHandler.HandleAsync(msg, cancellationToken));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Callback([FromBody] Updates updates, CancellationToken cancellationToken )
-        {
-            if(updates.Secret != _configuration["secret"])
-            {
-                return Ok("Bad Secret Key");
-            }
-            
-            if(updates.Type == "confirmation")
-            {
-                return Ok(_configuration["Config:Confirmation"]);
-            }
-
-            if(updates.Type == "message_new")
-            {
-                var msg = Message.FromJson(new VkResponse(updates.Object));
-
-                bool canProceed = true;
-                foreach(var commandPreprocessor in commandPreprocessors)
-                {
-                    var result = await commandPreprocessor.ProcessAsync(msg, cancellationToken);
-
-                    if(!result)
-                    {
-                        canProceed = false;
-                    }
-                }
-
-                if(canProceed)
-                {
-                    BackgroundJob.Enqueue(() => _commandHandler.HandleAsync(msg, cancellationToken));
-                }
-            }
-
-            // Возвращаем "ok" серверу Callback API
-            return Ok("ok");
-        }
+        // Возвращаем "ok" серверу Callback API
+        return Ok("ok");
     }
 }

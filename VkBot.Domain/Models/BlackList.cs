@@ -1,9 +1,8 @@
-﻿namespace VkBot.Domain.Models
+﻿namespace VkBot.Domain.Models;
+
+public class BlackList
 {
-    public class BlackList
-    {
-        public int Id { get; set; }
-        public long UserVkId  { get; set; }
-        public long ChatVkId { get; set; }
-    }
+    public int Id { get; set; }
+    public long UserVkId { get; set; }
+    public long ChatVkId { get; set; }
 }

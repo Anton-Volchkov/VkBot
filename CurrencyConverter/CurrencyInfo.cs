@@ -3,57 +3,53 @@ using CurrencyConverter.Models;
 using Flurl.Http;
 using Newtonsoft.Json;
 
-namespace CurrencyConverter
+namespace CurrencyConverter;
+
+public class CurrencyInfo
 {
-    public class CurrencyInfo
+    private const string EndPoint = "https://www.nbrb.by/API/ExRates/Rates/";
+
+    public async Task<Currency> GetCurrency(int code)
     {
-        private const string EndPoint = "https://www.nbrb.by/API/ExRates/Rates/";
+        var response = await EndPoint.AllowAnyHttpStatus()
+            .AppendPathSegment(code)
+            .GetAsync();
 
-        public async Task<Currency> GetCurrency(int code)
+        if (!response.ResponseMessage.IsSuccessStatusCode) return null;
+
+        return JsonConvert.DeserializeObject<Currency>(await response.GetStringAsync());
+    }
+
+    public (int Code, string Name) GetCodeByName(string name)
+    {
+        //TODO: лучше сюда словарь 
+        var code = 0;
+        if (name == "usd" || name == "доллар")
         {
-            var response = await EndPoint.AllowAnyHttpStatus()
-                                         .AppendPathSegment(code)
-                                         .GetAsync();
-
-            if(!response.ResponseMessage.IsSuccessStatusCode)
-            {
-                return null;
-            }
-
-            return JsonConvert.DeserializeObject<Currency>(await response.GetStringAsync());
+            code = 145;
+            name = "USD";
+        }
+        else if (name == "eur" || name == "евро")
+        {
+            code = 292;
+            name = "EUR";
+        }
+        else if (name == "rur" || name == "рубль")
+        {
+            code = 298;
+            name = "RUR";
+        }
+        else if (name == "uah" || name == "украинский")
+        {
+            code = 290;
+            name = "UAH";
+        }
+        else
+        {
+            code = 0;
+            name = string.Empty;
         }
 
-        public (int Code, string Name) GetCodeByName(string name)
-        {
-            //TODO: лучше сюда словарь 
-            var code = 0;
-            if(name == "usd" || name == "доллар")
-            {
-                code = 145;
-                name = "USD";
-            }
-            else if(name == "eur" || name == "евро")
-            {
-                code = 292;
-                name = "EUR";
-            }
-            else if(name == "rur" || name == "рубль")
-            {
-                code = 298;
-                name = "RUR";
-            }
-            else if(name == "uah" || name == "украинский")
-            {
-                code = 290;
-                name = "UAH";
-            }
-            else
-            {
-                code = 0;
-                name = string.Empty;
-            }
-
-            return (code, name);
-        }
+        return (code, name);
     }
 }
