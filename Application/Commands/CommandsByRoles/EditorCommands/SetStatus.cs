@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Services.Helpers;
 using VkBot.Domain;
 using VkBot.Domain.Models;
-using VkNet.Abstractions;
 using VkNet.Model;
 
 namespace Application.Commands.CommandsByRoles.EditorCommands;
@@ -12,12 +11,10 @@ public class SetStatus : IBotCommand
 {
     private readonly IRolesHelper _checker;
     private readonly MainContext _db;
-    private readonly IVkApi _vkApi;
 
-    public SetStatus(MainContext db, IVkApi api, IRolesHelper checker)
+    public SetStatus(MainContext db, IRolesHelper checker)
     {
         _db = db;
-        _vkApi = api;
         _checker = checker;
     }
 
@@ -35,7 +32,7 @@ public class SetStatus : IBotCommand
 
         if (split.Length < 2) return "Не все параметры указаны!";
 
-        if (!await _checker.CheckAccessToCommandAsync(msg.FromId.Value, msg.PeerId.Value, Roles.Editor))
+        if (!await _checker.CheckAccessToCommandAsync(msg.FromId.Value, msg.PeerId.Value, Roles.Editor, cancellationToken))
             return "Недостаточно прав!";
 
         var forwardMessage = msg.ForwardedMessages.Count == 0 ? msg.ReplyMessage : msg.ForwardedMessages[0];
@@ -45,21 +42,21 @@ public class SetStatus : IBotCommand
 
         var statusUser =
             await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == forwardMessage.FromId.Value &&
-                                                         x.ChatVkID == msg.PeerId.Value);
+                                                         x.ChatVkID == msg.PeerId.Value, cancellationToken: cancellationToken);
 
         if (statusUser is null) return "Данного пользователя нет или он ещё ничего не написал в этом чате!";
 
-        if ((await _db.Users.FirstOrDefaultAsync(x => x.Vk == statusUser.UserVkID))?.IsBotAdmin ?? false)
-            if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value))?.IsBotAdmin ?? false)
+        if ((await _db.Users.FirstOrDefaultAsync(x => x.Vk == statusUser.UserVkID, cancellationToken: cancellationToken))?.IsBotAdmin ?? false)
+            if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value, cancellationToken: cancellationToken))?.IsBotAdmin ?? false)
                 return "Вы не можете установить статус этому пользователю, так как он администратор бота!";
 
-        if (await _checker.GetUserRoleAsync(msg.FromId.Value, msg.PeerId.Value) < statusUser.UserRole)
-            if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value))?.IsBotAdmin ?? false)
+        if (await _checker.GetUserRoleAsync(msg.FromId.Value, msg.PeerId.Value, cancellationToken) < statusUser.UserRole)
+            if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value, cancellationToken: cancellationToken))?.IsBotAdmin ?? false)
                 return "Вы не можете установить статус пользователю у которого больше прав доступа!";
 
         statusUser.Status = split[1];
 
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
 
         return "Статус установлен!";
     }

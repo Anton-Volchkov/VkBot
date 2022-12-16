@@ -33,7 +33,7 @@ public class SetGroup : IBotCommand
 
         user.Group = split[1].ToLower();
 
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
 
         return $"{vkUser.FirstName} {vkUser.LastName}, ваша группа установлена!";
     }

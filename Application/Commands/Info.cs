@@ -5,11 +5,11 @@ namespace Application.Commands;
 
 public class Info : IInfo
 {
-    private readonly IBotCommand[] Commands;
+    private readonly IBotCommand[] _commands;
 
     public Info(IEnumerable<IBotCommand> commands)
     {
-        Commands = commands.ToArray();
+        _commands = commands.ToArray();
     }
 
     public string[] Aliases { get; set; } = { "инфо", "информация" };
@@ -27,7 +27,7 @@ public class Info : IInfo
 
         if (Aliases.Contains(split[1].Trim().ToLower())) return Task.FromResult(Description);
 
-        foreach (var command in Commands)
+        foreach (var command in _commands)
             if (command.Aliases.Contains(split[1].Trim().ToLower()))
                 return Task.FromResult(command.Description);
 

@@ -23,7 +23,7 @@ public class GetCommon : IBotCommand
     public async Task<string> ExecuteAsync(Message msg, CancellationToken cancellationToken = default)
     {
         const string scheduleEmpty = "Общего сообщения нет!";
-        var sendText = await _db.Commons.FirstOrDefaultAsync();
+        var sendText = await _db.Commons.FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
         return sendText?.СommonInfo ?? scheduleEmpty;
     }

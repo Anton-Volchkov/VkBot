@@ -33,7 +33,7 @@ public class CallEveryone : IBotCommand
     {
         if (msg.PeerId.Value == msg.FromId.Value) return "Команда работает только в групповых чатах!";
 
-        if (!await _checker.CheckAccessToCommandAsync(msg.FromId.Value, msg.PeerId.Value, Roles.Editor))
+        if (!await _checker.CheckAccessToCommandAsync(msg.FromId.Value, msg.PeerId.Value, Roles.Editor, cancellationToken))
             return "Недостаточно прав!";
 
         var strBuilder = new StringBuilder();

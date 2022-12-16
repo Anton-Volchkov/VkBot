@@ -33,7 +33,7 @@ public class Rebuke : IBotCommand
     {
         if (msg.PeerId.Value == msg.FromId.Value) return "Команда работает только в групповых чатах!";
 
-        if (!await _checker.CheckAccessToCommandAsync(msg.FromId.Value, msg.PeerId.Value, Roles.Moderator))
+        if (!await _checker.CheckAccessToCommandAsync(msg.FromId.Value, msg.PeerId.Value, Roles.Moderator, cancellationToken))
             return "Недостаточно прав!";
 
         var forwardMessage = msg.ForwardedMessages.Count == 0 ? msg.ReplyMessage : msg.ForwardedMessages[0];
@@ -60,16 +60,16 @@ public class Rebuke : IBotCommand
 
         if (rebukeUser is null) return "Данного пользователя нет в этом чате!";
 
-        if ((await _db.Users.FirstOrDefaultAsync(x => x.Vk == rebukeUser.Id)).IsBotAdmin)
+        if ((await _db.Users.FirstOrDefaultAsync(x => x.Vk == rebukeUser.Id, cancellationToken: cancellationToken))?.IsBotAdmin ?? false)
             return "Вы не можете дать выговор этому пользователю, так как он администратор бота!";
 
-        if (await _checker.GetUserRoleAsync(rebukeUser.Id, msg.PeerId.Value) >=
-            await _checker.GetUserRoleAsync(msg.FromId.Value, msg.PeerId.Value))
-            if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value)).IsBotAdmin)
+        if (await _checker.GetUserRoleAsync(rebukeUser.Id, msg.PeerId.Value, cancellationToken) >=
+            await _checker.GetUserRoleAsync(msg.FromId.Value, msg.PeerId.Value, cancellationToken))
+            if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value, cancellationToken: cancellationToken))?.IsBotAdmin ?? false)
                 return "Вы не можете дать выговор этому пользователю т.к у него больше или такие же права!";
 
         var chatRebukeUser = await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == rebukeUser.Id &&
-                                                                          x.ChatVkID == msg.PeerId.Value);
+                                                                          x.ChatVkID == msg.PeerId.Value, cancellationToken: cancellationToken);
         chatRebukeUser.Rebuke += 1;
 
         if (chatRebukeUser.Rebuke >= 3)
@@ -83,14 +83,19 @@ public class Rebuke : IBotCommand
                 return "Упс...Что-то пошло не так, возможно у меня недостаточно прав!";
             }
 
-            _db.ChatRoles.Remove(await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == rebukeUser.Id &&
-                                                                              x.ChatVkID == msg.PeerId.Value));
-            await _db.SaveChangesAsync();
+            var chatRole = await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == rebukeUser.Id &&
+                                                                        x.ChatVkID == msg.PeerId.Value, cancellationToken: cancellationToken);
+            if (chatRole is not null)
+            {
+                _db.ChatRoles.Remove(chatRole);
+            }
+           
+            await _db.SaveChangesAsync(cancellationToken);
 
             return "Пользователь набрал 3/3 предупреждений и был исключён!";
         }
 
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
 
         return $"{rebukeUser.FirstName} {rebukeUser.LastName}, вы получили предупреждение!\n" +
                $"Всего предупреждений: {chatRebukeUser.Rebuke}/3";

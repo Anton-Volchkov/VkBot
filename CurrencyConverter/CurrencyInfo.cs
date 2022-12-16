@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using CurrencyConverter.Models;
 using Flurl.Http;
 using Newtonsoft.Json;
@@ -9,45 +10,45 @@ public class CurrencyInfo
 {
     private const string EndPoint = "https://www.nbrb.by/API/ExRates/Rates/";
 
-    public async Task<Currency> GetCurrency(int code)
+    public async Task<Currency> GetCurrencyAsync(int code, CancellationToken cancellationToken = default)
     {
         var response = await EndPoint.AllowAnyHttpStatus()
             .AppendPathSegment(code)
-            .GetAsync();
+            .GetAsync(cancellationToken: cancellationToken);
 
-        if (!response.ResponseMessage.IsSuccessStatusCode) return null;
-
-        return JsonConvert.DeserializeObject<Currency>(await response.GetStringAsync());
+        return !response.ResponseMessage.IsSuccessStatusCode ? null : JsonConvert.DeserializeObject<Currency>(await response.GetStringAsync());
     }
 
     public (int Code, string Name) GetCodeByName(string name)
     {
         //TODO: лучше сюда словарь 
         var code = 0;
-        if (name == "usd" || name == "доллар")
+        switch (name)
         {
-            code = 145;
-            name = "USD";
-        }
-        else if (name == "eur" || name == "евро")
-        {
-            code = 292;
-            name = "EUR";
-        }
-        else if (name == "rur" || name == "рубль")
-        {
-            code = 298;
-            name = "RUR";
-        }
-        else if (name == "uah" || name == "украинский")
-        {
-            code = 290;
-            name = "UAH";
-        }
-        else
-        {
-            code = 0;
-            name = string.Empty;
+            case "usd":
+            case "доллар":
+                code = 145;
+                name = "USD";
+                break;
+            case "eur":
+            case "евро":
+                code = 292;
+                name = "EUR";
+                break;
+            case "rur":
+            case "рубль":
+                code = 298;
+                name = "RUR";
+                break;
+            case "uah":
+            case "украинский":
+                code = 290;
+                name = "UAH";
+                break;
+            default:
+                code = 0;
+                name = string.Empty;
+                break;
         }
 
         return (code, name);

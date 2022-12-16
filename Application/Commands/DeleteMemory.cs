@@ -27,12 +27,12 @@ public class DeleteMemory : IBotCommand
     {
         var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
-        var userMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
+        var userMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value, cancellationToken: cancellationToken);
 
         if (userMemory == null) return $"{user.FirstName} {user.LastName} вас нет в моей базе!";
 
         userMemory.Memory = "";
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
         return $"{user.FirstName} {user.LastName}, ваши данные стёрты!";
     }
 }

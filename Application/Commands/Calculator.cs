@@ -39,7 +39,7 @@ public class Calculator : IBotCommand
 
         if (!query.IsSuccessStatusCode) return $"{user.FirstName} {user.LastName}, я не смог посчитать это... =(";
 
-        var answer = JsonConvert.DeserializeObject<CalculatorAnswerDTO>(await query.Content.ReadAsStringAsync())
+        var answer = JsonConvert.DeserializeObject<CalculatorAnswerDTO>(await query.Content.ReadAsStringAsync(cancellationToken))
             ?.Result;
 
         return !int.TryParse(answer, out var result)

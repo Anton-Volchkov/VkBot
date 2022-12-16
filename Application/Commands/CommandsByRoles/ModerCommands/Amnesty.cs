@@ -59,16 +59,16 @@ public class Amnesty : IBotCommand
 
         if (amnestyUser is null) return "Данного пользователя нет в этом чате!";
 
-        if (await _checker.GetUserRoleAsync(amnestyUser.Id, msg.PeerId.Value) >=
-            await _checker.GetUserRoleAsync(msg.FromId.Value, msg.PeerId.Value))
+        if (await _checker.GetUserRoleAsync(amnestyUser.Id, msg.PeerId.Value, cancellationToken) >=
+            await _checker.GetUserRoleAsync(msg.FromId.Value, msg.PeerId.Value, cancellationToken))
             if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value)).IsBotAdmin)
                 return "Вы не можете простить этого пользователя т.к у него больше или такие же права!";
 
         var chatAmnestyUser = await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == amnestyUser.Id &&
-                                                                           x.ChatVkID == msg.PeerId.Value);
+                                                                           x.ChatVkID == msg.PeerId.Value, cancellationToken: cancellationToken);
         chatAmnestyUser.Rebuke = 0;
 
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
 
         return $"{amnestyUser.FirstName} {amnestyUser.LastName}, с вас сняли все предупреждения!\n" +
                "Всего предупреждений: 0/3";

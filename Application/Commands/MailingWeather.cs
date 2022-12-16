@@ -28,13 +28,13 @@ public class MailingWeather : IBotCommand
         var split = msg.Text.Split(' ', 2); // [команда, параметры]
 
         var command = split[0].Trim();
-        var user = await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value);
+        var user = await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value, cancellationToken: cancellationToken);
         var vkUser = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
         if (command == "отписка")
         {
             user.Weather = false;
-            await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync(cancellationToken);
 
             return $"{vkUser.FirstName} {vkUser.LastName}, вы отписались от рассылки погоды!";
         }
@@ -46,7 +46,7 @@ public class MailingWeather : IBotCommand
         city = char.ToUpper(city[0]) + city.Substring(1);
         user.City = city;
         user.Weather = true;
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
         return
             $"{vkUser.FirstName} {vkUser.LastName}, подписка на рассылку погоды в городе {city} успешно оформлена!\n" +
             "ВАЖНО: Для корректной рассылки погоды у вас должен быть диалог с ботом. Если его нет, пожалуйста, напишите ему любое сообщение https://vk.com/kerlibot" +

@@ -41,7 +41,7 @@ public class SetMemory : IBotCommand
         else
             userMemory.Memory += $"\n {textMemory}";
 
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
 
         return $"{user.FirstName} {user.LastName}, я запомнил сказанное!";
     }

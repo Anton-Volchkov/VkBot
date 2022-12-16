@@ -32,7 +32,7 @@ public class BlackList : IBotCommand
     {
         if (msg.PeerId.Value == msg.FromId.Value) return "Команда работает только в групповых чатах!";
 
-        if (!await _checker.CheckAccessToCommandAsync(msg.FromId.Value, msg.PeerId.Value, Roles.Admin))
+        if (!await _checker.CheckAccessToCommandAsync(msg.FromId.Value, msg.PeerId.Value, Roles.Admin, cancellationToken))
             return "Недостаточно прав!";
 
         var forwardMessage = msg.ForwardedMessages.Count == 0 ? msg.ReplyMessage : msg.ForwardedMessages[0];
@@ -53,35 +53,42 @@ public class BlackList : IBotCommand
         }
 
 
-        if ((await _db.Users.FirstOrDefaultAsync(x => x.Vk == kickedUserId))?.IsBotAdmin ?? false)
+        if ((await _db.Users.FirstOrDefaultAsync(x => x.Vk == kickedUserId, cancellationToken: cancellationToken))?.IsBotAdmin ?? false)
             return "Вы не можете добавить пользователя в черный список, так как он администратор бота!";
 
-        if (await _checker.GetUserRoleAsync(kickedUserId, msg.PeerId.Value) >=
-            await _checker.GetUserRoleAsync(msg.FromId.Value, msg.PeerId.Value))
-            if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value))?.IsBotAdmin ?? false)
+        if (await _checker.GetUserRoleAsync(kickedUserId, msg.PeerId.Value, cancellationToken) >=
+            await _checker.GetUserRoleAsync(msg.FromId.Value, msg.PeerId.Value, cancellationToken))
+            if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value, cancellationToken: cancellationToken))?.IsBotAdmin ?? false)
                 return "Вы не можете добавить пользователя в черный спиисок т.к у него больше или такие же права!";
 
         var userAlreadyInBlackList = await
-            _db.BlackList.FirstOrDefaultAsync(x => x.ChatVkId == msg.PeerId && x.UserVkId == kickedUserId);
+            _db.BlackList.FirstOrDefaultAsync(x => x.ChatVkId == msg.PeerId && x.UserVkId == kickedUserId, cancellationToken: cancellationToken);
 
 
-        if (userAlreadyInBlackList == null)
+        if (userAlreadyInBlackList is null)
         {
             await _db.BlackList.AddAsync(new VkBot.Domain.Models.BlackList
             {
                 ChatVkId = msg.PeerId.Value,
                 UserVkId = kickedUserId.Value
-            });
+            }, cancellationToken);
 
-            await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync(cancellationToken);
         }
 
         try
         {
             _vkApi.Messages.RemoveChatUser((ulong)msg.PeerId.Value - 2000000000, kickedUserId);
-            _db.ChatRoles.Remove(await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == kickedUserId &&
-                                                                              x.ChatVkID == msg.PeerId.Value));
-            await _db.SaveChangesAsync();
+            var chatRole = await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == kickedUserId &&
+                                                                        x.ChatVkID == msg.PeerId.Value,
+                cancellationToken: cancellationToken);
+
+            if (chatRole is not null)
+            {
+                _db.ChatRoles.Remove(chatRole);
+                await _db.SaveChangesAsync(cancellationToken);
+            }
+    
         }
         catch (Exception)
         {

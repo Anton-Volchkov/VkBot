@@ -39,12 +39,10 @@ public class CommandHandler : ICommandHandler
         if (msg.FromId.Value != msg.PeerId.Value)
             await _rolesHelper.CheckUserInChatAsync(msg.FromId.Value, msg.PeerId.Value, cancellationToken);
 
-        //если сообщение НЕ НАЧИНАЕТСЯ С ЭТОГО, то ничо не делаем
+        //если сообщение НЕ НАЧИНАЕТСЯ С ЭТОГО, то ничо не делает
         if (!(msg.Text.ToLower().StartsWith("!бот") || msg.Text.ToLower().StartsWith("бот"))) return;
 
-        //а если начинается, то вот
         msg.Text = string.Join(' ', msg.Text.Split(' ').Skip(1)); // убираем !бот
-
 
         #region Проверка подписки
 
@@ -58,7 +56,6 @@ public class CommandHandler : ICommandHandler
         // Отправим в ответ полученный от пользователя текст
         await _vkApi.Messages.SendAsync(new MessagesSendParams
         {
-            //TODO: плохой рандом ид
             RandomId = new DateTime().Millisecond + Guid.NewGuid().ToByteArray().Sum(x => x),
             PeerId = msg.PeerId.Value,
             Message = text

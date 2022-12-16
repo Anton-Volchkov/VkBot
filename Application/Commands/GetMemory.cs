@@ -27,9 +27,9 @@ public class GetMemory : IBotCommand
     {
         var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
 
-        var userMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value);
+        var userMemory = await _db.Memories.FirstOrDefaultAsync(x => x.UserID == msg.FromId.Value, cancellationToken: cancellationToken);
 
-        if (userMemory == null) return $"{user.FirstName} {user.LastName} - Я вас еще не знаю. ";
+        if (userMemory is null) return $"{user.FirstName} {user.LastName} - Я вас еще не знаю. ";
 
         var sendText = string.IsNullOrWhiteSpace(userMemory.Memory)
             ? "Ваших данных нет в базе!"

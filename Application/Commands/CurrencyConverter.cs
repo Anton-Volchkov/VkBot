@@ -32,7 +32,7 @@ public class CurrencyConverter : IBotCommand
         var result = _currencyInfo.GetCodeByName(name);
         if (string.IsNullOrEmpty(result.Name)) return "Я не знаю такой валюты";
 
-        var currency = await _currencyInfo.GetCurrency(result.Code);
+        var currency = await _currencyInfo.GetCurrencyAsync(result.Code, cancellationToken);
 
         var strBuilder = new StringBuilder();
         strBuilder.AppendFormat("Конвертация {0} в BYN по курсу НБ РБ", currency.Abbreviation).AppendLine();

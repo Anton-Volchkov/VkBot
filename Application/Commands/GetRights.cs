@@ -46,14 +46,15 @@ public class GetRights : IBotCommand
 
         if (!chat.Contains(msg.FromId.Value)) return "Этой командой может воспользоваться только администратор!";
 
-        foreach (var item in chat)
+        foreach (var _ in chat)
         {
             var admin = await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == msg.FromId.Value &&
-                                                                     x.ChatVkID == msg.PeerId.Value);
-            admin.UserRole = Roles.GlAdmin;
+                                                                     x.ChatVkID == msg.PeerId.Value, cancellationToken: cancellationToken);
+
+            if(admin is not null) { admin.UserRole = Roles.GlAdmin; }
         }
 
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
 
         return "Права к боту выданы!";
     }

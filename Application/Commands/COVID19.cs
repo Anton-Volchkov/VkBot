@@ -24,7 +24,7 @@ public class COVID19 : IBotCommand
         var split = msg.Text.Split(' ', 2); // [команда, параметры]
 
         return split.Length < 2
-            ? await _coronaInfo.GetCoronaVirusInfo()
-            : await _coronaInfo.GetCoronaVirusInfo(split[1]);
+            ? await _coronaInfo.GetCoronaVirusInfoAsync(cancellationToken: cancellationToken)
+            : await _coronaInfo.GetCoronaVirusInfoAsync(split[1], cancellationToken);
     }
 }

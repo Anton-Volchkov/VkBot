@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using CoronaVirus.Models;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ public class CoronaInfo
         _db = dbContext;
     }
 
-    public async Task<string> GetCoronaVirusInfo(string country = "")
+    public async Task<string> GetCoronaVirusInfoAsync(string country = "", CancellationToken cancellationToken = default)
     {
         var url = "https://coronavirus-19-api.herokuapp.com/";
 
@@ -43,7 +44,7 @@ public class CoronaInfo
 
         if (string.IsNullOrWhiteSpace(country))
         {
-            var answer = JsonConvert.DeserializeObject<FullInfo>(await response.Content.ReadAsStringAsync());
+            var answer = JsonConvert.DeserializeObject<FullInfo>(await response.Content.ReadAsStringAsync(cancellationToken));
 
             sb.AppendLine($"Всего было заражено: {answer.Cases}").AppendLine();
             sb.AppendLine($"Зараженных сейчас: {answer.Cases - answer.Recovered}").AppendLine();
@@ -54,9 +55,9 @@ public class CoronaInfo
         {
             var countryOnEnglish = string.Empty;
             var countries =
-                JsonConvert.DeserializeObject<List<CountryInfo>>(await response.Content.ReadAsStringAsync());
+                JsonConvert.DeserializeObject<List<CountryInfo>>(await response.Content.ReadAsStringAsync(cancellationToken));
 
-            var countryData = await _db.Countries.FirstOrDefaultAsync(x => x.RussianName == country.ToLower());
+            var countryData = await _db.Countries.FirstOrDefaultAsync(x => x.RussianName == country.ToLower(), cancellationToken: cancellationToken);
 
             if (countryData is null)
                 countryOnEnglish = await _translator.Translate(country, "ru-en");
@@ -76,9 +77,9 @@ public class CoronaInfo
                 {
                     RussianName = country.ToLower(),
                     EnglishName = countryOnEnglish
-                });
+                }, cancellationToken);
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellationToken);
             }
 
             sb.AppendLine($"Страна: {country.ToUpper()}").AppendLine();

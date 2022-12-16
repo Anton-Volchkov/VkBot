@@ -22,21 +22,22 @@ public class CheckOnlineUser : IBotCommand
     public string Description { get; set; } =
         "Команда !Бот онлайн скажет вам кто онлайн в беседе.\nПример: !Бот онлайн";
 
-    public Task<string> ExecuteAsync(Message msg, CancellationToken cancellationToken = default)
+    public async Task<string> ExecuteAsync(Message msg, CancellationToken cancellationToken = default)
     {
-        if (msg.PeerId.Value == msg.FromId.Value) return Task.FromResult("Команда работает только в групповых чатах!");
+        if (msg.PeerId.Value == msg.FromId.Value) return "Команда работает только в групповых чатах!";
 
         User[] chat;
+
         try
         {
-            chat = _vkApi.Messages.GetConversationMembers(msg.PeerId.Value, new[] { "online" })
+            chat = (await _vkApi.Messages.GetConversationMembersAsync(msg.PeerId.Value, new[] { "online" }))
                 .Profiles
                 .Where(x => x.Online.HasValue).ToArray();
         }
         catch (Exception)
         {
-            return Task.FromResult(
-                "Что-то пошло не так, возможно у меня не хвататет прав. Установите мне права администратора и попробуйте снова.");
+            return
+                "Что-то пошло не так, возможно у меня не хвататет прав. Установите мне права администратора и попробуйте снова.";
         }
 
         var strBuilder = new StringBuilder();
@@ -56,6 +57,6 @@ public class CheckOnlineUser : IBotCommand
 
         strBuilder.AppendLine("_____________").AppendLine();
 
-        return Task.FromResult(strBuilder.ToString());
+        return strBuilder.ToString();
     }
 }

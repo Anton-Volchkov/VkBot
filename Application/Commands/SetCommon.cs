@@ -30,16 +30,16 @@ public class SetCommon : IBotCommand
 
         text = forwardMessage.Text;
 
-        var timeTable = await _db.Commons.FirstOrDefaultAsync();
+        var timeTable = await _db.Commons.FirstOrDefaultAsync(cancellationToken: cancellationToken);
         if (timeTable != null)
             timeTable.СommonInfo = text;
         else
             await _db.Commons.AddAsync(new Common
             {
                 СommonInfo = text
-            });
+            }, cancellationToken);
 
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
 
         return "Я запомнил сказанное!";
     }

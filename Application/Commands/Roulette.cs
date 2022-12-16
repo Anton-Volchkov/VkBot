@@ -22,14 +22,12 @@ public class Roulette : IBotCommand
     public async Task<string> ExecuteAsync(Message msg, CancellationToken cancellationToken = default)
     {
         var user = (await _vkApi.Users.GetAsync(new[] { msg.FromId.Value })).FirstOrDefault();
-        string roulette;
 
-        //TODO: плохое решение
-        if (new System.Random().Next(1, 7) == new System.Random().Next(1, 7))
-            roulette = $"{user.FirstName} {user.LastName} погиб(ла) в рулетке...PRESS F TO PAY RESPECT!";
+        var rnd = new System.Random();
+
+        if (rnd.Next(1, 7) == rnd.Next(1, 7))
+            return $"{user.FirstName} {user.LastName} погиб(ла) в рулетке...PRESS F TO PAY RESPECT!";
         else
-            roulette = $"{user.FirstName} {user.LastName} выжил(а) в рулетке! Поздравляем!";
-
-        return roulette;
+            return $"{user.FirstName} {user.LastName} выжил(а) в рулетке! Поздравляем!";
     }
 }

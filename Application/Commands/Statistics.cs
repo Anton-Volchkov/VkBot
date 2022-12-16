@@ -32,20 +32,17 @@ public class Statistics : IBotCommand
         if (msg.PeerId.Value == msg.FromId.Value) return "Команда работает только в групповых чатах!";
 
 
-        var forwardMessage = msg.ForwardedMessages.Count == 0 ? msg.ReplyMessage : msg.ForwardedMessages[0];
-
-        if (forwardMessage is null)
-            forwardMessage = msg; //Если пересланного сообщения нет, то работаем с тем, кто написал его.
+        var forwardMessage = (msg.ForwardedMessages.Any() ? msg.ForwardedMessages[0] : msg.ReplyMessage) ?? msg;
 
         var userInChat =
             await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == forwardMessage.FromId.Value &&
-                                                         x.ChatVkID == msg.PeerId.Value);
+                                                         x.ChatVkID == msg.PeerId.Value, cancellationToken: cancellationToken);
 
         if (userInChat is null) return "Данный пользователь ещё ничего не написал в этом чате!";
 
         var VkUser = (await _vkApi.Users.GetAsync(new[] { forwardMessage.FromId.Value })).FirstOrDefault();
 
-        var botUser = await _db.Users.FirstOrDefaultAsync(x => x.Vk == forwardMessage.FromId.Value);
+        var botUser = await _db.Users.FirstOrDefaultAsync(x => x.Vk == forwardMessage.FromId.Value, cancellationToken: cancellationToken);
 
         var nameUserGroup = string.IsNullOrWhiteSpace(botUser.Group)
             ? "Группа не установлена."

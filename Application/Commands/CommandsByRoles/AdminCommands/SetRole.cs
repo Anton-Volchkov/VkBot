@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Services.Helpers;
 using VkBot.Domain;
 using VkBot.Domain.Models;
-using VkNet.Abstractions;
 using VkNet.Model;
 
 namespace Application.Commands.CommandsByRoles.AdminCommands;
@@ -12,12 +11,10 @@ public class SetRole : IBotCommand
 {
     private readonly IRolesHelper _checker;
     private readonly MainContext _db;
-    private readonly IVkApi _vkApi;
 
-    public SetRole(MainContext db, IVkApi api, IRolesHelper checker)
+    public SetRole(MainContext db, IRolesHelper checker)
     {
         _db = db;
-        _vkApi = api;
         _checker = checker;
     }
 
@@ -33,7 +30,7 @@ public class SetRole : IBotCommand
 
         var split = msg.Text.Split(' ', 2); // [команда, роль]
 
-        if (!await _checker.CheckAccessToCommandAsync(msg.FromId.Value, msg.PeerId.Value, Roles.Admin))
+        if (!await _checker.CheckAccessToCommandAsync(msg.FromId.Value, msg.PeerId.Value, Roles.Admin, cancellationToken))
             return "Недостаточно прав!";
 
         var forwardMessage = msg.ForwardedMessages.Count == 0 ? msg.ReplyMessage : msg.ForwardedMessages[0];
@@ -42,7 +39,7 @@ public class SetRole : IBotCommand
 
         var roleUser =
             await _db.ChatRoles.FirstOrDefaultAsync(x => x.UserVkID == forwardMessage.FromId.Value &&
-                                                         x.ChatVkID == msg.PeerId.Value);
+                                                         x.ChatVkID == msg.PeerId.Value, cancellationToken: cancellationToken);
 
         if (roleUser is null) return "Данного пользователя нет или он ещё ничего не написал в этом чате!";
 
@@ -52,22 +49,22 @@ public class SetRole : IBotCommand
 
         if (role == Roles.Admin)
         {
-            if (!await _checker.CheckAccessToCommandAsync(msg.FromId.Value, msg.PeerId.Value, Roles.GlAdmin))
+            if (!await _checker.CheckAccessToCommandAsync(msg.FromId.Value, msg.PeerId.Value, Roles.GlAdmin, cancellationToken))
                 return "Для установки данной роли у вас недостаточно прав!";
         }
         else if (role == Roles.GlAdmin)
         {
-            if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value)).IsBotAdmin)
+            if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value, cancellationToken: cancellationToken))?.IsBotAdmin ?? false)
                 return "Для установки данной роли у вас недостаточно прав!";
         }
 
-        if (await _checker.GetUserRoleAsync(msg.FromId.Value, msg.PeerId.Value) <= roleUser.UserRole)
-            if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value)).IsBotAdmin)
+        if (await _checker.GetUserRoleAsync(msg.FromId.Value, msg.PeerId.Value, cancellationToken) <= roleUser.UserRole)
+            if (!(await _db.Users.FirstOrDefaultAsync(x => x.Vk == msg.FromId.Value))?.IsBotAdmin ?? false)
                 return "Вы не можете изменить роль пользователю у которого точно такие права доступа или выше!";
 
         roleUser.UserRole = role;
 
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
 
         return "Роль установлена!";
     }
