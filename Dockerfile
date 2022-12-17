@@ -5,7 +5,7 @@ ENV ASPNETCORE_URLS=http://+:80
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
-COPY . .
+COPY ./src/ .
 RUN dotnet restore
 WORKDIR "VkBot"
 RUN dotnet build "VkBot.csproj" -c Release -o /app/build --no-restore

@@ -13,14 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoronaVirus\CoronaVirus.csproj" />
-    <ProjectReference Include="..\CurrencyConverter\CurrencyConverter.csproj" />
-    <ProjectReference Include="..\ImageFinder\ImageFinder.csproj" />
-    <ProjectReference Include="..\OpenWeatherMap\OpenWeatherMap.csproj" />
+    <ProjectReference Include="..\Features\CoronaVirus\CoronaVirus.csproj" />
+    <ProjectReference Include="..\Features\CurrencyConverter\CurrencyConverter.csproj" />
+    <ProjectReference Include="..\Features\ImageFinder\ImageFinder.csproj" />
+    <ProjectReference Include="..\Features\OpenWeatherMap\OpenWeatherMap.csproj" />
+    <ProjectReference Include="..\Features\WikipediaApi\WikipediaApi.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
     <ProjectReference Include="..\VkBot.Domain\VkBot.Domain.csproj" />
-    <ProjectReference Include="..\VkBot.Extensions\VkBot.Extensions.csproj" />
-    <ProjectReference Include="..\WikipediaApi\WikipediaApi.csproj" />
   </ItemGroup>
 
 </Project>

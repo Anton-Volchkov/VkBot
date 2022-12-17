@@ -5,21 +5,21 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot", "VkBot\VkBot.csproj", "{43214B61-8EA0-415F-B7BF-4BFE049A9B10}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyConverter", "CurrencyConverter\CurrencyConverter.csproj", "{075547C6-D4E2-48F9-AC5C-CA4FD05E7D55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyConverter", "Features\CurrencyConverter\CurrencyConverter.csproj", "{075547C6-D4E2-48F9-AC5C-CA4FD05E7D55}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWeatherMap", "OpenWeatherMap\OpenWeatherMap.csproj", "{CB367DD8-D5EB-4F9E-9917-FD8606B31210}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWeatherMap", "Features\OpenWeatherMap\OpenWeatherMap.csproj", "{CB367DD8-D5EB-4F9E-9917-FD8606B31210}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YandexTranslator", "YandexTranslator\YandexTranslator.csproj", "{B8268CFF-0AD3-41FE-ACDA-C17F4CC219B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YandexTranslator", "Features\YandexTranslator\YandexTranslator.csproj", "{B8268CFF-0AD3-41FE-ACDA-C17F4CC219B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikipediaApi", "WikipediaApi\WikipediaApi.csproj", "{CCEE3B75-CDC4-497A-AE80-754F618BAEA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikipediaApi", "Features\WikipediaApi\WikipediaApi.csproj", "{CCEE3B75-CDC4-497A-AE80-754F618BAEA5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoronaVirus", "CoronaVirus\CoronaVirus.csproj", "{9ADD78A7-8D49-4D99-862F-F9F7D1780DB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoronaVirus", "Features\CoronaVirus\CoronaVirus.csproj", "{9ADD78A7-8D49-4D99-862F-F9F7D1780DB8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageFinder", "ImageFinder\ImageFinder.csproj", "{EB6CED8E-EFE2-4DD2-AB8B-3B119C443F84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageFinder", "Features\ImageFinder\ImageFinder.csproj", "{EB6CED8E-EFE2-4DD2-AB8B-3B119C443F84}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot.Extensions", "VkBot.Extensions\VkBot.Extensions.csproj", "{65819617-C9F4-475C-915D-549DAF7F6463}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot.Proxy", "VkBot.Proxy\VkBot.Proxy.csproj", "{67C22149-F492-4042-9FD2-6BA70AACCA5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot.Proxy", "Features\VkBot.Proxy\VkBot.Proxy.csproj", "{67C22149-F492-4042-9FD2-6BA70AACCA5A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot.Domain", "VkBot.Domain\VkBot.Domain.csproj", "{65C4FF32-73D3-4F5C-82C0-8F76477655B9}"
 EndProject

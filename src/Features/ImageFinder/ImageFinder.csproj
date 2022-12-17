@@ -11,7 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\VkBot.Extensions\VkBot.Extensions.csproj" />
+      <ProjectReference Include="..\..\VkBot.Extensions\VkBot.Extensions.csproj" />
       <ProjectReference Include="..\VkBot.Proxy\VkBot.Proxy.csproj" />
     </ItemGroup>
 
