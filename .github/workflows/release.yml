@@ -21,7 +21,7 @@ jobs:
       - name: Restore nuget packages
         run: dotnet restore src/VkBot.sln
       - name: Build
-        run: dotnet build VkBot.sln --configuration Release --no-restore
+        run: dotnet build src/VkBot.sln --configuration Release --no-restore
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
