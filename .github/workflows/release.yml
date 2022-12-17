@@ -19,7 +19,7 @@ jobs:
         with:
           dotnet-version: 3.1
       - name: Restore nuget packages
-        run: dotnet restore VkBot.sln
+        run: dotnet restore src\VkBot.sln
       - name: Build
         run: dotnet build VkBot.sln --configuration Release --no-restore
       - name: Login to GitHub Container Registry
