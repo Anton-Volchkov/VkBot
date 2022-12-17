@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Reflection;
 using Application.Hangfire;
 using Hangfire;
@@ -16,9 +17,14 @@ using YandexTranslator;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var culture = new CultureInfo("ru-RU");
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
+
 var configuration = builder.Configuration;
 
 var services = builder.Services;
+
 
 
 if (builder.Environment.IsDevelopment()) configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
