@@ -17,9 +17,9 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 3.1
+          dotnet-version: 7.0
       - name: Restore nuget packages
-        run: dotnet restore src\VkBot.sln
+        run: dotnet restore src/VkBot.sln
       - name: Build
         run: dotnet build VkBot.sln --configuration Release --no-restore
       - name: Login to GitHub Container Registry
