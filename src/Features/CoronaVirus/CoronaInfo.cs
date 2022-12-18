@@ -25,72 +25,55 @@ public class CoronaInfo
         _db = dbContext;
     }
 
-    public async Task<string> GetCoronaVirusInfoAsync(string country = "", CancellationToken cancellationToken = default)
+    public async Task<string> GetCoronaVirusInfoAsync(string country, CancellationToken cancellationToken = default)
     {
-        var url = "https://coronavirus-19-api.herokuapp.com/";
+        string countryInEnglish; 
 
-        var Client = new HttpClient
+        var countryData = await _db.Countries.FirstOrDefaultAsync(x => x.RussianName == country.ToLower(), cancellationToken: cancellationToken);
+
+        if (countryData is null)
+            countryInEnglish = await _translator.Translate(country, "ru-en");
+        else
+            countryInEnglish = countryData.EnglishName;
+
+        if (countryData is null)
+        {
+            await _db.Countries.AddAsync(new Country
+            {
+                RussianName = country.ToLower(),
+                EnglishName = countryInEnglish
+            }, cancellationToken);
+
+            await _db.SaveChangesAsync(cancellationToken);
+        }
+
+        var url = "https://covid-api.com/api/";
+
+        var client = new HttpClient
         {
             BaseAddress = new Uri(url)
         };
 
-        var response = await Client.GetAsync(string.IsNullOrWhiteSpace(country) ? url + "all" : url + "countries");
+        var response = await client.GetAsync($"reports?region_name={countryInEnglish}", cancellationToken);
 
         if (!response.IsSuccessStatusCode) return "Информации по COVID-19 не найдено!";
+
+        var covidInfo =
+            JsonConvert.DeserializeObject<CovidDTO>(await response.Content.ReadAsStringAsync(cancellationToken));
+
+        if(!covidInfo?.Data?.Any() ?? true)
+        {
+            return "Информации по COVID-19 не найдено!";
+        }
 
         var sb = new StringBuilder();
         sb.AppendLine("Статистика по COVID-19").AppendLine();
         sb.AppendLine("________________").AppendLine();
 
-        if (string.IsNullOrWhiteSpace(country))
-        {
-            var answer = JsonConvert.DeserializeObject<FullInfo>(await response.Content.ReadAsStringAsync(cancellationToken));
 
-            sb.AppendLine($"Всего было заражено: {answer.Cases}").AppendLine();
-            sb.AppendLine($"Зараженных сейчас: {answer.Cases - answer.Recovered}").AppendLine();
-            sb.AppendLine($"Вылечено: {answer.Recovered}").AppendLine();
-            sb.AppendLine($"Смертей: {answer.Deaths}").AppendLine();
-        }
-        else
-        {
-            var countryOnEnglish = string.Empty;
-            var countries =
-                JsonConvert.DeserializeObject<List<CountryInfo>>(await response.Content.ReadAsStringAsync(cancellationToken));
-
-            var countryData = await _db.Countries.FirstOrDefaultAsync(x => x.RussianName == country.ToLower(), cancellationToken: cancellationToken);
-
-            if (countryData is null)
-                countryOnEnglish = await _translator.Translate(country, "ru-en");
-            else
-                countryOnEnglish = countryData.EnglishName;
-
-
-            var needCountry =
-                countries.FirstOrDefault(x => x.Country.Equals(countryOnEnglish,
-                    StringComparison.CurrentCultureIgnoreCase));
-
-            if (needCountry is null) return "Информации по COVID-19 в этой стране не найдено!";
-
-            if (countryData is null)
-            {
-                await _db.Countries.AddAsync(new Country
-                {
-                    RussianName = country.ToLower(),
-                    EnglishName = countryOnEnglish
-                }, cancellationToken);
-
-                await _db.SaveChangesAsync(cancellationToken);
-            }
-
-            sb.AppendLine($"Страна: {country.ToUpper()}").AppendLine();
-            sb.AppendLine($"Всего было заражено: {needCountry.Cases}").AppendLine();
-            sb.AppendLine($"Заражено сегодня: {needCountry.TodayCases}").AppendLine();
-            sb.AppendLine($"Заражено на текущий момент: {needCountry.Active}").AppendLine();
-            sb.AppendLine($"Всего проведено тестов: {needCountry.TotalTests}").AppendLine();
-            sb.AppendLine($"Вылечено: {needCountry.Recovered}").AppendLine();
-            sb.AppendLine($"В критическом состоянии: {needCountry.Critical}").AppendLine();
-            sb.AppendLine($"Смертей: {needCountry.Deaths}").AppendLine();
-        }
+        sb.AppendLine($"Страна: {country.ToUpper()}").AppendLine();
+        sb.AppendLine($"Всего было заражено: {covidInfo.Data.Sum(x => x.Confirmed)}").AppendLine();
+        sb.AppendLine($"Смертей: {covidInfo.Data.Sum(x => x.Deaths)}").AppendLine();
 
         sb.AppendLine("________________").AppendLine();
 
