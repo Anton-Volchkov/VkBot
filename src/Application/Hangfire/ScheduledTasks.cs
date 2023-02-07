@@ -31,7 +31,7 @@ public class ScheduledTasks
                 var retryPolicy = Policy
                     .Handle<Exception>()
                     .WaitAndRetryAsync(new[]
-                        { TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(5) });
+                        { TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10) });
 
                 await retryPolicy.ExecuteAsync(async () =>
                 {
@@ -66,7 +66,7 @@ public class ScheduledTasks
     public void InitJobs()
     {
         RecurringJob.AddOrUpdate<ScheduledTasks>("SendWeather", x => x.SendWeatherAsync(),
-            "5 6 * * *", new RecurringJobOptions()
+            "49 8 * * *", new RecurringJobOptions()
             {
                 TimeZone = TimeZoneInfo.Local
             });
