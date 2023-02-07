@@ -66,7 +66,7 @@ public class ScheduledTasks
     public void InitJobs()
     {
         RecurringJob.AddOrUpdate<ScheduledTasks>("SendWeather", x => x.SendWeatherAsync(),
-            "49 8 * * *", new RecurringJobOptions()
+            "5 6 * * *", new RecurringJobOptions()
             {
                 TimeZone = TimeZoneInfo.Local
             });
