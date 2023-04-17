@@ -61,21 +61,9 @@ public class WeatherInfo
 
     public async Task<string> GetDailyWeatherAsync(string city)
     {
-        city = char.ToUpper(city[0]) + city.Substring(1); //TODO ?
-        var date = DateTime.Now;
+        var date = DateTime.UtcNow;
 
         var response = await GetDailyWeatherResponseAsync(city);
-
-        if (!response.ResponseMessage.IsSuccessStatusCode)
-        {
-            var newCity = city.Replace("е", "ё");
-            response = await GetDailyWeatherResponseAsync(city);
-
-            if (!response.ResponseMessage.IsSuccessStatusCode)
-                return $"Город {city} не найден. Проверьте введённые данные.";
-
-            city = newCity;
-        }
 
         var weatherToday = JsonConvert.DeserializeObject<DailyWeather>(await response.GetStringAsync()).Daily.First();
 
@@ -132,21 +120,22 @@ public class WeatherInfo
 
     private async Task<(string lat, string lon)> GetСoordinatesByCityAsync(string city)
     {
-        var response = await "https://geocode.xyz/"
+        var response = await "https://api.openweathermap.org/geo/1.0/direct"
             .AllowAnyHttpStatus()
-            .AppendPathSegment(city)
-            .SetQueryParam("json", "1")
+            .SetQueryParam("q", city)
+            .SetQueryParam("limit", 1)
+            .SetQueryParam("appid", Token)
             .GetAsync();
 
         if (!response.ResponseMessage.IsSuccessStatusCode)
             throw new ArgumentException("Погоды по данному городу не найдено!");
 
-        var jo = JObject.Parse(await response.GetStringAsync());
+        var ja = JArray.Parse(await response.GetStringAsync());
 
-        var latt = jo.Properties()?.FirstOrDefault(x => x.Name == "latt")?.Value.ToString();
-        var lon = jo.Properties()?.FirstOrDefault(x => x.Name == "longt")?.Value.ToString();
+        var lat = ja.FirstOrDefault()?["lat"]?.Value<string>();
+        var lon = ja.FirstOrDefault()?["lon"]?.Value<string>();
 
-        return (lat: latt, lon);
+        return (lat, lon);
     }
 
     internal DateTime UnixToDateTime(double unixTimeStamp)
